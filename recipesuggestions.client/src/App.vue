@@ -1,5 +1,5 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import RecipeSuggestions from './components/RecipeSuggestions.vue'
 import TheWelcome from './components/TheWelcome.vue'
 </script>
 

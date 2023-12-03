@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using RecipeSuggestions.Server.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<RecipeSuggestionsServerContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("RecipeSuggestionsServerContext") ?? throw new InvalidOperationException("Connection string 'RecipeSuggestionsServerContext' not found.")));
 
 // Add services to the container.
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RecipeSuggestions.Server.Data;
+using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
 
 namespace RecipeSuggestions.Server.Controllers
@@ -14,32 +14,34 @@ namespace RecipeSuggestions.Server.Controllers
     [ApiController]
     public class RecipesController : ControllerBase
     {
-        private readonly RecipeSuggestionsServerContext _context;
+        private readonly IRecipesService _recipesService;
 
-        public RecipesController(RecipeSuggestionsServerContext context)
+        public RecipesController(IRecipesService recipesService)
         {
-            _context = context;
+            _recipesService = recipesService;
         }
 
         // GET: api/Recipes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe()
         {
-            return await _context.Recipe.ToListAsync();
+            return Ok(await _recipesService.GetAllRecipesAsync());
         }
 
         // GET: api/Recipes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
-            var recipe = await _context.Recipe.FindAsync(id);
-
-            if (recipe == null)
+            Recipe? recipe;
+            try
+            {
+                recipe = await _recipesService.GetRecipeAsync(id);
+            } catch (InvalidOperationException)
             {
                 return NotFound();
             }
 
-            return recipe;
+            return recipe != null ? recipe : NotFound();
         }
 
         // PUT: api/Recipes/5
@@ -52,22 +54,17 @@ namespace RecipeSuggestions.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(recipe).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _recipesService.EditRecipeAsync(id, recipe);
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RecipeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -78,8 +75,7 @@ namespace RecipeSuggestions.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
-            _context.Recipe.Add(recipe);
-            await _context.SaveChangesAsync();
+            recipe = await _recipesService.AddRecipeAsync(recipe);
 
             return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
         }
@@ -88,21 +84,15 @@ namespace RecipeSuggestions.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
-            var recipe = await _context.Recipe.FindAsync(id);
-            if (recipe == null)
+            try
             {
+                await _recipesService.DeleteRecipeAsync(id);
+            }
+            catch (InvalidOperationException) { 
                 return NotFound();
             }
 
-            _context.Recipe.Remove(recipe);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool RecipeExists(int id)
-        {
-            return _context.Recipe.Any(e => e.Id == id);
         }
     }
 }

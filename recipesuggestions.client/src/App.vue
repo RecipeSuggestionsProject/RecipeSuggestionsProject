@@ -1,19 +1,46 @@
 <script setup>
+import { ref, computed } from 'vue'
+
 import RecipeSuggestions from './components/RecipeSuggestions.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import AddRecipe from './components/AddRecipe.vue'
+
+const routes = {
+    "/": TheWelcome,
+    '/recipes/add': AddRecipe
+}
+
+// Track URL fragment identifier in currentPath
+const currentPath = ref(window.location.hash)
+window.addEventListener('hashchange', () => {
+    currentPath.value = window.location.hash
+})
+
+// Update current view when currentPath changes
+const currentView = computed(() => {
+    return routes[currentPath.value.slice(1) || "/"]
+})
+
 </script>
 
 <template>
+   
+
   <header>
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <nav>
+        <ul>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/recipes/add">Add Recipe</a></li>
+        </ul>
+    </nav>
   </header>
 
+  
+
   <main>
-    <TheWelcome />
+    <component :is="currentView" />
   </main>
 </template>
 

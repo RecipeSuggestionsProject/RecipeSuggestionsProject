@@ -44,14 +44,14 @@
                               <option value="cups">cups</option>
                           </select>
                       </div>
-
+                      
                       <div class="field">
-                          <label :for="'ingredient_type_' + index">Type:</label>
-                          <input :id="'ingredient_type_' + index" v-model="ingredient.type" />
+                        <label for="ingredient_type_{{ingredient.name}}">Type:</label>
+                        <input id="ingredient_type_{{ingredient.name}}" v-model="ingredient.type" />
                       </div>
 
-                      <button type="button" @click="deleteIngredient(index)">Delete Ingredient</button>
-                  </li>
+                      <button type="button" @click="deleteIngredient(ingredient)">Delete Ingredient</button>
+                    </li>
               </ul>
 
               <button type="button" @click="addIngredient">Add Ingredient</button>
@@ -63,37 +63,24 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-
-const recipeId = ref(/* Set the recipe id here */);
-
-// Mock data for testing purposes
-const mockRecipeData = {
-name: 'Test Recipe',
-description: 'This is a test recipe',
-portions: 4,
-durationInMinutes: 30,
-ingredients: [
-  { name: 'Ingredient 1', quantity: 100, quantityType: 'grams', type: 'Type A' },
-  { name: 'Ingredient 2', quantity: 2, quantityType: 'pieces', type: 'Type B' },
-],
-};
+import { ref, computed } from 'vue';
 
 const recipeName = ref("");
 const recipeDescription = ref("");
 const recipePortions = ref(0);
 const recipeDurationInMinutes = ref(0);
+
 const ingredients = ref([]);
 
-onMounted(() => {
-// Fetch the recipe data from the server based on recipeId
-// For now, use the mockRecipeData
-recipeName.value = mockRecipeData.name;
-recipeDescription.value = mockRecipeData.description;
-recipePortions.value = mockRecipeData.portions;
-recipeDurationInMinutes.value = mockRecipeData.durationInMinutes;
-ingredients.value = [...mockRecipeData.ingredients];
-});
+/*
+const response = await fetch(`/api/Recipes/${recipeId.value}`);
+const recipeData = await response.json();
+recipeName.value = recipeData.name;
+recipeDescription.value = recipeData.description;
+recipePortions.value = recipeData.portions;
+recipeDurationInMinutes.value = recipeData.durationInMinutes;
+ingredients.value = [...recipeData.ingredients];
+*/
 
 const recipe = computed(() => {
 return {
@@ -119,9 +106,14 @@ ingredients.value.splice(index, 1);
 }
 
 async function updateRecipe() {
-// Implement the logic to update the recipe on the server
-console.log("Recipe updated:", recipe.value);
-// Assume a successful update for now
+    const response = await fetch(`/api/Recipes/${recipeId.value}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(recipe.value)
+    });
+    console.log("Recipe updated:", await response.json());
 }
 
 </script>

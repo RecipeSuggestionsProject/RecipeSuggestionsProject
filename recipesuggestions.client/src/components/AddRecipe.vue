@@ -40,7 +40,7 @@ async function postRecipe() {
         },
         body: JSON.stringify(recipe.value)
     })
-    console.log(response.json());
+    console.log(await response.json());
 }
 
 </script>

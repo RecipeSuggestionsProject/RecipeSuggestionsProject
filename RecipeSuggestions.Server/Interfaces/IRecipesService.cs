@@ -6,10 +6,10 @@ namespace RecipeSuggestions.Server.Interfaces
     public interface IRecipesService
     {
         IRecipeSuggestionsServerContext Context { get; }
-        Task<IEnumerable<Recipe>> GetAllRecipesAsync();
+        Task<IEnumerable<Recipe>> GetAllIngredientsAsync();
         Task<Recipe?> GetRecipeAsync(int id);
         Task<Recipe> AddRecipeAsync(Recipe recipe);
         Task EditRecipeAsync(int id, Recipe recipe);
-        Task DeleteRecipeAsync(int id);
+        Task DeleteIngredientAsync(int id);
     }
 }

@@ -4,10 +4,12 @@ import { ref, computed } from 'vue'
 import RecipeSuggestions from './components/RecipeSuggestions.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import AddRecipe from './components/AddRecipe.vue'
+import EditRecipe from './components/EditRecipe.vue'
 
 const routes = {
     "/": TheWelcome,
-    '/recipes/add': AddRecipe
+    '/recipes/add': AddRecipe,
+    '/recipes/edit': EditRecipe
 }
 
 // Track URL fragment identifier in currentPath
@@ -33,6 +35,7 @@ const currentView = computed(() => {
         <ul>
             <li><a href="#/">Home</a></li>
             <li><a href="#/recipes/add">Add Recipe</a></li>
+            <li><a href="#/recipes/edit">Edit Recipe</a></li>
         </ul>
     </nav>
   </header>

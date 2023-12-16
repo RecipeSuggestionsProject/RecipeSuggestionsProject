@@ -73,6 +73,7 @@ const recipeDurationInMinutes = ref(0);
 const ingredients = ref([]);
 
 /*
+κάπου δω θα γίνει prop για το id
 const response = await fetch(`/api/Recipes/${recipeId.value}`);
 const recipeData = await response.json();
 recipeName.value = recipeData.name;

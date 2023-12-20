@@ -1,8 +1,9 @@
-﻿using System;
-
-public class Class1
+﻿namespace RecipeSuggestions.Server.Models
 {
-	public Class1()
-	{
-	}
+    public class Ingredients_Recipes
+    {
+        public int RecipeId { get; set; }
+        public int IngredientId { get; set; }
+        public int Quantity { get; set; }
+    }
 }

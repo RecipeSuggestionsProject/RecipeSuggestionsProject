@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RecipeSuggestions.Server.Data.Interfaces;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;

@@ -26,6 +26,7 @@ namespace RecipeSuggestions.Server.Controllers
         }
 
         // GET: api/Ingredients
+        //To Ingredient na ginei IngredientDTO
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredient()
         {
@@ -76,8 +77,10 @@ namespace RecipeSuggestions.Server.Controllers
         // POST: api/Ingredients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        //IngredientDTO ingredientDT0
         public async Task<ActionResult<int>> CreateIngredient(Ingredient ingredient)
         {
+            //ingredientDTO
             var newingrid = await _ingredientsService.AddIngredientAsync(ingredient);
 
             return CreatedAtAction("GetIngredient", new { id = newingrid }, ingredient);

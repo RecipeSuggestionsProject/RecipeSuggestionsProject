@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,18 +18,18 @@ namespace RecipeSuggestions.Server.Controllers
     public class IngredientsController : ControllerBase
     {
         private readonly IIngredientsService _ingredientsService;
-        // private readonly RecipeSuggestionsMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public IngredientsController(IIngredientsService ingredientsService)
+        public IngredientsController(IIngredientsService ingredientsService,IMapper mapper)
         {
             _ingredientsService=ingredientsService;
-            //_mapper=mapper;
+            _mapper=mapper;
         }
 
         // GET: api/Ingredients
         //To Ingredient na ginei IngredientDTO
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredient()
+        public async Task<ActionResult<IEnumerable<IngredientDTO>>> GetIngredient()
         {
             var ingredients = await _ingredientsService.GetIngredientsAsync();
             return Ok(ingredients);
@@ -51,16 +52,16 @@ namespace RecipeSuggestions.Server.Controllers
         // PUT: api/Ingredients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateIngredient(int id, Ingredient ingredient)
+        public async Task<IActionResult> UpdateIngredient(int id, IngredientDTO ingredientDTO)
         {
-            if (id != ingredient.Id)
+            if (id != ingredientDTO.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                var success=await _ingredientsService.UpdateIngredientAsync(id,ingredient);
+                var success=await _ingredientsService.UpdateIngredientAsync(id,ingredientDTO);
             }
             catch (InvalidOperationException)
             {
@@ -78,12 +79,12 @@ namespace RecipeSuggestions.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         //IngredientDTO ingredientDT0
-        public async Task<ActionResult<int>> CreateIngredient(Ingredient ingredient)
+        public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)
         {
             //ingredientDTO
-            var newingrid = await _ingredientsService.AddIngredientAsync(ingredient);
+            var newingrid = await _ingredientsService.AddIngredientAsync(ingredientDTO);
 
-            return CreatedAtAction("GetIngredient", new { id = newingrid }, ingredient);
+            return CreatedAtAction("GetIngredient", new { id = newingrid }, ingredientDTO);
         }
 
         // DELETE: api/Ingredients/5

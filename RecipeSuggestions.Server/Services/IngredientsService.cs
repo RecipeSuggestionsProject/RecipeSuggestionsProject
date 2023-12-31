@@ -1,5 +1,5 @@
 ﻿using System;
-//using AutoMapper
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,50 +17,55 @@ namespace RecipeSuggestions.Server.Services
     public class IngredientsService : IIngredientsService
     {
         private readonly RecipeSuggestionsServerContext _context;
-        //private readonly IMapper _mapper
-        public IngredientsService(RecipeSuggestionsServerContext context)
+        private readonly IMapper _mapper;
+        public IngredientsService(RecipeSuggestionsServerContext context,IMapper mapper)
         {
             _context = context;
-            //_mapper=mapper;
+            _mapper= mapper;
         }
         //to ingredient tha ginei IngredientDTO
-        public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
+        public async Task<IEnumerable<IngredientDTO>> GetIngredientsAsync()
         {
-            //var ingredients=await _context.Ingredient.ToListAsync();
-            return await _context.Ingredient.ToListAsync();
-            //return _mapper.Map<IEnumerable<IngredientDTO>>(ingredients);
+            var ingredients=await _context.Ingredient.ToListAsync();
+            //return await _context.Ingredient.ToListAsync();
+            return _mapper.Map<IEnumerable<IngredientDTO>>(ingredients);
         }
 
-        public async Task<Ingredient> GetIngredientIDAsync(int id)
+        public async Task<IngredientDTO> GetIngredientIDAsync(int id)
         {
             var ingredient =await _context.Ingredient.FindAsync(id);
-            return ingredient!;
+            return _mapper.Map<IngredientDTO>(ingredient);
         }
 
         //IngredientDTO ingredient
-        public async Task<int> AddIngredientAsync(Ingredient ingredient)
+        public async Task<int> AddIngredientAsync(IngredientDTO ingredientDTO)
         {
-            //var ingredient=_mapper.Map<Ingredient>(ingredientDTO);
+            var ingredient=_mapper.Map<Ingredient>(ingredientDTO);
             _context.Ingredient.Add(ingredient);
             await _context.SaveChangesAsync();
             return ingredient.Id;
         }
 
         //
-        public async Task<bool> UpdateIngredientAsync(int id, Ingredient ingredient)
+        public async Task<bool> UpdateIngredientAsync(int id, IngredientDTO updatedDTO)
         {
             if(!IngredientExists(id))
             {
                 return false;
             }
-            _context.Entry(ingredient).State=EntityState.Modified;
-            try
+            var OldIngredient = await _context.Ingredient.FindAsync(id);
+            if (OldIngredient!=null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch(DbUpdateConcurrencyException)
-            {
-                throw;
+                _mapper.Map(updatedDTO, OldIngredient);
+                _context.Entry(OldIngredient).State=EntityState.Modified;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
             }
             return true;
         }

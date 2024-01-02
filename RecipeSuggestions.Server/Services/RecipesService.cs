@@ -14,7 +14,7 @@ namespace RecipeSuggestions.Server.Services
             Context = context;
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllIngredientsAsync()
+        public async Task<IEnumerable<Recipe>> GetAllRecipesAsync()
         {
             return await Context.Recipe.ToListAsync();
         }
@@ -68,7 +68,7 @@ namespace RecipeSuggestions.Server.Services
             }
         }
 
-        public async Task DeleteIngredientAsync(int id)
+        public async Task DeleteRecipeAsync(int id)
         {
             Recipe? recipe;
             

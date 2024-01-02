@@ -25,7 +25,7 @@ namespace RecipeSuggestions.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe()
         {
-            return Ok(await _recipesService.GetAllIngredientsAsync());
+            return Ok(await _recipesService.GetAllRecipesAsync());
         }
 
         // GET: api/Recipes/5
@@ -86,7 +86,7 @@ namespace RecipeSuggestions.Server.Controllers
         {
             try
             {
-                await _recipesService.DeleteIngredientAsync(id);
+                await _recipesService.DeleteRecipeAsync(id);
             }
             catch (InvalidOperationException) { 
                 return NotFound();

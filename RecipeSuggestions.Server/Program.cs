@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RecipeSuggestions.Server.Data;
-using RecipeSuggestions.Server.Data.Interfaces;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Services;
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +13,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped(typeof(IRecipeSuggestionsServerContext), typeof(RecipeSuggestionsServerContext));
 builder.Services.AddScoped(typeof(IRecipesService), typeof(RecipesService));
 
 var app = builder.Build();

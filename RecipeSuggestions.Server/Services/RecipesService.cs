@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RecipeSuggestions.Server.Data.Interfaces;
+using RecipeSuggestions.Server.Data;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
 
@@ -8,15 +8,15 @@ namespace RecipeSuggestions.Server.Services
 {
     public class RecipesService : IRecipesService
     {
-        public IRecipeSuggestionsServerContext Context { get; }
+        private readonly RecipeSuggestionsServerContext _context;
 
-        public RecipesService(IRecipeSuggestionsServerContext context) {
-            Context = context;
+        public RecipesService(RecipeSuggestionsServerContext context) {
+            _context = context;
         }
 
         public async Task<IEnumerable<Recipe>> GetAllRecipesAsync()
         {
-            return await Context.Recipe.ToListAsync();
+            return await _context.Recipe.ToListAsync();
         }
 
         public async Task<Recipe?> GetRecipeAsync(int id)
@@ -24,7 +24,7 @@ namespace RecipeSuggestions.Server.Services
             Recipe? recipe;
             try
             {
-                recipe = await Context.Recipe.FindAsync(id);
+                recipe = await _context.Recipe.FindAsync(id);
                 
             }
             catch (InvalidOperationException) {
@@ -36,8 +36,8 @@ namespace RecipeSuggestions.Server.Services
 
         public async Task<Recipe> AddRecipeAsync(Recipe recipe)
         {
-            Context.Recipe.Add(recipe);
-            await Context.SaveChangesAsync();
+            _context.Recipe.Add(recipe);
+            await _context.SaveChangesAsync();
 
             return recipe;
         }
@@ -49,11 +49,11 @@ namespace RecipeSuggestions.Server.Services
                 return;
             }
 
-            Context.Entry(recipe).State = EntityState.Modified;
+            _context.Entry(recipe).State = EntityState.Modified;
 
             try
             {
-                await Context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,7 +74,7 @@ namespace RecipeSuggestions.Server.Services
             
             try
             {
-                recipe = await Context.Recipe.FindAsync(id);
+                recipe = await _context.Recipe.FindAsync(id);
             }
             catch (InvalidOperationException) {
                 throw;
@@ -82,15 +82,15 @@ namespace RecipeSuggestions.Server.Services
 
             if (recipe != null)
             {
-                Context.Recipe.Remove(recipe);
-                await Context.SaveChangesAsync();
+                _context.Recipe.Remove(recipe);
+                await _context.SaveChangesAsync();
             }
 
         }
 
         private bool RecipeExists(int id)
         {
-            return Context.Recipe.Any(e => e.Id == id);
+            return _context.Recipe.Any(e => e.Id == id);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using RecipeSuggestions.Server.Data.Interfaces;
-using RecipeSuggestions.Server.Models;
+﻿using RecipeSuggestions.Server.Models;
 
 namespace RecipeSuggestions.Server.Interfaces
 {

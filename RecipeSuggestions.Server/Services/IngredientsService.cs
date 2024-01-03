@@ -30,11 +30,17 @@ namespace RecipeSuggestions.Server.Services
             //return await _context.Ingredient.ToListAsync();
             return _mapper.Map<IEnumerable<IngredientDTO>>(ingredients);
         }
-
         public async Task<IngredientDTO> GetIngredientIDAsync(int id)
         {
             var ingredient =await _context.Ingredient.FindAsync(id);
             return _mapper.Map<IngredientDTO>(ingredient);
+        }
+
+        public async Task<int?> GetIngredientIdByNameAsync(string IngredientName)
+        {
+            var ingredient = await _context.Ingredient.FirstOrDefaultAsync(i => i.Name!= null && i.Name.Equals(IngredientName));
+
+            return ingredient?.Id;
         }
 
         //IngredientDTO ingredient

@@ -43,31 +43,6 @@ namespace RecipeSuggestions.Server.Migrations
                     b.ToTable("Ingredient");
                 });
 
-            modelBuilder.Entity("RecipeSuggestions.Server.Models.Ingredient_Recipe", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IngredientId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("QuantityType")
-                        .HasColumnType("text");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ingredient_Recipe");
-                });
-
             modelBuilder.Entity("RecipeSuggestions.Server.Models.Recipe", b =>
                 {
                     b.Property<int>("Id")

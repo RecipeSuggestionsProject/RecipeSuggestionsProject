@@ -16,6 +16,5 @@ namespace RecipeSuggestions.Server.Data
 
         public DbSet<RecipeSuggestions.Server.Models.Recipe> Recipe { get; set; } = default!;
         public DbSet<RecipeSuggestions.Server.Models.Ingredient> Ingredient { get; set; } = default!;
-        public DbSet<RecipeSuggestions.Server.Models.Ingredient_Recipe> Ingredient_Recipe { get; set; } = default!;
     }
 }

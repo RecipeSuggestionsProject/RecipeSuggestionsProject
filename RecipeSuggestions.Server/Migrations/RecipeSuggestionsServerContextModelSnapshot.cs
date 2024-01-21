@@ -45,11 +45,8 @@ namespace RecipeSuggestions.Server.Migrations
 
             modelBuilder.Entity("RecipeSuggestions.Server.Models.Ingredient_Recipe", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("RecipeId")
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IngredientId")
                         .HasColumnType("integer");
@@ -60,10 +57,9 @@ namespace RecipeSuggestions.Server.Migrations
                     b.Property<string>("QuantityType")
                         .HasColumnType("text");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("integer");
+                    b.HasKey("RecipeId", "IngredientId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("IngredientId");
 
                     b.ToTable("Ingredient_Recipe");
                 });
@@ -91,6 +87,25 @@ namespace RecipeSuggestions.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("RecipeSuggestions.Server.Models.Ingredient_Recipe", b =>
+                {
+                    b.HasOne("RecipeSuggestions.Server.Models.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecipeSuggestions.Server.Models.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("Recipe");
                 });
 #pragma warning restore 612, 618
         }

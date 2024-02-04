@@ -24,16 +24,16 @@ namespace RecipeSuggestions.Server.Services
             _mapper= mapper;
         }
         //to ingredient tha ginei IngredientDTO
-        public async Task<IEnumerable<IngredientDTO>> GetIngredientsAsync()
+        public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
         {
-            var ingredients=await _context.Ingredient.ToListAsync();
-            //return await _context.Ingredient.ToListAsync();
-            return _mapper.Map<IEnumerable<IngredientDTO>>(ingredients);
+            //var ingredients=await _context.Ingredient.ToListAsync();
+            return await _context.Ingredient.ToListAsync();
+            //return _mapper.Map<IEnumerable<Ingredient>>(ingredients);
         }
-        public async Task<IngredientDTO> GetIngredientIDAsync(int id)
+        public async Task<Ingredient> GetIngredientIDAsync(int id)
         {
             var ingredient =await _context.Ingredient.FindAsync(id);
-            return _mapper.Map<IngredientDTO>(ingredient);
+            return _mapper.Map<Ingredient>(ingredient);
         }
 
         public async Task<int?> GetIngredientIdByNameAsync(string IngredientName)
@@ -53,7 +53,7 @@ namespace RecipeSuggestions.Server.Services
         }
 
         //
-        public async Task<bool> UpdateIngredientAsync(int id, IngredientDTO updatedDTO)
+        public async Task<bool> UpdateIngredientAsync(int id, IngredientDTO updatedIngredientDTO)
         {
             if(!IngredientExists(id))
             {
@@ -62,7 +62,7 @@ namespace RecipeSuggestions.Server.Services
             var OldIngredient = await _context.Ingredient.FindAsync(id);
             if (OldIngredient!=null)
             {
-                _mapper.Map(updatedDTO, OldIngredient);
+                _mapper.Map(updatedIngredientDTO, OldIngredient);
                 _context.Entry(OldIngredient).State=EntityState.Modified;
                 try
                 {

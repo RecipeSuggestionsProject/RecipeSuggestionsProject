@@ -10,6 +10,7 @@ using RecipeSuggestions.Server.Data;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
 using RecipeSuggestions.Server.Services;
+using System.Collections;
 
 namespace RecipeSuggestions.Server.Controllers
 {
@@ -31,8 +32,9 @@ namespace RecipeSuggestions.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IngredientDTO>>> GetIngredient()
         {
-            var ingredients = await _ingredientsService.GetIngredientsAsync();
-            return Ok(ingredients);
+            var ingredient = await _ingredientsService.GetIngredientsAsync();
+            var ingrDTO= _mapper.Map<IEnumerable<IngredientDTO>>(ingredient);
+            return Ok(ingrDTO);
         }
 
         // GET: api/Ingredients/5
@@ -46,6 +48,7 @@ namespace RecipeSuggestions.Server.Controllers
                 return NotFound();
             }
 
+            var ingredientDTO = _mapper.Map<IEnumerable<IngredientDTO>>(ingredient);
             return Ok(ingredient);
         }
 
@@ -61,7 +64,8 @@ namespace RecipeSuggestions.Server.Controllers
 
             try
             {
-                var success=await _ingredientsService.UpdateIngredientAsync(id,ingredientDTO);
+                var ingredient = await _ingredientsService.GetIngredientIDAsync(id);
+                var success=await _ingredientsService.UpdateIngredientAsync(id,ingredient);
             }
             catch (InvalidOperationException)
             {
@@ -82,9 +86,10 @@ namespace RecipeSuggestions.Server.Controllers
         public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)
         {
             //ingredientDTO
-            var newingrid = await _ingredientsService.AddIngredientAsync(ingredientDTO);
+            var ingredient = _mapper.Map<Ingredient>(ingredientDTO);
+            var NewIngrId = await _ingredientsService.AddIngredientAsync(ingredient);
 
-            return CreatedAtAction("GetIngredient", new { id = newingrid }, ingredientDTO);
+            return CreatedAtAction(nameof(GetIngredient), new { id = NewIngrId }, ingredientDTO);
         }
 
         // DELETE: api/Ingredients/5
@@ -93,14 +98,19 @@ namespace RecipeSuggestions.Server.Controllers
         {
             try
             {
-                await _ingredientsService.DeleteIngredientAsync(id);
+                var success = await _ingredientsService.DeleteIngredientAsync(id);
+                if(!success)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+                //await _ingredientsService.DeleteIngredientAsync(id);
             }
             catch (InvalidOperationException)
             {
                 return NotFound();
             }
 
-            return NoContent();
         }
 
         //private bool IngredientExists(int id)

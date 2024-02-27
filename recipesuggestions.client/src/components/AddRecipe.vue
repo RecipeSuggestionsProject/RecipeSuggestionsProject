@@ -45,27 +45,35 @@ async function postRecipe() {
 
 </script>
 
+<style>
+    body {
+        background-color: lightgrey;
+    }
+</style>
+
 <template>
-    <h1>Add Recipe</h1>
+
+    <h1>Add A New Recipe </h1>
 
     <form @submit.prevent="postRecipe">
         <div class="field">
-            <label for="recipe_name">Name:</label>
+            <label for="recipe_name">Recipe Name :</label>
             <input id="recipe_name" v-model="recipeName" />
+            
         </div>
 
         <div class="field">
-            <label for="recipe_description">Description:</label>
+            <label for="recipe_description">Description :</label>
             <textarea id="recipe_description" v-model="recipeDescription" />
         </div>
 
         <div class="field">
-            <label for="recipe_portions">Portions:</label>
+            <label for="recipe_portions">Portions :</label>
             <input id="recipe_portions" type="number" min="0" v-model="recipePortions" />
         </div>
 
         <div class="field">
-            <label for="recipe_duration">Duration (minutes):</label>
+            <label for="recipe_duration">Duration (minutes) :</label>
             <input id="recipe_duration" type="number" min="0" v-model="recipeDurationInMinutes" />
         </div>
 

@@ -9,6 +9,8 @@
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist</PublishAssetsDirectory>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="src\components\homePage\" />
+    <Folder Include="src\photos\" />
     <Folder Include="src\router\" />
     <Folder Include="src\views\" />
   </ItemGroup>

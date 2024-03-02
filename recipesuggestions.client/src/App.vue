@@ -1,10 +1,15 @@
 <template>
     <div id="app">
-
-        <router-link to="/">Home</router-link>  |  
-        <router-link to="/recipes/add">Add Recipe</router-link>  |  
-        <router-link to="/recipes/edit">Edit Recipe</router-link>
-        <router-view></router-view>
+        <div class="sidebar">
+            <!-- Προσθήκη του component recipeSearch -->
+            <RecipeSearch />
+        </div>
+        <div class="main-content">
+            <router-link to="/">Home</router-link>  |
+            <router-link to="/recipes/add">Add Recipe</router-link>  |
+            <router-link to="/recipes/edit">Edit Recipe</router-link>
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -12,38 +17,49 @@
     import { ref, computed } from 'vue'
     import { createRouter, createWebHistory } from 'vue-router';
 
+    import RecipeSearch from './components/homePage/recipeSearch.vue';
+
     import RecipeSuggestions from './components/RecipeSuggestions.vue'
     import TheWelcome from './components/TheWelcome.vue'
     import AddRecipe from './components/AddRecipe.vue'
     import EditRecipe from './components/EditRecipe.vue'
 
+    export default {
+        components: {
+            RecipeSearch,
+        },
+    };
+
+    /*
+    export default {
+        components: {
+            RecipeSuggestions,
+            TheWelcome,
+            AddRecipe,
+            EditRecipe
+        }
+    };
+    */
+
+
 </script>
 
 <style>
-    header {
-        line-height: 1.5;
+    .sidebar {
+        width: 25 %;
+        float: left;
     }
 
-    .logo {
-        display: block;
-        margin: 0 auto 2rem;
+    .main - content {
+        width: 75 %;
+        float: left;
     }
 
-    @media (min-width: 1024px) {
-        header {
-            display: flex;
-            place-items: center;
-            padding-right: calc(var(--section-gap) / 2);
-        }
-
-        .logo {
-            margin: 0 2rem 0 0;
-        }
-
-        header .wrapper {
-            display: flex;
-            place-items: flex-start;
-            flex-wrap: wrap;
+    @media(max - width: 768px) {
+        .sidebar,
+        .main - content {
+            width: 100 %;
+            float: none;
         }
     }
 </style>

@@ -10,7 +10,7 @@ builder.Services.AddDbContext<RecipeSuggestionsServerContext>(options =>
 // Add services to the container.
 
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

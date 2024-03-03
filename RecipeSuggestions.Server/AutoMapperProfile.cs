@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using RecipeSuggestions.Server.Models;
+using RecipeSuggestions.Server.DTOs;
 
 public class AutoMapperProfile : Profile
 {

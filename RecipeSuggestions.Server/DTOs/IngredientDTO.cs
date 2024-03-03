@@ -1,4 +1,4 @@
-namespace RecipeSuggestions.Server.Models
+namespace RecipeSuggestions.Server.DTOs
 {
     public class IngredientDTO
     {

@@ -3,19 +3,23 @@ using Microsoft.Extensions.DependencyInjection;
 using RecipeSuggestions.Server.Data;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Services;
+using RecipeSuggestions.Server.Mappings;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RecipeSuggestionsServerContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("RecipeSuggestionsServerContext") ?? throw new InvalidOperationException("Connection string 'RecipeSuggestionsServerContext' not found.")));
 
 // Add services to the container.
 
-builder.Services.AddScoped<IIngredientsService, IngredientsService>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IRecipesService), typeof(RecipesService));
+builder.Services.AddScoped(typeof(IIngredients_RecipesService), typeof(Ingredients_RecipesService));
+builder.Services.AddScoped<IIngredientsService, IngredientsService>();
 
 var app = builder.Build();
 

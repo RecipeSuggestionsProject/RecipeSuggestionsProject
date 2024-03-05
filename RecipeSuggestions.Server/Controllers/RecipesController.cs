@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
+using RecipeSuggestions.Server.DTOs;
+using RecipeSuggestions.Server.Mappings;
 
 namespace RecipeSuggestions.Server.Controllers
 {
@@ -15,10 +18,20 @@ namespace RecipeSuggestions.Server.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly IRecipesService _recipesService;
+        private readonly IIngredients_RecipesService _ingredients_RecipesService;
+        private readonly IIngredientsService _ingredientsService;
+        private readonly IMapper _mapper;
 
-        public RecipesController(IRecipesService recipesService)
-        {
+        public RecipesController(
+            IRecipesService recipesService, 
+            IIngredients_RecipesService ingredients_RecipesService,
+            IIngredientsService ingredientsService,
+        IMapper mapper
+        ) {
             _recipesService = recipesService;
+            _ingredients_RecipesService = ingredients_RecipesService;
+            _ingredientsService = ingredientsService;
+            _mapper = mapper;
         }
 
         // GET: api/Recipes
@@ -73,9 +86,41 @@ namespace RecipeSuggestions.Server.Controllers
         // POST: api/Recipes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<RecipeDTO>> PostRecipe(RecipeDTO recipe)
         {
-            recipe = await _recipesService.AddRecipeAsync(recipe);
+            var recipeWithIngredients = _mapper.Map<RecipeWithIngredients>(recipe);
+            if (recipeWithIngredients.Recipe == null) { return BadRequest(); }
+
+            // Add Recipe
+            recipe = _mapper.Map<RecipeDTO>(await _recipesService.AddRecipeAsync(recipeWithIngredients.Recipe));
+            
+
+            if (recipeWithIngredients.Ingredients_Recipes != null)
+            {
+                foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes)
+                {
+                    if (ingredient_recipe.Ingredient?.Name != null)
+                    {
+                        int? ingredientId = await _ingredientsService.GetIngredientIdByNameAsync(ingredient_recipe.Ingredient.Name!);
+
+                        // The ingredient does not exist in the database
+                        if (ingredientId == null)
+                        {
+                            // Add the ingredient
+                            ingredientId = await _ingredientsService.AddIngredientAsync(ingredient_recipe.Ingredient);
+                        }
+
+                        ingredient_recipe.IngredientId = (int)ingredientId;
+                    }
+
+                }
+
+                // Overwrite the related Ingredients of this recipe
+                await _ingredients_RecipesService.EditIngredients_RecipesOfRecipeAsync(
+                    recipeWithIngredients.Recipe.Id,
+                    recipeWithIngredients.Ingredients_Recipes
+                );
+            }
 
             return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
         }

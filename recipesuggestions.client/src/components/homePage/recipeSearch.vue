@@ -2,27 +2,29 @@
     <div :style="{'background-image':'url(https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg)'}">
         <h2>Owned Ingredients</h2>
         <!-- Πεδίο Αναζήτησης -->
-        <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search...">
+        <!--input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search..."-->
 
-        <h2>Ingredient Categories</h2>
+        <div>
+            <h3>Selected Ingredients</h3>
+            <div class="selected-ingredients">
+                <ul>
+                    <li v-for="(ingredient, index) in selectedIngredients" :key="index">
+                        {{ ingredient.name }} <span @click="removeIngredient(ingredient)">X</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>Ingredient Categories</h3>
         <div v-for="(category, index) in categories" :key="index">
             <h3>{{ category.name }}</h3>
             <div>
-                <button v-for="ingredient in category.ingredients" :key="ingredient.id" @click="selectIngredient(ingredient)">
-                    {{ ingredient.name }}
+                <button v-for="ingredient in category.ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
+                    {{ ingredient.name }} <span v-if="isSelected(ingredient)">X</span>
                 </button>
             </div>
         </div>
 
-        <!-- Εδώ θα εμφανιστούν οι συνταγές -->
-        <div v-if="selectedIngredient">
-            <h2>Recipes with {{ selectedIngredient.name }}</h2>
-            <ul>
-                <li v-for="(recipe, index) in selectedIngredient.recipes" :key="index">
-                    {{ recipe.name }}
-                </li>
-            </ul>
-        </div>
     </div>
 </template>
 
@@ -30,8 +32,8 @@
     export default {
         data() {
             return {
-                searchQuery: '',
-                searchResults: [],
+                //searchQuery: '',
+                //searchResults: [],
                 categories: [
                     {
                         name: 'Vegetables',
@@ -50,7 +52,7 @@
                         ]
                     }
                 ],
-                selectedIngredient: null
+                selectedIngredients: []
             };
         },
         methods: {
@@ -59,19 +61,34 @@
                 // με βάση το searchQuery και να ενημερώσεις τον πίνακα searchResults
                 // με τα αποτελέσματα της αναζήτησης
             },
-            selectResult(result) {
-                // Εδώ μπορείς να υλοποιήσεις τη λειτουργικότητα που θέλεις
-                // όταν ο χρήστης επιλέγει ένα από τα αποτελέσματα αναζήτησης
+            toggleIngredient(ingredient) {
+                if (this.isSelected(ingredient)) {
+                    this.removeIngredient(ingredient);
+                } else {
+                    this.addIngredient(ingredient);
+                }
+            },
+            isSelected(ingredient) {
+                return this.selectedIngredients.includes(ingredient);
             },
             selectIngredient(ingredient) {
-                this.selectedIngredient = ingredient;
+                this.selectedIngredients.push(ingredient);
+            },
+            addIngredient(ingredient) {
+                this.selectedIngredients.push(ingredient);
+            },
+            removeIngredient(ingredient) {
+                const index = this.selectedIngredients.indexOf(ingredient);
+                if (index !== -1) {
+                    this.selectedIngredients.splice(index, 1);
+                }
             }
         }
     };
 </script>
 
 <style scoped>
-    h2, h3, button, span, input {
+    h2, h3, button, span, input, li {
         color: white;
     }
 
@@ -83,5 +100,16 @@
         cursor: pointer;
         border-radius: 4px;
     }
-</style>
 
+    span {
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .selected-ingredients {
+        display: flex;
+        flex-wrap: wrap;
+        list-style-type: none;
+        padding: 0;
+    }
+</style>

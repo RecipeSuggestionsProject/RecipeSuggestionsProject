@@ -78,18 +78,21 @@ namespace RecipeSuggestions.Server.Services
             ).ToArray();
 
 
+            // Ingredients included in the edited recipe
+            var newIngredients = ingredients_recipes.Select(ingredient_recipe => ingredient_recipe.Ingredient);
+
+            // Get existing ingredient recipe relations of this recipe
             var oldIngredients_recipes = _context.Ingredient_Recipe.Where(
                 ingredient_recipe => ingredient_recipe.RecipeId == recipeId
             );
 
+            // Find existing ingredient recipe relations about ingredients that
+            // are no longer included in the edited recipe
+            var ingredients_recipesToDelete = oldIngredients_recipes.Where(
+                ingredient_recipe => !newIngredients.Contains(ingredient_recipe.Ingredient)
+            );
 
-            // Delete ingredient recipe relations containing IngredientIds not in new relation set
-            // (relations about Ingredients the Recipe will no longer contain)
-            foreach (var ingredient_recipeToDelete in oldIngredients_recipes.Where(
-                oldIngredient_recipe => !ingredients_recipes.Any(
-                    ingredient_recipe => ingredient_recipe.IngredientId == oldIngredient_recipe.IngredientId
-                )
-            ))
+            foreach (var ingredient_recipeToDelete in ingredients_recipesToDelete)
             {
                 await DeleteIngredient_RecipeAsync(
                     (ingredient_recipeToDelete.RecipeId, ingredient_recipeToDelete.IngredientId)

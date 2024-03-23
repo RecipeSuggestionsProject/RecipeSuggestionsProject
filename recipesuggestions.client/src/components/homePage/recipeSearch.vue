@@ -1,9 +1,6 @@
 <template>
-    <!--div :style="{'background-image':'url(https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg)'}"-->
+    <div class="ingredients">
         <h2>Owned Ingredients</h2>
-        <!-- Πεδίο Αναζήτησης -->
-        <!--input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search..."-->
-
         <div>
             <h3>Selected Ingredients</h3>
             <div class="selected-ingredients">
@@ -24,6 +21,7 @@
                 </button>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -86,6 +84,10 @@
 </script>
 
 <style scoped>
+    .ingredients {
+        background-image: url("ingredients.jpg");
+    }
+
     h2, h3, button, span, input, li {
         color: white;
     }

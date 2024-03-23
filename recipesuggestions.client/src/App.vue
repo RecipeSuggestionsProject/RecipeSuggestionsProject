@@ -14,11 +14,13 @@
 
         </div>
 
-
         <router-view></router-view>
 
         <main>
-            <h2>blabla</h2>
+            <div class="owned">
+                <!-- Προσθήκη του component recipeSearch -->
+                <RecipeSearch />
+            </div>
         </main>
     </div>
 </template>
@@ -61,40 +63,39 @@
         margin: 0;
     }
 
-    body {
+    #app {
+        height: 100vh;
         background-color: pink;
     }
 
+
     .webHeader {
-        background-color: rgba(31, 19, 19);
+        background-color: rgb(133, 238, 201);
         width: 100%;
-        position: fixed;
         text-align: center;
     }
 
-        .webHeader h1 {
-            color: white;
-        }
+    .webHeader h1 {
+        color: white;
+    }
 
-        .webHeader nav ul {
-            line-height: 50px;
-            display: flex;
-            list-style-type: none;
-        }
+    .webHeader nav ul {
+        line-height: 50px;
+        display: flex;
+        list-style-type: none;
+    }
 
-        .webHeader nav ul li {
-            margin-right: 20px;
-        }
+    .webHeader nav ul li {
+        margin-right: 20px;
+    }
 
-        .webHeader .link {
-            color: white;
-            text-decoration: none;
-        }
+    .webHeader .link {
+        color: white;
+        text-decoration: none;
+    }
 
-        .webHeader .link:hover {
-            text-decoration: underline;
-        }
-
-
+    .webHeader .link:hover {
+        text-decoration: underline;
+    }
 
 </style>

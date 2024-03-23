@@ -40,17 +40,17 @@ namespace RecipeSuggestions.Server.Controllers
 
         // GET: api/Ingredients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ingredient>> GetIngredient(int id)
+        public async Task<ActionResult<IngredientDTO>> GetIngredient(int id)
         {
             var ingredient = await _ingredientsService.GetIngredientIDAsync(id);
+            var ingredientDTO = _mapper.Map<IEnumerable<IngredientDTO>>(ingredient);
 
-            if (ingredient == null)
+            if (ingredientDTO == null)
             {
                 return NotFound();
             }
 
-            var ingredientDTO = _mapper.Map<IEnumerable<IngredientDTO>>(ingredient);
-            return Ok(ingredient);
+            return Ok(ingredientDTO);
         }
 
         // PUT: api/Ingredients/5
@@ -66,6 +66,8 @@ namespace RecipeSuggestions.Server.Controllers
             try
             {
                 var ingredient = await _ingredientsService.GetIngredientIDAsync(id);
+                ingredient = _mapper.Map<Ingredient>(ingredientDTO);
+
                 var success=await _ingredientsService.UpdateIngredientAsync(id,ingredient);
             }
             catch (InvalidOperationException)
@@ -81,7 +83,6 @@ namespace RecipeSuggestions.Server.Controllers
         }
 
         // POST: api/Ingredients
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         //IngredientDTO ingredientDT0
         public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)

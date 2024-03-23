@@ -70,6 +70,7 @@ namespace RecipeSuggestions.Server.Services
                 return true;
         }
 
+    
         public async Task<bool> DeleteIngredientAsync(int id)
         {
             var ingredient = await _context.Ingredient.FindAsync(id);

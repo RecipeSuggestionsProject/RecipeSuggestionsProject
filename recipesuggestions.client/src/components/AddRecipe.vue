@@ -116,8 +116,12 @@ async function postRecipe() {
 </template>
 
 <style scoped>
+    /*
     .field {
         display: flex;
         justify-content: space-between;
     }
+
+    */
+
 </style>

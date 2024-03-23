@@ -1,18 +1,25 @@
 <template>
     <div id="app">
-        <div class="sidebar">
-            <!-- Προσθήκη του component recipeSearch -->
-            <RecipeSearch />
-        </div>
-        <div class="main-content">
-            <!-- Εδώ προστέθηκε το recipeSuggestions -->
-            <RecipeSuggestions />
+        <div class="webHeader">
 
-            <router-link to="/">Home</router-link>  |
-            <router-link to="/recipes/add">Add Recipe</router-link>  |
-            <router-link to="/recipes/edit">Edit Recipe</router-link>
-            <router-view></router-view>
+            <h1>Recipe Suggestions</h1>
+
+            <nav>
+                <ul>
+                    <li><router-link to="/" class="link">Home</router-link></li>
+                    <li><router-link to="/recipes/add" class="link">Add Recipe</router-link></li>
+                    <li><router-link to="/recipes/edit" class="link">Edit Recipe</router-link></li>
+                </ul>
+            </nav>
+
         </div>
+
+
+        <router-view></router-view>
+
+        <main>
+            <h2>blabla</h2>
+        </main>
     </div>
 </template>
 
@@ -48,27 +55,46 @@
 
 </script>
 
-<style>
-    .sidebar {
-        width: 25%;
-        float: left;
-    }
-
-    /* Νέα κλάση για το recipeSuggestions */
-    .recipe-suggestions {
-        width: 75%; /* Εδώ ορίζεται το πλάτος του recipeSuggestions */
-        float: right; /* Αλλαγή του float από right σε left */
-    }
-
-    @media (max-width: 768px) {
-        .sidebar,
-        .main-content {
-            width: 100%;
-            float: none;
-        }
+<style scoped>
+    * {
+        padding: 0;
+        margin: 0;
     }
 
     body {
-        background-color: grey;
+        background-color: pink;
     }
+
+    .webHeader {
+        background-color: rgba(31, 19, 19);
+        width: 100%;
+        position: fixed;
+        text-align: center;
+    }
+
+        .webHeader h1 {
+            color: white;
+        }
+
+        .webHeader nav ul {
+            line-height: 50px;
+            display: flex;
+            list-style-type: none;
+        }
+
+        .webHeader nav ul li {
+            margin-right: 20px;
+        }
+
+        .webHeader .link {
+            color: white;
+            text-decoration: none;
+        }
+
+        .webHeader .link:hover {
+            text-decoration: underline;
+        }
+
+
+
 </style>

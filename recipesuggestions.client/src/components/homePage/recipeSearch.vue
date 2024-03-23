@@ -1,5 +1,5 @@
 <template>
-    <div :style="{'background-image':'url(https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg)'}">
+    <!--div :style="{'background-image':'url(https://t4.ftcdn.net/jpg/02/92/20/37/360_F_292203735_CSsyqyS6A4Z9Czd4Msf7qZEhoxjpzZl1.jpg)'}"-->
         <h2>Owned Ingredients</h2>
         <!-- Πεδίο Αναζήτησης -->
         <!--input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search..."-->
@@ -24,8 +24,6 @@
                 </button>
             </div>
         </div>
-
-    </div>
 </template>
 
 <script>

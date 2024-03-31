@@ -155,6 +155,12 @@ namespace RecipeSuggestions.Server.Services
             return ingredients;
         }
 
+        /*
+        public async Task<IEnumerable <Recipe>> GetRecipeByAllIngredientId (int ingredientId)
+        {
+
+        }
+        */
 
         private bool Ingredient_RecipeExists((int recipeId, int ingredientId) id)
         {

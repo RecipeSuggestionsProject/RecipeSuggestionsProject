@@ -21,17 +21,17 @@ namespace RecipeSuggestions.Server.Services
         {
             _context = context;
         }
-        //to ingredient tha ginei IngredientDTO
+        
         public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
         {
-            //var ingredients=await _context.Ingredient.ToListAsync();
+            
             return await _context.Ingredient.ToListAsync();
-            //return _mapper.Map<IEnumerable<Ingredient>>(ingredients);
+            
         }
         public async Task<Ingredient> GetIngredientIDAsync(int id)
         {
             return await _context.Ingredient.FindAsync(id);
-            // return _mapper.Map<Ingredient>(ingredient);
+            
         }
 
         public async Task<int?> GetIngredientIdByNameAsync(string IngredientName)
@@ -41,16 +41,16 @@ namespace RecipeSuggestions.Server.Services
             return ingredient?.Id;
         }
 
-        //IngredientDTO ingredient
+        
         public async Task<int> AddIngredientAsync(Ingredient ingredient)
         {
-            //var ingredient=_mapper.Map<Ingredient>(ingredientDTO);
+            
             _context.Ingredient.Add(ingredient);
             await _context.SaveChangesAsync();
             return ingredient.Id;
         }
 
-        //
+        
         public async Task<bool> UpdateIngredientAsync(int id, Ingredient updatedIngredient)
         {
             if(!IngredientExists(id))

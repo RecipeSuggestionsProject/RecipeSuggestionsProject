@@ -84,10 +84,8 @@ namespace RecipeSuggestions.Server.Controllers
 
         // POST: api/Ingredients
         [HttpPost]
-        //IngredientDTO ingredientDT0
         public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)
         {
-            //ingredientDTO
             var ingredient = _mapper.Map<Ingredient>(ingredientDTO);
             var NewIngrId = await _ingredientsService.AddIngredientAsync(ingredient);
 
@@ -106,7 +104,6 @@ namespace RecipeSuggestions.Server.Controllers
                     return NotFound();
                 }
                 return NoContent();
-                //await _ingredientsService.DeleteIngredientAsync(id);
             }
             catch (InvalidOperationException)
             {

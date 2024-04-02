@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <h3>Ingredient Categories</h3>
+        <h2>Ingredient Categories</h2>
         <div v-for="(category, index) in categories" :key="index">
             <h3>{{ category.name }}</h3>
             <div>
@@ -28,34 +28,25 @@
     export default {
         data() {
             return {
-                //searchQuery: '',
-                //searchResults: [],
-                categories: [
-                    {
-                        name: 'Vegetables',
-                        ingredients: [
-                            { id: 1, name: 'Carrot', recipes: [{ id: 1, name: 'Carrot Soup' }, { id: 2, name: 'Carrot Salad' }] },
-                            { id: 2, name: 'Potato', recipes: [{ id: 3, name: 'Mashed Potatoes' }, { id: 4, name: 'Potato Soup' }] },
-                            { id: 3, name: 'Zucchini', recipes: [{ id: 5, name: 'Zucchini Fritters' }] }
-                        ]
-                    },
-                    {
-                        name: 'Fruits',
-                        ingredients: [
-                            { id: 4, name: 'Apple', recipes: [{ id: 6, name: 'Apple Pie' }, { id: 7, name: 'Apple Crisp' }] },
-                            { id: 5, name: 'Orange', recipes: [{ id: 8, name: 'Orange Chicken' }] },
-                            { id: 6, name: 'Banana', recipes: [{ id: 9, name: 'Banana Bread' }, { id: 10, name: 'Banana Smoothie' }] }
-                        ]
-                    }
-                ],
+                categories: [],
                 selectedIngredients: []
             };
         },
+        mounted() {
+            this.fetchIngredients();
+        },
         methods: {
-            handleSearch() {
-                // Εδώ μπορείς να πραγματοποιήσεις αναζήτηση στη βάση δεδομένων
-                // με βάση το searchQuery και να ενημερώσεις τον πίνακα searchResults
-                // με τα αποτελέσματα της αναζήτησης
+            async fetchIngredients() {
+                try {
+                    const response = await fetch('https://localhost:5173/api/ingredients');
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    this.categories = data.categories;
+                } catch (error) {
+                    console.error('Error fetching ingredients:', error);
+                }
             },
             toggleIngredient(ingredient) {
                 if (this.isSelected(ingredient)) {
@@ -95,21 +86,26 @@
     button {
         background-color: rgba(0, 0, 0, 0.5);
         border: none;
-        padding: 8px 16px;
+        padding: 5px 10px;
         margin: 4px;
         cursor: pointer;
-        border-radius: 4px;
+        border-radius: 5px;
     }
 
     span {
         cursor: pointer;
-        margin-left: 5px;
+        margin-left: 4px;
     }
+
+
+    /*
+    δεν λειτουργεί
 
     .selected-ingredients {
         display: flex;
         flex-wrap: wrap;
         list-style-type: none;
-        padding: 0;
+        
     }
+*/
 </style>

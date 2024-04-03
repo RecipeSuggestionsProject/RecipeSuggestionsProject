@@ -36,6 +36,12 @@ namespace RecipeSuggestions.Server.Services
             return ingredient_recipe;
         }
 
+        public IEnumerable<Ingredient_Recipe> GetIngredients_RecipesOfRecipeAsync(int recipeId) {
+            return _context.Ingredient_Recipe.Where(
+                ingredient_recipe => ingredient_recipe.RecipeId == recipeId
+            );
+        }
+
         public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(Ingredient_Recipe ingredient_recipe)
         {
             ingredient_recipe = _context.Ingredient_Recipe.Add(ingredient_recipe).Entity;
@@ -82,9 +88,7 @@ namespace RecipeSuggestions.Server.Services
             var newIngredients = ingredients_recipes.Select(ingredient_recipe => ingredient_recipe.Ingredient);
 
             // Get existing ingredient recipe relations of this recipe
-            var oldIngredients_recipes = _context.Ingredient_Recipe.Where(
-                ingredient_recipe => ingredient_recipe.RecipeId == recipeId
-            );
+            var oldIngredients_recipes = GetIngredients_RecipesOfRecipeAsync(recipeId);
 
             // Find existing ingredient recipe relations about ingredients that
             // are no longer included in the edited recipe

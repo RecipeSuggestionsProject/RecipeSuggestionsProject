@@ -1,5 +1,4 @@
-﻿/*
-using AutoMapper;
+﻿using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using RecipeSuggestions.Server.Services;
 
 namespace RecipeSuggestions.Server.Controllers
 {
@@ -30,38 +30,55 @@ namespace RecipeSuggestions.Server.Controllers
             _mapper = mapper;
         }
 
-        
+
         //Θέλουμε να επιστρέφει όλες τις συνταγές που δεν περιέχουν υλικά που δεν έχει ο χρήστης
         //ή αλλιως ολες τις συνταγες που περιέχουν μονο υλικα που εχει ο χρηστης
         [HttpPost]
         public async Task<ActionResult<IEnumerable<RecipeDTO>>> CreateSuggestions(IEnumerable<IngredientDTO> ingredients)
         {
-            //Παίρνουμε το id των υλικών που έδωσε ο χρήστης
 
-            var IngredientId = await Task.WhenAll(ingredients.Select(ingredient => _ingredientsService.GetIngredientIdByNameAsync(ingredient.Name!)));
-
-            if(IngredientId!= null)
+            try
             {
-                //Το δίνουμε σε καποια μέθοδο(συνταγών;συσχετίσεων) που επιστρέφει όλες τις συνταγές που περιέχουν όλα τα υλικά του χρήστη
-                //Να έχουμε και μία που επιστρέφει για τουλάχιστον ένα υλικό;
+                var IngredientRecipes = await _ingredients_RecipesService.GetAllIngredients_RecipesAsync();
+                var IngredientId = await Task.WhenAll(ingredients.Select(ingredient => _ingredientsService.GetIngredientIdByNameAsync(ingredient.Name!)));
 
-                //var recipes= await _recipesService.GetRecipesByAllIngredientId(IngredientId);
+                if (IngredientId != null && IngredientId.Any()) //Διασφαλίζουμε οτι υπάρχει id για το υλικό και ότι δεν είναι null
+                {
+                    var FilteredRecipes = IngredientRecipes.Where(ingr_id => IngredientId.Contains(ingr_id.IngredientId)).ToList(); //Φιλτράρισμα με βάση τα διαθέσιμα υλικά του χρήστη
+                    var RecipeIDs = FilteredRecipes.Select(ingr_id => ingr_id.RecipeId).Distinct(); //Παιρνουμε τα id των φιλτραρισμένων συνταγών 
 
+                    var suggestions = new List<RecipeDTO>();
+
+                    foreach (var recipeId in RecipeIDs)
+                    {
+                        var recipe = await _recipesService.GetRecipeAsync(recipeId);
+                        if (recipe!= null)
+                        {
+                            suggestions.Add(_mapper.Map<RecipeDTO>(recipe));
+                        }
+
+                    }
+                    if (suggestions.Any())
+                    {
+                        return Ok(suggestions);
+                    }
+                    else
+                    {
+                        return NotFound("Δεν βρέθηκαν συνταγές με τα επιλεγμένα υλικά");
+                    }
+                    
+                }
+                else
+                {
+                    return BadRequest("Δεν δόθηκαν υλικά");
+                }
             }
-
-            //IngredientId = IngredientId.Where(IngredientId => IngredientId.HasValue).Select(Id => Id.Value).ToArray();
-
-
-            //Το δίνουμε σε καποια μέθοδο(συνταγών;συσχετίσεων) που επιστρέφει όλες τις συνταγές που περιέχουν όλα τα υλικά του χρήστη
-
-
-            // mapping συνταγών;
-
-            //return Ok(recipeDTO); 
-
-
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
 
-*/
+

@@ -42,13 +42,18 @@ namespace RecipeSuggestions.Server.Services
             );
         }
 
-        public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(Ingredient_Recipe ingredient_recipe)
+  
+        public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(int recipeId,Ingredient_Recipe ingredient_recipe)
         {
-            ingredient_recipe = _context.Ingredient_Recipe.Add(ingredient_recipe).Entity;
+            ingredient_recipe.RecipeId= recipeId;
+
+            _context.Entry(ingredient_recipe).State=EntityState.Added;
             await _context.SaveChangesAsync();
 
             return ingredient_recipe;
         }
+
+
 
         public async Task EditIngredient_RecipeAsync((int recipeId, int ingredientId) id, Ingredient_Recipe ingredient_recipe)
         {
@@ -119,7 +124,7 @@ namespace RecipeSuggestions.Server.Services
                     );
                 } else // Add relation about new Ingredient
                 {
-                    await AddIngredient_RecipeAsync(ingredient_recipe);
+                    await AddIngredient_RecipeAsync(recipeId,ingredient_recipe);
                 }
             }
         }

@@ -93,6 +93,9 @@ namespace RecipeSuggestions.Server.Controllers
 
             // Add Recipe
             recipe = _mapper.Map<RecipeDTO>(await _recipesService.AddRecipeAsync(recipeWithIngredients.Recipe));
+            foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes) {
+                ingredient_recipe.RecipeId = recipe.Id;
+            }
             
 
             if (recipeWithIngredients.Ingredients_Recipes != null)
@@ -118,6 +121,7 @@ namespace RecipeSuggestions.Server.Controllers
                 // Overwrite the related Ingredients of this recipe
                 await _ingredients_RecipesService.EditIngredients_RecipesOfRecipeAsync(
                     recipeWithIngredients.Recipe.Id,
+                    //recipeWithIngredients.Ingredient.Id,
                     recipeWithIngredients.Ingredients_Recipes
                 );
             }

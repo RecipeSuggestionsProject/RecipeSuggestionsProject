@@ -43,10 +43,8 @@ namespace RecipeSuggestions.Server.Services
         }
 
   
-        public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(int recipeId,Ingredient_Recipe ingredient_recipe)
+        public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(Ingredient_Recipe ingredient_recipe)
         {
-            ingredient_recipe.RecipeId= recipeId;
-
             _context.Entry(ingredient_recipe).State=EntityState.Added;
             await _context.SaveChangesAsync();
 
@@ -81,7 +79,7 @@ namespace RecipeSuggestions.Server.Services
             }
         }
 
-        public async Task EditIngredients_RecipesOfRecipeAsync(int recipeId, IEnumerable<Ingredient_Recipe> ingredients_recipes)
+        public async Task EditIngredients_RecipesOfRecipeAsync(int recipeId,IEnumerable<Ingredient_Recipe> ingredients_recipes)
         {
             // Ignore ingredient recipe relations with wrong recipe id.
             ingredients_recipes = ingredients_recipes.Where(
@@ -124,7 +122,7 @@ namespace RecipeSuggestions.Server.Services
                     );
                 } else // Add relation about new Ingredient
                 {
-                    await AddIngredient_RecipeAsync(recipeId,ingredient_recipe);
+                    await AddIngredient_RecipeAsync(ingredient_recipe);
                 }
             }
         }

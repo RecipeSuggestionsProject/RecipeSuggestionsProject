@@ -36,7 +36,7 @@ namespace RecipeSuggestions.Server.Services
 
         public async Task<Recipe> AddRecipeAsync(Recipe recipe)
         {
-            _context.Recipe.Add(recipe);
+            recipe = _context.Recipe.Add(recipe).Entity;
             await _context.SaveChangesAsync();
 
             return recipe;

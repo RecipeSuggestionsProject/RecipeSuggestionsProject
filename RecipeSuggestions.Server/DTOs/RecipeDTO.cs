@@ -12,7 +12,7 @@
     }
 
     public class IngredientWithQuantity {
-        public IngredientDTO Ingredient { get; set; }
+        public IngredientDTO? Ingredient { get; set; }
         public int Quantity { get; set; }
         public String? QuantityType { get; set; }
     }

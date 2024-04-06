@@ -36,9 +36,11 @@ namespace RecipeSuggestions.Server.Controllers
 
         // GET: api/Recipes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe()
+        public async Task<ActionResult<IEnumerable<RecipeDTO>>> GetRecipe()
         {
-            return Ok(await _recipesService.GetAllRecipesAsync());
+            return Ok(
+                _mapper.Map<IEnumerable<RecipeDTO>>(await _recipesService.GetAllRecipesAsync())
+            );
         }
 
         // GET: api/Recipes/5

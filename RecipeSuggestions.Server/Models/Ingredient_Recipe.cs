@@ -8,11 +8,11 @@ namespace RecipeSuggestions.Server.Models
     {
         [ForeignKey(nameof(Recipe))]
         public int RecipeId { get; set; }
-        public Recipe Recipe { get; set; }
+        public Recipe? Recipe { get; set; }
         
         [ForeignKey(nameof(Ingredient))]
         public int IngredientId { get; set; }
-        public Ingredient Ingredient { get; set; }
+        public Ingredient? Ingredient { get; set; }
 
         public int Quantity { get; set; }
         public string? QuantityType { get; set; }

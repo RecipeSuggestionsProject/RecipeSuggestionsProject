@@ -42,12 +42,20 @@ namespace RecipeSuggestions.Server.Services
         }
 
         
-        public async Task<int> AddIngredientAsync(Ingredient ingredient)
+        public async Task<int?> AddIngredientAsync(Ingredient ingredient)
         {
-            
-            _context.Ingredient.Add(ingredient);
-            await _context.SaveChangesAsync();
-            return ingredient.Id;
+            var oldIngredient= await GetIngredientIdByNameAsync(ingredient!.Name!);
+
+            if (oldIngredient.HasValue)
+           {
+                return oldIngredient.Value;
+            }
+            else
+           {
+                _context.Ingredient.Add(ingredient);
+                await _context.SaveChangesAsync();
+                return ingredient.Id;
+            }
         }
 
         

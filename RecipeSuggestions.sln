@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeSuggestions.Server", "RecipeSuggestions.Server\RecipeSuggestions.Server.csproj", "{B2E7B36A-424C-49C0-BF0A-3B9006F77170}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeSuggestions.Server", "RecipeSuggestions.Server\RecipeSuggestions.Server.csproj", "{B2E7B36A-424C-49C0-BF0A-3B9006F77170}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "recipesuggestions.client", "recipesuggestions.client\recipesuggestions.client.esproj", "{E8608558-3AD7-4C18-82EE-F929F95DAACA}"
 EndProject

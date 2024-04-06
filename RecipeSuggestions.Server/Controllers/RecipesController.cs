@@ -85,8 +85,8 @@ namespace RecipeSuggestions.Server.Controllers
                 throw;
             }
 
-            UpdateRecipeIngredients(recipeWithIngredients);
-            UpdateRecipeIngredientRelations(recipeWithIngredients);
+            await UpdateRecipeIngredients(recipeWithIngredients);
+            await UpdateRecipeIngredientRelations(recipeWithIngredients);
 
             return NoContent();
         }
@@ -105,8 +105,8 @@ namespace RecipeSuggestions.Server.Controllers
                 ingredient_recipe.RecipeId = recipe.Id;
             }
 
-            UpdateRecipeIngredients(recipeWithIngredients);
-            UpdateRecipeIngredientRelations(recipeWithIngredients);
+            await UpdateRecipeIngredients(recipeWithIngredients);
+            await UpdateRecipeIngredientRelations(recipeWithIngredients);
 
             return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
         }
@@ -126,7 +126,7 @@ namespace RecipeSuggestions.Server.Controllers
             return NoContent();
         }
 
-        private async void UpdateRecipeIngredients(RecipeWithIngredients recipeWithIngredients)
+        private async Task UpdateRecipeIngredients(RecipeWithIngredients recipeWithIngredients)
         {
             if (recipeWithIngredients.Ingredients_Recipes == null) { return; }
             
@@ -150,7 +150,7 @@ namespace RecipeSuggestions.Server.Controllers
         }
 
         // Overwrite the related Ingredients of recipeWithIngredients.Recipe
-        private async void UpdateRecipeIngredientRelations(RecipeWithIngredients recipeWithIngredients) {
+        private async Task UpdateRecipeIngredientRelations(RecipeWithIngredients recipeWithIngredients) {
             if (
                 recipeWithIngredients == null 
                 || recipeWithIngredients.Recipe == null

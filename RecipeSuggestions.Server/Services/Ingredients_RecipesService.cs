@@ -42,16 +42,13 @@ namespace RecipeSuggestions.Server.Services
             );
         }
 
-  
         public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(Ingredient_Recipe ingredient_recipe)
         {
-            _context.Entry(ingredient_recipe).State=EntityState.Added;
+            ingredient_recipe = _context.Ingredient_Recipe.Add(ingredient_recipe).Entity;
             await _context.SaveChangesAsync();
 
             return ingredient_recipe;
         }
-
-
 
         public async Task EditIngredient_RecipeAsync((int recipeId, int ingredientId) id, Ingredient_Recipe ingredient_recipe)
         {

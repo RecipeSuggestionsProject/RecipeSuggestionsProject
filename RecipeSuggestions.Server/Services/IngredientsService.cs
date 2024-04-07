@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-//using RecipeSuggestions.Server.Interfaces;
-//using RecipeSuggestions.Server.DTOs;
 using RecipeSuggestions.Server.Data;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;

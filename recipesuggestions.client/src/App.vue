@@ -1,47 +1,101 @@
-<script setup>
-import RecipeSuggestions from './components/RecipeSuggestions.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <div id="app">
+        <div class="webHeader">
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+            <h1>Recipe Suggestions</h1>
+
+            <nav>
+                <ul>
+                    <li><router-link to="/" class="link">Home</router-link></li>
+                    <li><router-link to="/recipes/add" class="link">Add Recipe</router-link></li>
+                    <li><router-link to="/recipes/edit" class="link">Edit Recipe</router-link></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <router-view></router-view>
+
+        <main>
+            <div class="owned">
+                <!-- Προσθήκη του component recipeSearch -->
+                <RecipeSearch />
+            </div>
+        </main>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
+<script>
+    import { ref, computed } from 'vue'
+    import { createRouter, createWebHistory } from 'vue-router';
+
+    import RecipeSearch from './components/homePage/recipeSearch.vue';
+    import RecipeSuggestions from './components/RecipeSuggestions.vue';
+
+    import TheWelcome from './components/TheWelcome.vue'
+    import AddRecipe from './components/AddRecipe.vue'
+    import EditRecipe from './components/EditRecipe.vue'
+
+    export default {
+        components: {
+            RecipeSearch,
+            RecipeSuggestions
+        },
+    };
+
+    /*
+    export default {
+        components: {
+            RecipeSuggestions,
+            TheWelcome,
+            AddRecipe,
+            EditRecipe
+        }
+    };
+    */
+
+
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-}
+    * {
+        padding: 0;
+        margin: 0;
+    }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+    #app {
+        height: 100vh;
+        background-color: pink;
+    }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+    .webHeader {
+        background-color: rgb(133, 238, 201);
+        width: 100%;
+        text-align: center;
+    }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
+    .webHeader h1 {
+        color: white;
+    }
+
+    .webHeader nav ul {
+        line-height: 50px;
+        display: flex;
+        list-style-type: none;
+    }
+
+    .webHeader nav ul li {
+        margin-right: 20px;
+    }
+
+    .webHeader .link {
+        color: white;
+        text-decoration: none;
+    }
+
+    .webHeader .link:hover {
+        text-decoration: underline;
+    }
+
 </style>

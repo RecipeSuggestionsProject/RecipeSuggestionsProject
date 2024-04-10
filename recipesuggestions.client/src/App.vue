@@ -1,7 +1,6 @@
 <template>
     <div id="app">
         <div class="webHeader">
-
             <h1>Recipe Suggestions</h1>
             <nav>
                 <ul>
@@ -10,21 +9,16 @@
                     <li><router-link to="/recipes/edit" class="link">Edit Recipe</router-link></li>
                 </ul>
             </nav>
-            <router-view />
         </div>
 
-        <main>
-            <!-- Προσθήκη του component recipeSearch -->
+        <main style="margin-top: 150px;">
+            <router-view></router-view>
             <RecipeSearch />
         </main>
     </div>
 </template>
 
 <script>
-    import { ref, computed } from 'vue'
-    import { createRouter, createWebHistory } from 'vue-router';
-
-    
     import RecipeSearch from './components/homePage/recipeSearch.vue';
 
     export default {
@@ -32,20 +26,13 @@
             RecipeSearch
         },
     };
-    
 </script>
 
 <style scoped>
-    * {
-        padding: 0;
-        margin: 0;
-    }
-
     #app {
         height: 100vh;
         background-color: pink;
     }
-
 
     .webHeader {
         position: fixed;
@@ -78,5 +65,4 @@
     .webHeader .link:hover {
         text-decoration: underline;
     }
-
 </style>

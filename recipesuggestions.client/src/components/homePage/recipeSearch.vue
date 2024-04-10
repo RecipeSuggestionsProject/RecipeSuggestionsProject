@@ -109,12 +109,42 @@
 
 <style scoped>
     .ingredients {
-        background-image: url("ingredients.jpg");
+        background-color: rgb(255, 229, 213);
+        background-image: url("cartoon-background.png");
+        background-size: 40% auto;
+
+        background-position: right;
+        background-repeat: no-repeat;
+
+
+    }
+    .space-below-ingredients {
+        background-color:black;
+        padding:20px;
     }
 
-    h2, h3, button, span, input, li {
-        color: white;
+    /* h3 -> Selected Ingredients,type2,string 
+        h2=> Owned Ingredients,Ingredient Categories
+    */
+
+    button {
+        color:white
     }
+
+   input, li {
+        color:black;
+        
+    }
+
+    h3 {
+        color: rgb(15,15,15);
+        font-family: 'Inter',sans-serif;
+    }
+    h2 {
+        color: rgb(15,15,15);
+    }
+
+    
 
     button {
         background-color: rgba(0, 0, 0, 0.5);

@@ -31,7 +31,8 @@
 <style scoped>
     #app {
         height: 100vh;
-        background-color: pink;
+        background-color: rgb(255, 229, 213); /* χώρος κάτω απο ingredients */
+        
     }
 
     .webHeader {
@@ -39,28 +40,42 @@
         top: 0;
         width: 100%;
         z-index: 1000;
-        background-color: rgb(133, 238, 201);
+        /*background-color: rgb(133, 238, 201); */
+        /*background-color: rgb(255, 229, 213); */
+        background-color: rgb(255, 229, 213);
         text-align: center;
     }
 
-    .webHeader h1 {
-        color: white;
-    }
+        .webHeader h1 { /*RecipeSuggestions */
+            color: black;
+            font-family: 'Inter', serif;
+        }
+
+        .webHeader h3 {
+            font-family: 'Inter', serif;
+        }
+
+        .webHeader h2 {
+            font-family: 'Times New Roman', serif;
+        }
 
     .webHeader nav ul {
         line-height: 50px;
         display: flex;
         list-style-type: none;
+        
     }
 
-    .webHeader nav ul li {
-        margin-right: 20px;
-    }
+        .webHeader nav ul li {
+            margin-right: 20px;
+           
+        }
 
-    .webHeader .link {
-        color: white;
-        text-decoration: none;
-    }
+        .webHeader .link { /*Home Add Recipe... */
+            color: black;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
 
     .webHeader .link:hover {
         text-decoration: underline;

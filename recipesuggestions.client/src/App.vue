@@ -46,18 +46,18 @@
         text-align: center;
     }
 
-        .webHeader h1 { /*RecipeSuggestions */
-            color: black;
-            font-family: 'Inter', serif;
-        }
+    .webHeader h1 { /*RecipeSuggestions */
+        color: black;
+        font-family: 'Inter', serif;
+    }
 
-        .webHeader h3 {
-            font-family: 'Inter', serif;
-        }
+    .webHeader h3 {
+        font-family: 'Inter', serif;
+    }
 
-        .webHeader h2 {
-            font-family: 'Times New Roman', serif;
-        }
+    .webHeader h2 {
+        font-family: 'Times New Roman', serif;
+    }
 
     .webHeader nav ul {
         line-height: 50px;
@@ -66,16 +66,16 @@
         
     }
 
-        .webHeader nav ul li {
-            margin-right: 20px;
+    .webHeader nav ul li {
+        margin-right: 20px;
            
-        }
+    }
 
-        .webHeader .link { /*Home Add Recipe... */
-            color: black;
-            text-decoration: none;
-            font-family: 'Inter', sans-serif;
-        }
+    .webHeader .link { /*Home Add Recipe... */
+        color: black;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+    }
 
     .webHeader .link:hover {
         text-decoration: underline;

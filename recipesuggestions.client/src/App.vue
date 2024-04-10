@@ -3,7 +3,6 @@
         <div class="webHeader">
 
             <h1>Recipe Suggestions</h1>
-
             <nav>
                 <ul>
                     <li><router-link to="/" class="link">Home</router-link></li>
@@ -11,16 +10,12 @@
                     <li><router-link to="/recipes/edit" class="link">Edit Recipe</router-link></li>
                 </ul>
             </nav>
-
+            <router-view />
         </div>
 
-        <router-view></router-view>
-
         <main>
-            <div class="owned">
-                <!-- Προσθήκη του component recipeSearch -->
-                <RecipeSearch />
-            </div>
+            <!-- Προσθήκη του component recipeSearch -->
+            <RecipeSearch />
         </main>
     </div>
 </template>
@@ -29,32 +24,15 @@
     import { ref, computed } from 'vue'
     import { createRouter, createWebHistory } from 'vue-router';
 
+    
     import RecipeSearch from './components/homePage/recipeSearch.vue';
-    import RecipeSuggestions from './components/RecipeSuggestions.vue';
-
-    import TheWelcome from './components/TheWelcome.vue'
-    import AddRecipe from './components/AddRecipe.vue'
-    import EditRecipe from './components/EditRecipe.vue'
 
     export default {
         components: {
-            RecipeSearch,
-            RecipeSuggestions
+            RecipeSearch
         },
     };
-
-    /*
-    export default {
-        components: {
-            RecipeSuggestions,
-            TheWelcome,
-            AddRecipe,
-            EditRecipe
-        }
-    };
-    */
-
-
+    
 </script>
 
 <style scoped>
@@ -70,8 +48,11 @@
 
 
     .webHeader {
-        background-color: rgb(133, 238, 201);
+        position: fixed;
+        top: 0;
         width: 100%;
+        z-index: 1000;
+        background-color: rgb(133, 238, 201);
         text-align: center;
     }
 

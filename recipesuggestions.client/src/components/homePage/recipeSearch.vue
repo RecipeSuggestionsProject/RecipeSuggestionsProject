@@ -1,6 +1,7 @@
 <template>
     <div class="ingredients">
         <h2>Owned Ingredients</h2>
+
         <div>
             <h3>Selected Ingredients</h3>
             <div class="selected-ingredients">
@@ -13,10 +14,10 @@
         </div>
 
         <h2>Ingredient Categories</h2>
-        <div v-for="(category, index) in categories" :key="index">
-            <h3>{{ category.name }}</h3>
+        <div v-for="(ingredients, type) in ingredientsByType" :key="type">
+            <h3>{{ type }}</h3>
             <div>
-                <button v-for="ingredient in category.ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
+                <button v-for="ingredient in ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
                     {{ ingredient.name }} <span v-if="isSelected(ingredient)">X</span>
                 </button>
             </div>
@@ -28,14 +29,30 @@
     export default {
         data() {
             return {
-                categories: [],
+                ingredientsByType: {},
                 selectedIngredients: []
             };
         },
-        mounted() {
-            this.fetchIngredients();
-        },
         methods: {
+            async fetchRecipes() {
+                try {
+                    const response = await fetch('https://localhost:5173/api/recipes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(this.selectedIngredients.map(ingredient => ingredient.id))
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const recipes = await response.json();
+                    console.log('Recipes:', recipes);
+                    // Εδώ μπορείτε να ενημερώσετε τη λίστα των συνταγών
+                } catch (error) {
+                    console.error('Error fetching recipes:', error);
+                }
+            },
             async fetchIngredients() {
                 try {
                     const response = await fetch('https://localhost:5173/api/ingredients');
@@ -43,10 +60,22 @@
                         throw new Error('Network response was not ok');
                     }
                     const data = await response.json();
-                    this.categories = data.categories;
+                    this.organizeIngredientsByType(data);
                 } catch (error) {
                     console.error('Error fetching ingredients:', error);
                 }
+            },
+            organizeIngredientsByType(data) {
+                data.forEach(ingredient => {
+                    if (!this.ingredientsByType.hasOwnProperty(ingredient.type)) {
+                        this.ingredientsByType[ingredient.type] = [];
+                    }
+                    this.ingredientsByType[ingredient.type].push({
+                        id: ingredient.id,
+                        name: ingredient.name,
+                        type: ingredient.type
+                    });
+                });
             },
             toggleIngredient(ingredient) {
                 if (this.isSelected(ingredient)) {
@@ -54,6 +83,7 @@
                 } else {
                     this.addIngredient(ingredient);
                 }
+                this.fetchRecipes(); // Καλεί τον server για τις συνταγές κάθε φορά που αλλάζει η λίστα των επιλεγμένων υλικών
             },
             isSelected(ingredient) {
                 return this.selectedIngredients.includes(ingredient);
@@ -70,6 +100,9 @@
                     this.selectedIngredients.splice(index, 1);
                 }
             }
+        },
+        mounted() {
+            this.fetchIngredients();
         }
     };
 </script>
@@ -97,15 +130,9 @@
         margin-left: 4px;
     }
 
-
-    /*
-    δεν λειτουργεί
-
     .selected-ingredients {
         display: flex;
         flex-wrap: wrap;
         list-style-type: none;
-        
     }
-*/
 </style>

@@ -45,33 +45,36 @@ namespace RecipeSuggestions.Server.Controllers
 
         // GET: api/Recipes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipe(int id)
+        public async Task<ActionResult<RecipeDTO>> GetRecipe(int id)
         {
-            Recipe? recipe;
+            RecipeDTO? recipe;
             try
             {
-                recipe = await _recipesService.GetRecipeAsync(id);
+                recipe = _mapper.Map<RecipeDTO>(await _recipesService.GetRecipeAsync(id));
             } catch (InvalidOperationException)
             {
                 return NotFound();
             }
 
-            return recipe != null ? recipe : NotFound();
+            return recipe != null ? Ok(recipe) : NotFound();
         }
 
         // PUT: api/Recipes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+        public async Task<IActionResult> PutRecipe(int id, RecipeDTO recipe)
         {
             if (id != recipe.Id)
             {
                 return BadRequest();
             }
 
+            var recipeWithIngredients = _mapper.Map<RecipeWithIngredients>(recipe);
+            if (recipeWithIngredients.Recipe == null) { return BadRequest(); }
+
             try
             {
-                await _recipesService.EditRecipeAsync(id, recipe);
+                await _recipesService.EditRecipeAsync(id, recipeWithIngredients.Recipe);
             }
             catch (InvalidOperationException)
             {
@@ -81,6 +84,9 @@ namespace RecipeSuggestions.Server.Controllers
             {
                 throw;
             }
+
+            await UpdateRecipeIngredients(recipeWithIngredients);
+            await UpdateRecipeIngredientRelations(recipeWithIngredients);
 
             return NoContent();
         }
@@ -98,35 +104,9 @@ namespace RecipeSuggestions.Server.Controllers
             foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes) {
                 ingredient_recipe.RecipeId = recipe.Id;
             }
-            
 
-            if (recipeWithIngredients.Ingredients_Recipes != null)
-            {
-                foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes)
-                {
-                    if (ingredient_recipe.Ingredient?.Name != null)
-                    {
-                        int? ingredientId = await _ingredientsService.GetIngredientIdByNameAsync(ingredient_recipe.Ingredient.Name!);
-
-                        // The ingredient does not exist in the database
-                        if (ingredientId == null)
-                        {
-                            // Add the ingredient
-                            ingredientId = await _ingredientsService.AddIngredientAsync(ingredient_recipe.Ingredient);
-                        }
-
-                        ingredient_recipe.IngredientId = (int)ingredientId;
-                    }
-
-                }
-
-                // Overwrite the related Ingredients of this recipe
-                await _ingredients_RecipesService.EditIngredients_RecipesOfRecipeAsync(
-                    recipeWithIngredients.Recipe.Id,
-                    //recipeWithIngredients.Ingredient.Id,
-                    recipeWithIngredients.Ingredients_Recipes
-                );
-            }
+            await UpdateRecipeIngredients(recipeWithIngredients);
+            await UpdateRecipeIngredientRelations(recipeWithIngredients);
 
             return CreatedAtAction("GetRecipe", new { id = recipe.Id }, recipe);
         }
@@ -144,6 +124,43 @@ namespace RecipeSuggestions.Server.Controllers
             }
 
             return NoContent();
+        }
+
+        private async Task UpdateRecipeIngredients(RecipeWithIngredients recipeWithIngredients)
+        {
+            if (recipeWithIngredients.Ingredients_Recipes == null) { return; }
+            
+            foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes)
+            {
+                if (ingredient_recipe.Ingredient?.Name != null)
+                {
+                    int? ingredientId = await _ingredientsService.GetIngredientIdByNameAsync(ingredient_recipe.Ingredient.Name!);
+
+                    // The ingredient does not exist in the database
+                    if (ingredientId == null)
+                    {
+                        // Add the ingredient
+                        ingredientId = await _ingredientsService.AddIngredientAsync(ingredient_recipe.Ingredient);
+                    }
+
+                    ingredient_recipe.IngredientId = (int)ingredientId;
+                }
+
+            }
+        }
+
+        // Overwrite the related Ingredients of recipeWithIngredients.Recipe
+        private async Task UpdateRecipeIngredientRelations(RecipeWithIngredients recipeWithIngredients) {
+            if (
+                recipeWithIngredients == null 
+                || recipeWithIngredients.Recipe == null
+                || recipeWithIngredients.Ingredients_Recipes == null
+           ) { return; }
+
+            await _ingredients_RecipesService.EditIngredients_RecipesOfRecipeAsync(
+                recipeWithIngredients.Recipe.Id,
+                recipeWithIngredients.Ingredients_Recipes
+            );
         }
     }
 }

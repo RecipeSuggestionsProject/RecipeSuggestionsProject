@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace RecipeSuggestions.Server.Mappings.UnitTests
 {
     [TestFixture]
-    public class AutomapperTests
+    public class AutomapperUnitTest
     {
         [Test]
         public void AutomapperConfigurationTest()

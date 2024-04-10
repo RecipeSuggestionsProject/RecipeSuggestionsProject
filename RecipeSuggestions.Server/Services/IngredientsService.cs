@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-//using RecipeSuggestions.Server.Interfaces;
-//using RecipeSuggestions.Server.DTOs;
 using RecipeSuggestions.Server.Data;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
@@ -42,12 +40,20 @@ namespace RecipeSuggestions.Server.Services
         }
 
         
-        public async Task<int> AddIngredientAsync(Ingredient ingredient)
+        public async Task<int?> AddIngredientAsync(Ingredient ingredient)
         {
-            
-            _context.Ingredient.Add(ingredient);
-            await _context.SaveChangesAsync();
-            return ingredient.Id;
+            var oldIngredient= await GetIngredientIdByNameAsync(ingredient!.Name!);
+
+            if (oldIngredient.HasValue)
+           {
+                return oldIngredient.Value;
+            }
+            else
+           {
+                _context.Ingredient.Add(ingredient);
+                await _context.SaveChangesAsync();
+                return ingredient.Id;
+            }
         }
 
         

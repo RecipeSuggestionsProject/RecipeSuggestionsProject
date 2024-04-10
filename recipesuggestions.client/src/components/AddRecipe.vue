@@ -1,6 +1,6 @@
 <template>
     <div class="recipe-form">
-        <h2>Create a Recipe </h2>
+        <h2 style="text-align: center;">Create a Recipe</h2>
         <form @submit.prevent="submitRecipe">
             <div class="form-group">
                 <label for="recipe-name">Recipe Name: </label>
@@ -93,6 +93,7 @@
     .ingredient-input input {
         margin-right: 0.5rem;
     }
+
 
     .recipe-form {
         height: 100vh; /* Κάνει τη φόρμα να καλύπτει ολόκληρη την οθόνη */

@@ -13,7 +13,6 @@
 
         <main style="margin-top: 150px;">
             <router-view></router-view>
-            <RecipeSearch />
         </main>
     </div>
 </template>
@@ -31,8 +30,8 @@
 <style scoped>
     #app {
         height: 100vh;
+        width: 100%;
         background-color: rgb(255, 229, 213); /* χώρος κάτω απο ingredients */
-        
     }
 
     .webHeader {

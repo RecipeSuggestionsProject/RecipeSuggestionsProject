@@ -34,9 +34,19 @@ namespace RecipeSuggestions.Server.Services
 
         public async Task<int?> GetIngredientIdByNameAsync(string IngredientName)
         {
+            if(string.IsNullOrEmpty(IngredientName))
+            {
+                return null;
+            }
             var ingredient = await _context.Ingredient.FirstOrDefaultAsync(i => i.Name!= null && i.Name.Equals(IngredientName));
-
-            return ingredient?.Id;
+            if(ingredient!= null)
+            {
+                return ingredient?.Id;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         

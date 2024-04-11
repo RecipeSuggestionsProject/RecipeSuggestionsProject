@@ -24,37 +24,39 @@ namespace RecipeSuggestions.Server.Services.UnitTests
 
             _mockcontext.Setup(i => i.Set<Ingredient>()).Returns(_mockIngredientSet.Object);
 
+
             _mockingredientService=new IngredientsService(_mockcontext.Object);
 
         }
 
         [Test]
-        public void AddIngredientTest()
+        public async Task AddIngredientTest()
         {
-            //Arrange
+            // Arrange
             var ingredient = new Ingredient
             {
                 Name = "TestIngredient",
                 Type = "TestType",
                 Description = "This is a test description"
             };
-;
 
-            //Act
-            var test_result = _mockingredientService.AddIngredientAsync(ingredient);
+            // Act
+            var test_result = await _mockingredientService.AddIngredientAsync(ingredient);
 
-            //Assert
-            _mockIngredientSet.Verify(set => set.Add(It.IsAny<Ingredient>()), Times.Once()); //Επιβεβαίωση οτι η add εκτελέστηκε 1 φορά
-            _mockcontext.Verify(a => a.SaveChanges(), Times.Once()); //Επιβεβαίωση οτι εκτελέστηκαν οι αλλαγές 1 φορά
+            // Assert
+            _mockIngredientSet.Verify(set => set.Add(It.IsAny<Ingredient>()), Times.Once());
+            _mockcontext.Verify(a => a.SaveChanges(), Times.Once());
 
+           
+            Assert.IsNotNull(test_result); 
+            Assert.AreEqual(ingredient.Id, test_result); 
             
-            Assert.AreEqual(ingredient.Id,test_result);
- 
         }
 
 
+
     }
-    }
+}
 
 
 

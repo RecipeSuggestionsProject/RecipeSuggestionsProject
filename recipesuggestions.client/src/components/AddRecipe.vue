@@ -106,32 +106,69 @@
 <style scoped>
     .form-group {
         margin-bottom: 1rem;
+        
+    }
+
+    body {
+        margin:0;
+        padding:0;
+    }
+
+    .form-group label {
+         font-family: 'Segoe UI', sans-serif;
+    }
+
+    h2, h3 {
+        font-family:'Century Gothic';
     }
 
     .recipe-form {
         text-align: center;
+        margin: 0;
+        padding: 0;
+       
     }
 
-    .ingredient-input {
+    input[type="text"], /* Περίγραμμα πεδίων */
+    input[type="number"] {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .ingredient-input {
         display: flex;
         margin-bottom: 0.5rem;
         justify-content: center;
         align-items: center;
+        transition: transform 0.3s ease-out, font-size 0.3s ease-out, color 0.3s ease-out;
+        color: #9c9c9c;
+        /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     }
 
-    .ingredient-input input {
-        margin-right: 0.5rem;
-    }
 
-    button {
+        .ingredient-input input {
+            margin-right: 0.5rem;
+            color: #808080;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+    button { /* Add ingredient, remove */
+        display: inline_block;
+        background: white;
+        transition: all 200ms ease-in;
+        border: 1px solid #ccc;
+        border-radius: 3px;
         cursor: pointer;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .space {
         margin: 0 5px;
     }
 
-    .submit-button {
+    .submit-button { 
         background-color: #4caf50;
         color: white;
         border: none;
@@ -141,9 +178,11 @@
         transition: background-color 0.3s;
     }
 
-    .submit-button:active {
-        background-color: #3e8e41;
-    }
+        .submit-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            background-color: #3e8e41;
+        }
 
     .success-message {
         position: fixed;

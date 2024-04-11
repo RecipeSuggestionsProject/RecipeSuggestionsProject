@@ -120,32 +120,37 @@
         padding:20px;
     }
 
-    button {
-        color:white
+    button { 
+        color: #808080; 
     }
 
-   input, li {
-        color:black;
-        
+    input, li {
+        color: white;
     }
 
     h3 {
         color: rgb(15,15,15);
         font-family: 'Inter',sans-serif;
     }
-    h2 {
+    h2 { 
         color: rgb(15,15,15);
+       
     }
 
-    
 
-    button {
-        background-color: rgba(0, 0, 0, 0.5);
+
+    button { /* κουμπια υλικων*/
+        background-color: white;
+        border: 2px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         border: none;
+        border-color: #808080;
         padding: 5px 10px;
         margin: 4px;
         cursor: pointer;
         border-radius: 5px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     span {

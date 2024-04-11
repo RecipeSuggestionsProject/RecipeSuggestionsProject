@@ -31,6 +31,7 @@
     #app {
         height: 100vh;
         width: 100%;
+
         background-color: rgb(255, 229, 213); /* χώρος κάτω απο ingredients */
     }
 
@@ -55,7 +56,7 @@
     }
 
     .webHeader h2 {
-        font-family: 'Times New Roman', serif;
+        font-family: 'Segoe UI', serif;
     }
 
     .webHeader nav ul {

@@ -1,7 +1,6 @@
 <template>
     <div class="ingredients">
         <h2>Owned Ingredients</h2>
-
         <div>
             <h3>Selected Ingredients</h3>
             <div class="selected-ingredients">
@@ -36,7 +35,7 @@
         methods: {
             async fetchRecipes() {
                 try {
-                    const response = await fetch('https://localhost:5173/api/recipes', {
+                    const response = await fetch("/api/recipes", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -47,15 +46,13 @@
                         throw new Error('Network response was not ok');
                     }
                     const recipes = await response.json();
-                    console.log('Recipes:', recipes);
-                    // Εδώ μπορείτε να ενημερώσετε τη λίστα των συνταγών
                 } catch (error) {
                     console.error('Error fetching recipes:', error);
                 }
             },
             async fetchIngredients() {
                 try {
-                    const response = await fetch('https://localhost:5173/api/ingredients');
+                    const response = await fetch("/api/ingredients");
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -122,10 +119,6 @@
         background-color:black;
         padding:20px;
     }
-
-    /* h3 -> Selected Ingredients,type2,string 
-        h2=> Owned Ingredients,Ingredient Categories
-    */
 
     button {
         color:white

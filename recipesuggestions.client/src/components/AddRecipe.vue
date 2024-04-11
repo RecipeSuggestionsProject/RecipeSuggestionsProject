@@ -1,18 +1,20 @@
 <template>
     <div class="recipe-form">
-        <h2 style="text-align: center;">Create a Recipe</h2>
+        <h2>Create a Recipe</h2>
         <form @submit.prevent="submitRecipe">
-            <div class="form-group">
-                <label for="recipe-name">Recipe Name: </label>
-                <input type="text" id="recipe-name" v-model="recipe.name" required>
-            </div>
-            <div class="form-group">
-                <label for="recipe-servings">Servings: </label>
-                <input type="number" id="recipe-servings" v-model.number="recipe.servings" min="1" required>
-            </div>
-            <div class="form-group">
-                <label for="recipe-duration">Duration (minutes): </label>
-                <input type="number" id="recipe-duration" v-model.number="recipe.duration" min="1" required>
+            <div class="recipe">
+                <div class="form-group">
+                    <label for="recipe-name">Recipe Name: </label>
+                    <input type="text" id="recipe-name" v-model="recipe.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-servings">Servings: </label>
+                    <input type="number" id="recipe-servings" v-model.number="recipe.servings" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-duration">Duration (minutes): </label>
+                    <input type="number" id="recipe-duration" v-model.number="recipe.duration" min="1" required>
+                </div>
             </div>
             <div class="form-group">
                 <h3>Ingredients:</h3>
@@ -39,6 +41,11 @@
             </div>
             <button type="submit" class="submit-button">Submit</button>
         </form>
+
+        <div v-if="showSuccessMessage" class="success-message">
+            Recipe created successfully!
+            <button @click="resetForm">Create Another Recipe</button>
+        </div>
     </div>
 </template>
 
@@ -52,7 +59,8 @@
                     duration: '',
                     ingredients: [{ name: '', quantity: '', unit: '', category: '' }],
                     description: '',
-                }
+                },
+                showSuccessMessage: false
             };
         },
         methods: {
@@ -62,20 +70,35 @@
             removeIngredient(index) {
                 this.recipe.ingredients.splice(index, 1);
             },
-            submitRecipe() {
-                async function postRecipe() {
+            async submitRecipe() {
+                try {
                     const response = await fetch("/api/Recipes", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify(recipe.value)
-                    })
-                    console.log(await response.json());
+                        body: JSON.stringify(this.recipe)
+                    });
+                    if (response.ok) {
+                        this.showSuccessMessage = true; // Εμφανίζουμε το μήνυμα επιτυχίας
+                    } else {
+                        console.error('Failed to create recipe:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error while creating recipe:', error);
                 }
-                // Here you can submit the recipe data to your backend or perform any other action
-                console.log(this.recipe);
+            },
+            resetForm() {
+                this.recipe = {
+                    name: '',
+                    servings: 1,
+                    duration: '',
+                    ingredients: [{ name: '', quantity: '', unit: '', category: '' }],
+                    description: '',
+                };
+                this.showSuccessMessage = false; // Αποκρύπτουμε το μήνυμα επιτυχίας
             }
+            
         }
     };
 </script>
@@ -85,26 +108,19 @@
         margin-bottom: 1rem;
     }
 
+    .recipe-form {
+        text-align: center;
+    }
+
     .ingredient-input {
         display: flex;
         margin-bottom: 0.5rem;
+        justify-content: center;
+        align-items: center;
     }
 
     .ingredient-input input {
         margin-right: 0.5rem;
-    }
-
-
-    .recipe-form {
-        height: 100vh; /* Κάνει τη φόρμα να καλύπτει ολόκληρη την οθόνη */
-        display: flex;
-        justify-content: center; /* Κεντράρει το περιεχόμενο οριζόντια */
-        align-items: center; /* Κεντράρει το περιεχόμενο κατακόρυφα */
-    }
-
-    .recipe-form form {
-        width: 90%; /* Προσαρμόζει το πλάτος της φόρμας */
-        max-width: 600px; /* Ορίζει το μέγιστο πλάτος της φόρμας */
     }
 
 
@@ -126,11 +142,33 @@
         transition: background-color 0.3s;
     }
 
-    .submit-button:hover {
-        background-color: #45a049;
-    }
-
     .submit-button:active {
         background-color: #3e8e41;
+    }
+
+    .success-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #4caf50;
+        color: white;
+        padding: 1rem;
+        border-radius: 5px;
+    }
+
+    .success-message button {
+        margin-top: 1rem;
+        background-color: #3e8e41;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .success-message button:hover {
+        background-color: #367533;
     }
 </style>

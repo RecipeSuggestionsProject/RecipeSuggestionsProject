@@ -9,6 +9,9 @@ namespace RecipeSuggestions.Server.Data
 {
     public class RecipeSuggestionsServerContext : DbContext
     {
+        public RecipeSuggestionsServerContext() 
+        {
+        }
         public RecipeSuggestionsServerContext (DbContextOptions<RecipeSuggestionsServerContext> options)
             : base(options)
         {

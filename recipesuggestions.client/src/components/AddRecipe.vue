@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <h3>Ingredients:</h3>
+                <h2>Ingredients:</h2>
                 <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="ingredient-input">
                     <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
                     <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
@@ -36,7 +36,7 @@
                 <button type="button" @click="addIngredient">Add Ingredient</button>
             </div>
             <div class="form-group">
-                <h4>Description:</h4>
+                <h3>Description:</h3>
                 <textarea id="recipe-description" v-model="recipe.description" required></textarea>
             </div>
             <button type="submit" class="submit-button">Submit</button>
@@ -122,7 +122,6 @@
     .ingredient-input input {
         margin-right: 0.5rem;
     }
-
 
     button {
         cursor: pointer;

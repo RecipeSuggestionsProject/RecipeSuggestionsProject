@@ -1,6 +1,6 @@
 <template>
     <div class="recipe-form">
-        <h2 style="text-align: center;">Create a Recipe</h2>
+        <h1 style="text-align: center;">Create a Recipe</h1>
         <form @submit.prevent="submitRecipe">
             <div class="form-group">
                 <label for="recipe-name">Recipe Name: </label>
@@ -15,7 +15,7 @@
                 <input type="number" id="recipe-duration" v-model.number="recipe.duration" min="1" required>
             </div>
             <div class="form-group">
-                <h3>Ingredients:</h3>
+                <h2>Ingredients:</h2>
                 <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="ingredient-input">
                     <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
                     <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
@@ -34,7 +34,7 @@
                 <button type="button" @click="addIngredient">Add Ingredient</button>
             </div>
             <div class="form-group">
-                <h4>Description:</h4>
+                <h3>Description:</h3>
                 <textarea id="recipe-description" v-model="recipe.description" required></textarea>
             </div>
             <button type="submit" class="submit-button">Submit</button>
@@ -94,12 +94,11 @@
         margin-right: 0.5rem;
     }
 
-
     .recipe-form {
         height: 100vh; /* Κάνει τη φόρμα να καλύπτει ολόκληρη την οθόνη */
         display: flex;
         justify-content: center; /* Κεντράρει το περιεχόμενο οριζόντια */
-        align-items: center; /* Κεντράρει το περιεχόμενο κατακόρυφα */
+        align-items: start; /* Κεντράρει το περιεχόμενο κατακόρυφα */
     }
 
     .recipe-form form {

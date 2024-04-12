@@ -49,66 +49,116 @@
     <h1>Edit Recipe</h1>
 
     <form @submit.prevent="postRecipe">
-        <div class="field">
-            <label for="recipe_name">Name:</label>
-            <input id="recipe_name" v-model="recipeName" />
+        <div class="recipe">
+            <div class="field">
+                <label for="recipe_name">Name:</label>
+                <input id="recipe_name" v-model="recipeName" />
+            </div>
+
+            <div class="field">
+                <label for="recipe_description">Description:</label>
+                <textarea id="recipe_description" v-model="recipeDescription" />
+            </div>
+
+            <div class="field">
+                <label for="recipe_portions">Portions:</label>
+                <input id="recipe_portions" type="number" min="0" v-model="recipePortions" />
+            </div>
+
+            <div class="field">
+                <label for="recipe_duration">Duration (minutes):</label>
+                <input id="recipe_duration" type="number" min="0" v-model="recipeDurationInMinutes" />
+            </div>
         </div>
+            <div>
+                <h4>Ingredients</h4>
+                <ul>
+                    <li v-for="ingredient in ingredients">
+                        <div class="field">
+                            <label for="ingredient_name_{{ingredient.name}}">Name:</label>
+                            <input id="ingredient_name_{{ingredient.name}}" v-model="ingredient.name" />
+                        </div>
 
-        <div class="field">
-            <label for="recipe_description">Description:</label>
-            <textarea id="recipe_description" v-model="recipeDescription" />
-        </div>
+                        <div class="field">
+                            <label for="ingredient_quantity_{{ingredient.name}}">Quantity:</label>
+                            <input id="ingredient_quantity_{{ingredient.name}}" type="number" min="0" v-model="ingredient.quantity" />
 
-        <div class="field">
-            <label for="recipe_portions">Portions:</label>
-            <input id="recipe_portions" type="number" min="0" v-model="recipePortions" />
-        </div>
+                            <select v-model="ingredient.quantityType">
+                                <option value="pieces">pieces</option>
+                                <option value="grams">grams</option>
+                                <option value="tablespoons">tablespoons</option>
+                                <option value="teaspoons">teaspoons</option>
+                                <option value="cups">cups</option>
+                            </select>
+                        </div>
 
-        <div class="field">
-            <label for="recipe_duration">Duration (minutes):</label>
-            <input id="recipe_duration" type="number" min="0" v-model="recipeDurationInMinutes" />
-        </div>
+                        <div class="field">
+                            <label for="ingredient_type_{{ingredient.name}}">Type:</label>
+                            <input id="ingredient_type_{{ingredient.name}}" v-model="ingredient.type" />
+                        </div>
 
-        <div>
-            <h4>Ingredients</h4>
-            <ul>
-                <li v-for="ingredient in ingredients">
-                    <div class="field">
-                        <label for="ingredient_name_{{ingredient.name}}">Name:</label>
-                        <input id="ingredient_name_{{ingredient.name}}" v-model="ingredient.name" />
-                    </div>
+                        <button type="button" @click="deleteIngredient(ingredient)">Delete Ingredient</button>
+                    </li>
+                </ul>
 
-                    <div class="field">
-                        <label for="ingredient_quantity_{{ingredient.name}}">Quantity:</label>
-                        <input id="ingredient_quantity_{{ingredient.name}}" type="number" min="0" v-model="ingredient.quantity" />
+                <button type="button" @click="addIngredient">Add Ingredient</button>
+            </div>
 
-                        <select v-model="ingredient.quantityType">
-                            <option value="pieces">pieces</option>
-                            <option value="grams">grams</option>
-                            <option value="tablespoons">tablespoons</option>
-                            <option value="teaspoons">teaspoons</option>
-                            <option value="cups">cups</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="ingredient_type_{{ingredient.name}}">Type:</label>
-                        <input id="ingredient_type_{{ingredient.name}}" v-model="ingredient.type" />
-                    </div>
-
-                    <button type="button" @click="deleteIngredient(ingredient)">Delete Ingredient</button>
-                </li>
-            </ul>
-
-            <button type="button" @click="addIngredient">Add Ingredient</button>
-        </div>
-
-        <button>Submit</button>
+            <button>Submit</button>
     </form>
 </template>
 
 <style scoped>
-    /*
+
+    h1,h4 {
+        text-align: center;
+        font-family: 'Montserrat';
+        font-weight: 500;
+    }
+
+    .recipe {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center-align items horizontally */
+    }
+
+    .field {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center; /* Align items vertically */
+    }
+
+    label {
+        min-width: 120px; /* Set a minimum width for labels */
+    }
+
+    input[type="text"], /* Περίγραμμα πεδίων */
+    input[type="number"],textarea {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .field label {
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+
+    button { /* Add ingredient, submit */
+        display: inline_block;
+        background: white;
+        transition: all 200ms ease-in;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+   /*
     .field {
         display: flex;
         justify-content: space-between;

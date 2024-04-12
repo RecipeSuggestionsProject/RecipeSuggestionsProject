@@ -1,25 +1,24 @@
 <template>
     <div class="ingredients">
-        <h2>Owned Ingredients</h2>
-        <div>
-            <h3>Selected Ingredients</h3>
-            <div class="selected-ingredients">
-                <ul>
-                    <li v-for="(ingredient, index) in selectedIngredients" :key="index">
-                        {{ ingredient.name }} <span @click="removeIngredient(ingredient)">X</span>
-                    </li>
-                </ul>
+        <div class="ingredient-categories">
+            <h2>Ingredient Categories</h2>
+            <div v-for="(ingredients, type) in ingredientsByType" :key="type">
+                <h3>{{ type }}</h3>
+                <div>
+                    <button v-for="ingredient in ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
+                        {{ ingredient.name }} <span v-if="isSelected(ingredient)">X</span>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <h2>Ingredient Categories</h2>
-        <div v-for="(ingredients, type) in ingredientsByType" :key="type">
-            <h3>{{ type }}</h3>
-            <div>
-                <button v-for="ingredient in ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
-                    {{ ingredient.name }} <span v-if="isSelected(ingredient)">X</span>
-                </button>
-            </div>
+        <div class="selected-ingredients">
+           <h3>Selected Ingredients</h3>
+            <ul>
+                <li v-for="(ingredient, index) in selectedIngredients" :key="index">
+                    {{ ingredient.name }} <span @click="removeIngredient(ingredient)">X</span>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -106,52 +105,66 @@
 
 <style scoped>
 
+
+
     .roboto-light {
         font-family: "Roboto", sans-serif;
     }
 
     .montserrat{
         font-family: "Montserrat", sans-serif;
-        font-optical-sizing: auto;
         font-style: normal;
     }
 
     .ingredients {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        /* Υπόβαθρο */
         background-color: rgb(255, 229, 213);
         background-image: url("cartoon-background.png");
         background-size: 40% auto;
-
         background-position: right;
         background-repeat: no-repeat;
+    }
 
+    .selected-ingredients {
+        width: 50%;
+        text-align:center;
+    }
+
+    .selected-ingredients ul {
+      list-style-type: none;
+      padding: 0;
 
     }
-    .space-below-ingredients {
-        background-color:black;
-        padding:20px;
+
+    .ingredient-categories {
+        width: 50%;
     }
+
 
     button { 
         color: #808080; 
     }
 
     input, li {
-        color: white;
+        font-family: 'Montserrat';
+        color: #808080;
     }
 
 
-    h3 {
+
+    h3,h2 {
         color: rgb(15,15,15);
-        font-family: 'Montserrat',sans-serif;
-        font-weight:200;
+        font-size:24px;
+        font-family: 'Montserrat';
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-    h2 {
-        color: rgb(15,15,15);
-        font-family: 'Roboto',sans-serif;
-        font-weight: 400;
-    }
-
-
 
     button { /* κουμπια υλικων*/
         background-color: white;
@@ -164,7 +177,8 @@
         margin: 4px;
         cursor: pointer;
         border-radius: 5px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 300;
     }
 
     span {
@@ -172,9 +186,6 @@
         margin-left: 4px;
     }
 
-    .selected-ingredients {
-        display: flex;
-        flex-wrap: wrap;
-        list-style-type: none;
-    }
+   
+    
 </style>

@@ -131,12 +131,12 @@
     }
 
     input[type="text"], /* Περίγραμμα πεδίων */
-    input[type="number"] {
+    input[type="number"], textarea {
         border: 1px solid #ccc;
         border-radius: 3px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
     }
-
         .ingredient-input {
         display: flex;
         margin-bottom: 0.5rem;

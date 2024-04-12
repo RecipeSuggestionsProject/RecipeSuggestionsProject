@@ -105,6 +105,17 @@
 </script>
 
 <style scoped>
+
+    .roboto-light {
+        font-family: "Roboto", sans-serif;
+    }
+
+    .montserrat{
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
     .ingredients {
         background-color: rgb(255, 229, 213);
         background-image: url("cartoon-background.png");
@@ -128,13 +139,16 @@
         color: white;
     }
 
+
     h3 {
         color: rgb(15,15,15);
-        font-family: 'Inter',sans-serif;
+        font-family: 'Montserrat',sans-serif;
+        font-weight:200;
     }
-    h2 { 
+    h2 {
         color: rgb(15,15,15);
-       
+        font-family: 'Roboto',sans-serif;
+        font-weight: 400;
     }
 
 

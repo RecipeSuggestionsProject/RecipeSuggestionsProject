@@ -28,10 +28,62 @@
 </script>
 
 <style scoped>
+    /*
+    @font-face {
+        font-family: 'Montserrat';
+        src: url('/Montserrat-Italic-VariableFont_wght.ttf') format('ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    @font-face {
+        font-family: 'Roboto';
+        src: url('/Roboto-Light.ttf') format('ttf'),
+             url(/Roboto-Regular.ttf) format('ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    */
+    .roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+
     #app {
         height: 100vh;
         width: 100%;
-
         background-color: rgb(255, 229, 213); /* χώρος κάτω απο ingredients */
     }
 
@@ -46,38 +98,31 @@
         text-align: center;
     }
 
-    .webHeader h1 { /*RecipeSuggestions */
-        color: black;
-        font-family: 'Inter', serif;
-    }
+        /* C:\Users\maril\source\repos\RecipeSuggestionsProject\recipesuggestions.client\public\fonts */
+        .webHeader h1 { /*RecipeSuggestions */
+            color: black;
+            font-family: 'Montserrat', serif;
+            font-weight:600;
+        }
 
-    .webHeader h3 {
-        font-family: 'Inter', serif;
-    }
+        .webHeader nav ul {
+            line-height: 50px;
+            display: flex;
+            list-style-type: none;
+        }
 
-    .webHeader h2 {
-        font-family: 'Segoe UI', serif;
-    }
+            .webHeader nav ul li {
+                margin-right: 20px;
+            }
 
-    .webHeader nav ul {
-        line-height: 50px;
-        display: flex;
-        list-style-type: none;
-        
-    }
+        .webHeader .link { /*Home Add Recipe... */
+            color: black;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
 
-    .webHeader nav ul li {
-        margin-right: 20px;
-           
-    }
-
-    .webHeader .link { /*Home Add Recipe... */
-        color: black;
-        text-decoration: none;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .webHeader .link:hover {
-        text-decoration: underline;
-    }
+            .webHeader .link:hover {
+                text-decoration: underline;
+            }
 </style>

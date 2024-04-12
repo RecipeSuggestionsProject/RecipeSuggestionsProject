@@ -119,7 +119,8 @@
     }
 
     h2, h3 {
-        font-family:'Century Gothic';
+        font-family:'Montserrat';
+        font-weight:500;
     }
 
     .recipe-form {

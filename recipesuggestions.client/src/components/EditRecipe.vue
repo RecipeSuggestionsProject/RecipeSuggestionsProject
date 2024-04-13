@@ -1,6 +1,6 @@
 <template>
     <div class="edit-recipe-container">
-        <h2>Edit Recipe</h2>
+        <h4>Edit Recipe</h4>
         <div v-if="recipes.length === 0">Loading...</div>
         <div v-else class="recipes-container">
             <div v-for="recipe in sortedRecipes" :key="recipe.id" class="recipe-item">
@@ -136,29 +136,50 @@
         flex-direction: row;
         font-family: 'Montserrat';
         font-weight: 300;
+        background-color: rgb(255, 229, 213);
+        position:relative;
     }
 
-    h2 {
+    h2,h3 {
         font-family: 'Montserrat';
         font-weight: 500;
         margin-right:20px;
     }
 
+    h4 {
+        font-family: 'Montserrat';
+        font-size:26px;
+        margin-right:20px;
+        font-weight: 500;
+    }
+
     .recipes-container {
         flex: 1;
     }
-
-    .edit-form-container {
-        flex:1;
+    input[type="text"], /* Περίγραμμα πεδίων */
+    input[type="number"], textarea {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
+    .edit-form-container { /* Recipe name,servings...*/
+        flex: 1;
         margin-left: 20px; /* Επιθυμητό περιθώριο μεταξύ της λίστας των συνταγών και της φόρμας επεξεργασίας */
 
         font-family: 'Montserrat';
         font-weight: 300;
+        
     }
 
-    .edit-form {
-        /* Επιθυμητά στυλ για τη φόρμα επεξεργασίας */
+    .form-group textarea {
+        font-family: 'Segoe UI', sans-serif;
     }
+
+        .edit-form label {
+            position:absolute;
+            right:45%;
+        }
 
     .ingredient-input {
         display: flex;

@@ -1,17 +1,17 @@
 <template>
     <div id="app">
         <div class="webHeader">
-            <h1>Recipe Suggestions</h1>
+            <div class="HeaderImage"></div>
             <nav>
                 <ul>
-                    <li><router-link to="/" class="link">Home</router-link></li>
+                    <li><router-link to="/" class="link"><h1>Recipe Suggestions</h1></router-link></li>
                     <li><router-link to="/recipes/add" class="link">Add Recipe</router-link></li>
                     <li><router-link to="/recipes/edit" class="link">Edit Recipe</router-link></li>
                 </ul>
             </nav>
         </div>
 
-        <main style="margin-top: 150px;">
+        <main style="margin: 150px;">
             <router-view></router-view>
         </main>
     </div>
@@ -35,6 +35,11 @@
         font-style: normal;
     }
 
+    body {
+        padding:0;
+        margin:0;
+    }
+
 
     #app {
         height: 100vh;
@@ -45,26 +50,36 @@
     .webHeader {
         position: fixed;
         top: 0;
-        margin:0;
+        padding:6px;
         width: 100%;
         z-index: 1000;
-        /*background-color: rgb(133, 238, 201); */
-        /*background-color: rgb(255, 229, 213); */
+        display:flex;
+        align-items:center;
         background-color: rgb(255, 229, 213);
-        text-align: center;
     }
 
+    .HeaderImage {
+     width:52px;
+     height:50px;
+     background-image:url("korean-food-illustration.png");
+     background-size:cover;
+     background-repeat:no-repeat;
+     margin-right:3px;
+    }
         
-        .webHeader h1 { /*RecipeSuggestions */
+         h1 { /*RecipeSuggestions */
             color: black;
             font-family: 'Montserrat', serif;
+            font-size:34px;
             font-weight: 600;
         }
 
         .webHeader nav ul {
             line-height: 50px;
-            display: flex;
+            align-items:center;
+            display: flex; /* Home add recipe γραμμη*/
             list-style-type: none;
+            padding-left:1em; 
         }
 
             .webHeader nav ul li {
@@ -77,6 +92,7 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
         }
+
 
             .webHeader .link:hover {
                 text-decoration: underline;

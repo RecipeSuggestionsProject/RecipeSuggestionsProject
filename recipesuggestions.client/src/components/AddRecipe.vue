@@ -106,16 +106,13 @@
 <style scoped>
     .form-group {
         margin-bottom: 1rem;
-        
-    }
-
-    body {
-        margin:0;
-        padding:0;
+        position:relative;
     }
 
     .form-group label {
          font-family: 'Segoe UI', sans-serif;
+         position:absolute;
+         right:64%;
     }
 
     h2, h3 {
@@ -125,9 +122,11 @@
 
     .recipe-form {
         text-align: center;
-        margin: 0;
-        padding: 0;
-       
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        
     }
 
     input[type="text"], /* Περίγραμμα πεδίων */
@@ -142,9 +141,7 @@
         margin-bottom: 0.5rem;
         justify-content: center;
         align-items: center;
-        transition: transform 0.3s ease-out, font-size 0.3s ease-out, color 0.3s ease-out;
-        color: #9c9c9c;
-        /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+        color: #9c9c9c
     }
 
 

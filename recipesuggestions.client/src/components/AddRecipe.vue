@@ -57,7 +57,7 @@
                     name: '',
                     servings: 1,
                     duration: '',
-                    ingredients: [{ name: '', quantity: '', unit: '', category: '' }],
+                    ingredients: [{ name: '', quantity: '', quantityType: '', category: '' }],
                     description: '',
                 },
                 showSuccessMessage: false

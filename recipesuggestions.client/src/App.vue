@@ -50,11 +50,11 @@
     .webHeader {
         position: fixed;
         top: 0;
-        padding:6px;
+        padding: 6px;
         width: 100%;
         z-index: 1000;
-        display:flex;
-        align-items:center;
+        display: flex;
+        align-items: center;
         background-color: rgb(255, 229, 213);
     }
 
@@ -96,5 +96,7 @@
 
             .webHeader .link:hover {
                 text-decoration: underline;
+                text-decoration-color: #808080;
+                text-decoration-thickness: 1%;
             }
 </style>

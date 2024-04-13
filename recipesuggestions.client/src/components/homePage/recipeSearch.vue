@@ -158,6 +158,7 @@
 
     h3,h2 {
         color: rgb(15,15,15);
+        margin-top:60px;
         font-size:24px;
         font-family: 'Montserrat';
         font-weight: 500;

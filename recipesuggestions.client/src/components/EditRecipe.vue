@@ -131,9 +131,17 @@
 </script>
 
 <style scoped>
-    .edit-recipe-container {
+    .edit-recipe-container { /* Γενική, */
         display: flex;
         flex-direction: row;
+        font-family: 'Montserrat';
+        font-weight: 300;
+    }
+
+    h2 {
+        font-family: 'Montserrat';
+        font-weight: 500;
+        margin-right:20px;
     }
 
     .recipes-container {
@@ -141,8 +149,11 @@
     }
 
     .edit-form-container {
-        flex: 1;
+        flex:1;
         margin-left: 20px; /* Επιθυμητό περιθώριο μεταξύ της λίστας των συνταγών και της φόρμας επεξεργασίας */
+
+        font-family: 'Montserrat';
+        font-weight: 300;
     }
 
     .edit-form {
@@ -166,5 +177,19 @@
 
     .success-message {
         /* Επιθυμητά στυλ για το μήνυμα επιτυχίας */
+    }
+
+    button { /* Add ingredient, submit */
+        display: inline_block;
+        background: white;
+        transition: all 200ms ease-in;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 </style>

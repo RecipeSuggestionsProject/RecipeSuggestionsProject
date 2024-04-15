@@ -5,6 +5,7 @@
             <nav>
                 <ul>
                     <li><router-link to="/" class="link"><h1>Recipe Suggestions</h1></router-link></li>
+                    <li><router-link to="/recipes" class="link">View Recipes</router-link></li>
                     <li><router-link to="/recipes/add" class="link">Add Recipe</router-link></li>
                     <li><router-link to="/recipes/edit" class="link">Edit Recipe</router-link></li>
                 </ul>

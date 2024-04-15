@@ -19,12 +19,12 @@
                                 <input type="text" id="recipe-name" v-model="editedRecipe.name" required>
                             </div>
                             <div class="form-group">
-                                <label for="recipe-servings">Servings: </label>
-                                <input type="number" id="recipe-servings" v-model.number="editedRecipe.servings" min="1" required>
+                                <label for="recipe-portions">Servings: </label>
+                                <input type="number" id="recipe-portions" v-model.number="editedRecipe.portions" min="1" required>
                             </div>
                             <div class="form-group">
-                                <label for="recipe-duration">Duration (minutes): </label>
-                                <input type="number" id="recipe-duration" v-model.number="editedRecipe.duration" min="1" required>
+                                <label for="recipe-durationinMinutes">Duration (minutes): </label>
+                                <input type="number" id="recipe-durationInMinutes" v-model.number="editedRecipe.durationInMinutes" min="1" required>
                             </div>
                         </div>
                         <div class="form-group">

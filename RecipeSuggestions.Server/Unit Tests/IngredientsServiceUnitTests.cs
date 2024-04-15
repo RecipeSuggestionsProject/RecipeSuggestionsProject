@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 namespace RecipeSuggestions.Server.Services.UnitTests
 {
     [TestFixture]
-    public class AddIngredientUnitTest
+    public class IngredientsServiceUnitTests
     {
         private Mock<RecipeSuggestionsServerContext> _mockcontext;
         private Mock<DbSet<Ingredient>> _mockIngredientSet;

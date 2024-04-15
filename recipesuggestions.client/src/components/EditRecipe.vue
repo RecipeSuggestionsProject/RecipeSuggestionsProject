@@ -172,6 +172,10 @@
         font-weight: 500;
     }
 
+    .ingredient-input input {
+        margin:6px;
+    }
+
     .recipe-item {
         background-color: white;
         border: 1px solid #ccc;
@@ -222,7 +226,9 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         font-family: 'Montserrat';
         font-weight: 300;
+
     }
+
 
     .input-field {
         box-sizing: border-box;

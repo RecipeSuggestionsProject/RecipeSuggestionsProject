@@ -115,7 +115,7 @@
         /* Υπόβαθρο */
         background-color: rgb(255, 229, 213);
         background-image: url("cartoon-background.png");
-        background-size: 40% auto;
+        background-size: 27% auto;
         background-position: right;
         background-repeat: no-repeat;
     }

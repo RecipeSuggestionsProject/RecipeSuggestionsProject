@@ -73,7 +73,7 @@
     }
 
     async function deleteRecipe(id) {
-        await fetch('/api/recipes/' + id, {
+        await fetch('/api/recipes/edit/' + id, {
             method: "DELETE"
         });
         window.location.reload();
@@ -99,8 +99,14 @@
         margin-bottom: 10px;
     }
 
-    .recipe-group label {
-        font-weight: bold;
+        .recipe-group label,h2 {
+            font-family: 'Montserrat';
+            font-weight: 500;
+        }
+
+    span {
+        font-family: 'Montserrat';
+        font-weight: 300;
     }
 
     .buttons {
@@ -125,7 +131,4 @@
         border-color: rgb(255, 51, 51);
     }
 
-    form {
-        background-color: rgb(255, 229, 213);
-    }
 </style>

@@ -8,12 +8,12 @@
                     <input type="text" id="recipe-name" v-model="recipe.name" required>
                 </div>
                 <div class="form-group">
-                    <label for="recipe-servings">Servings: </label>
-                    <input type="number" id="recipe-servings" v-model.number="recipe.servings" min="1" required>
+                    <label for="recipe-portions">Portions: </label>
+                    <input type="number" id="recipe-portions" v-model.number="recipe.portions" min="1" required>
                 </div>
                 <div class="form-group">
-                    <label for="recipe-duration">Duration (minutes): </label>
-                    <input type="number" id="recipe-duration" v-model.number="recipe.duration" min="1" required>
+                    <label for="recipe-durationInMinutes">Duration (minutes): </label>
+                    <input type="number" id="recipe-durationInMinutes" v-model.number="recipe.durationInMinutes" min="1" required>
                 </div>
             </div>
             <div class="form-group">

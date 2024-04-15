@@ -1,7 +1,9 @@
 <template>
     <div class="edit-recipe-container">
         <h4>Edit Recipe</h4>
-        <div v-if="recipes.length === 0">Loading...</div>
+        <div v-if="recipes.length === 0">
+        <h5>Loading...</h5>
+        </div>
         <div v-else class="recipes-container">
             <div v-for="recipe in sortedRecipes" :key="recipe.id" class="recipe-item">
                 <h3>
@@ -138,12 +140,16 @@
         font-weight: 300;
         background-color: rgb(255, 229, 213);
         position:relative;
+        align-items:center;
+        justify-content:center;
     }
 
     h2,h3 {
         font-family: 'Montserrat';
         font-weight: 500;
         margin-right:20px;
+        align-content:center;
+        align-items:center;
     }
 
     h4 {

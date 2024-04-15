@@ -137,6 +137,7 @@
         align-items: center;
         font-family: 'Montserrat', sans-serif;
         font-weight: 300;
+        background-color: rgb(255, 229, 213);
     }
 
     .recipes-container {

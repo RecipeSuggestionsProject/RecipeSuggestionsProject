@@ -129,6 +129,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-color: rgb(255, 229, 213);
     }
 
     input[type="text"], /* Περίγραμμα πεδίων */

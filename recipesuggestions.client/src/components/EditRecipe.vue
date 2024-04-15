@@ -143,7 +143,7 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
-        max-width: 800px; /* Limit to half of the page width */
+        max-width: 800px; 
         margin-top: 20px;
     }
 
@@ -193,9 +193,9 @@
     .edit-form-container {
         width: 45%;
         padding: 20px;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
+       /* border: 1px solid #ccc; */
+       /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       /* background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
     }
 
     .form-group {

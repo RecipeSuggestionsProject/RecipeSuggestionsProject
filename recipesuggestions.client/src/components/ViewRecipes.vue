@@ -19,6 +19,7 @@
                 <label for="recipe-ingredients-{{rIndex}}">Ingredients: </label>
                 <ul id="recipe-ingredients-{{rIndex}}">
                     <li v-for="(ingredientWithQuantity, iIndex) in recipe.ingredients">
+                        <template v-if="ingredientWithQuantity && ingredientWithQuantity.ingredient">
                         <h4>{{ ingredientWithQuantity.ingredient.name }}</h4>
                         <div>
                             <label for="ingredient-type-{{iIndex}}">Category: </label>
@@ -30,6 +31,10 @@
                                 {{ ingredientWithQuantity.quantity }} {{ ingredientWithQuantity.qauntityType }}
                             </span>
                         </div>
+                        </template>
+                        <template v-else>
+                            <span>Invalid Ingredient</span>
+                        </template>
                     </li>
                 </ul>
             </div>

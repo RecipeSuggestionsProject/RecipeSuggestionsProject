@@ -31,7 +31,7 @@
                     </select>
                     <span class="space"></span>
                     <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
-                    <button type="button" @click="removeIngredient(index)">Remove</button>
+                    <button type="button" @click="removeIngredient(index)" class="remove">Remove</button>
                 </div>
                 <button type="button" @click="addIngredient">Add Ingredient</button>
             </div>
@@ -162,6 +162,12 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    .remove {
+        color: rgb(255, 51, 51);
+        background-color: #fff;
+        border-color: rgb(255, 51, 51);
+    }
+
     .space {
         margin: 0 5px;
     }
@@ -191,20 +197,27 @@
         color: white;
         padding: 1rem;
         border-radius: 5px;
+        font-family: 'Montserrat';
+        font-weight: 300;
+        align-items:center;
     }
 
-    .success-message button {
-        margin-top: 1rem;
-        background-color: #3e8e41;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
+        .success-message button {
+            margin-top: 1rem;
+            background-color: #3e8e41;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-family: 'Montserrat';
+            font-weight: 500;
+        }
 
-    .success-message button:hover {
-        background-color: #367533;
-    }
+        .success-message button:hover {
+            background-color: #367533;
+            font-family: 'Montserrat';
+            font-weight: 500;
+        }
 </style>

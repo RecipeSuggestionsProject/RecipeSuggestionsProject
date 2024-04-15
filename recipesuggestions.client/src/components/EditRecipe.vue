@@ -42,7 +42,7 @@
                                 </select>
                                 <span class="space"></span>
                                 <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
-                                <button type="button" @click="removeIngredient(index)">Remove</button>
+                                <button type="button" @click="removeIngredient(index)"  class="remove">Remove</button>
                             </div>
                             <button type="button" @click="addIngredient">Add Ingredient</button>
                         </div>
@@ -94,7 +94,7 @@
             },
             editRecipe(recipe) {
                 this.editing = true;
-                this.editedRecipe = { ...recipe }; // Create a copy of the recipe object
+                this.editedRecipe = { ...recipe };
             },
             async submitEditedRecipe() {
                 const response = await fetch(`/api/recipes/${this.editedRecipe.id}`, {
@@ -120,7 +120,6 @@
             editNextRecipe() {
                 this.editing = false;
                 this.successMessage = '';
-                // Move to editing the next recipe if available
                 const nextIndex = this.recipes.findIndex(recipe => recipe.id === this.editedRecipe.id) + 1;
                 if (nextIndex < this.recipes.length) {
                     this.editRecipe(this.recipes[nextIndex]);
@@ -175,6 +174,7 @@
         background-color: white;
         border: 1px solid #ccc;
         border-radius: 3px;
+        border:none;
         color: #808080;
         font-size: 12px;
         margin: 6px;
@@ -190,12 +190,18 @@
             margin: 0;
         }
 
+    .remove {
+    color: rgb(255, 51, 51);
+    background-color: #fff;
+    border-color: rgb(255, 51, 51);
+}
+
     .edit-form-container {
         width: 45%;
         padding: 20px;
-       /* border: 1px solid #ccc; */
-       /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-       /* background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
+        border: 1px solid #ccc; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
     }
 
     .form-group {
@@ -206,25 +212,25 @@
         display: block;
         margin-bottom: 6px;
     }
+    input[type="text"], /* Περίγραμμα πεδίων */
+    input[type="number"], textarea {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-family: 'Montserrat';
+        font-weight: 300;
+    }
 
     .input-field {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
         box-sizing: border-box;
-        color: #808080;
+       
     }
 
     textarea {
         width: 100%;
         height: 80px;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        padding: 8px;   
         box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #808080;
     }
 
     .submit-button {
@@ -245,7 +251,15 @@
     }
 
     .success-message {
-        margin-top: 20px;
-        font-weight: bold;
+         position: fixed;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         background-color: #4caf50;
+         color: white;
+         padding: 1rem;
+         border-radius: 5px;
+         font-family: 'Montserrat';
+         font-weight: 300;
     }
 </style>

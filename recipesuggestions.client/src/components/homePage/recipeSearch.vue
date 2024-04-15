@@ -13,12 +13,21 @@
         </div>
 
         <div class="selected-ingredients">
-           <h3>Selected Ingredients</h3>
+            <h3>Selected Ingredients</h3>
             <ul>
                 <li v-for="(ingredient, index) in selectedIngredients" :key="index">
                     {{ ingredient.name }} <span @click="removeIngredient(ingredient)">X</span>
                 </li>
             </ul>
+            <button @click="fetchRecipes">Get Recipes</button>
+            <div v-if="suggestedRecipes.length > 0">
+                <h3>Suggested Recipes:</h3>
+                <ul>
+                    <li v-for="(recipe, index) in suggestedRecipes" :key="index">
+                        {{ recipe.name }}
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -28,23 +37,41 @@
         data() {
             return {
                 ingredientsByType: {},
-                selectedIngredients: []
+                selectedIngredients: [],
+                suggestedRecipes: [] 
             };
         },
         methods: {
+            toggleIngredient(ingredient) {
+                if (this.isSelected(ingredient)) {
+                    this.removeIngredient(ingredient);
+                } else {
+                    this.addIngredient(ingredient);
+                }
+            },
+            isSelected(ingredient) {
+                return this.selectedIngredients.some(item => item.name === ingredient.name);
+            },
+            addIngredient(ingredient) {
+                this.selectedIngredients.push(ingredient);
+            },
+            removeIngredient(ingredient) {
+                this.selectedIngredients = this.selectedIngredients.filter(item => item.name !== ingredient.name);
+            },
             async fetchRecipes() {
                 try {
-                    const response = await fetch("/api/recipes", {
+                    const response = await fetch("/api/suggestions", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(this.selectedIngredients.map(ingredient => ingredient.id))
+                        body: JSON.stringify(this.selectedIngredients)
                     });
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
                     const recipes = await response.json();
+                    this.suggestedRecipes = recipes;
                 } catch (error) {
                     console.error('Error fetching recipes:', error);
                 }
@@ -72,33 +99,10 @@
                         type: ingredient.type
                     });
                 });
-            },
-            toggleIngredient(ingredient) {
-                if (this.isSelected(ingredient)) {
-                    this.removeIngredient(ingredient);
-                } else {
-                    this.addIngredient(ingredient);
-                }
-                this.fetchRecipes(); // Καλεί τον server για τις συνταγές κάθε φορά που αλλάζει η λίστα των επιλεγμένων υλικών
-            },
-            isSelected(ingredient) {
-                return this.selectedIngredients.includes(ingredient);
-            },
-            selectIngredient(ingredient) {
-                this.selectedIngredients.push(ingredient);
-            },
-            addIngredient(ingredient) {
-                this.selectedIngredients.push(ingredient);
-            },
-            removeIngredient(ingredient) {
-                const index = this.selectedIngredients.indexOf(ingredient);
-                if (index !== -1) {
-                    this.selectedIngredients.splice(index, 1);
-                }
             }
         },
         mounted() {
-            this.fetchIngredients();
+            this.fetchIngredients(); 
         }
     };
 </script>
@@ -106,12 +110,10 @@
 <style scoped>
 
 
-
     .ingredients {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-
         /* Υπόβαθρο */
         background-color: rgb(255, 229, 213);
         background-image: url("cartoon-background.png");
@@ -122,24 +124,23 @@
 
     .selected-ingredients {
         width: 50%;
-        text-align:center;
+        text-align: center;
     }
 
-    .selected-ingredients ul {
-      list-style-type: none;
-      padding: 0;
-
-    }
+        .selected-ingredients ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
     .ingredient-categories {
         width: 50%;
-        margin-left:100px;
-        margin-right:20px;
+        margin-left: 100px;
+        margin-right: 20px;
     }
 
 
-    button { 
-        color: #808080; 
+    button {
+        color: #808080;
     }
 
     input, li {
@@ -149,10 +150,10 @@
 
 
 
-    h3,h2 {
+    h3, h2 {
         color: rgb(15,15,15);
-        margin-top:60px;
-        font-size:24px;
+        margin-top: 60px;
+        font-size: 24px;
         font-family: 'Montserrat';
         font-weight: 500;
         display: flex;
@@ -162,11 +163,10 @@
 
     button { /* κουμπια υλικων*/
         background-color: white;
-        border: 2px solid #ccc;
+        border: 1px solid #ccc;
         border-radius: 3px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border: none;
-        border-color: #808080;
+        border:none;
         padding: 5px 10px;
         margin: 4px;
         cursor: pointer;
@@ -175,11 +175,9 @@
         font-weight: 300;
     }
 
-    span {  /* Χ */
+    span { /* Χ */
         cursor: pointer;
         margin-left: 4px;
+        color: rgb(255, 51, 51);
     }
-
-   
-    
 </style>

@@ -42,8 +42,8 @@
                 </ul>
             </div>
           </div>
-            <button @click="navigateToRecipeEdit(recipe.id)">Edit</button>
-            <button @click="deleteRecipe(recipe.id)">Delete</button>
+            <button @click="navigateToRecipeEdit(recipe.id)" class="edit">Edit</button>
+            <button @click="deleteRecipe(recipe.id)" class="delete">Delete</button>
         </li>
     </ul>
 </template>
@@ -81,17 +81,17 @@
 
 <style scoped>
 
-    h2 {
+    .recipe-group,.edit-ingredient-group,h2 {
         font-family: 'Montserrat';
         font-weight: 500;
     }
 
-    .recipe-group,.edit-ingredient-group {
+    span {
         font-family: 'Montserrat';
         font-weight: 300;
     }
 
-    button { /* Add ingredient, remove */
+    button { 
         display: inline_block;
         background: white;
         transition: all 200ms ease-in;
@@ -100,9 +100,17 @@
         cursor: pointer;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin:4px;
+    }
+
+    .delete {
+        color: rgb(255, 51, 51);
+        background-color: #fff;
+        border-color: rgb(255, 51, 51);
     }
 
     form {
+        background-color: rgb(255, 229, 213);
     }
 
  </style>

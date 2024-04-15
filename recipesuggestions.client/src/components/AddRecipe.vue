@@ -109,11 +109,12 @@
         position:relative;
     }
 
-    .form-group label {
-         font-family: 'Segoe UI', sans-serif;
-         position:absolute;
-         right:64%;
-    }
+        .form-group label {
+            font-family: 'Montserrat';
+            font-weight: 300;
+            position: absolute;
+            right: 64%;
+        }
 
     h2, h3 {
         font-family:'Montserrat';

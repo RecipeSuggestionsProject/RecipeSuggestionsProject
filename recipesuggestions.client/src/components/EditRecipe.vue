@@ -3,60 +3,60 @@
         <h4>Edit Recipe</h4>
         <div v-if="recipes.length === 0">Loading...</div>
         <div v-else class="recipes-container">
-            <div v-for="recipe in sortedRecipes" :key="recipe.id" class="recipe-item">
-                <h3>
-                    {{ recipe.name }}
-                    <button @click="editRecipe(recipe)">Edit</button>
-                </h3>
+            <div class="recipe-list">
+                <button v-for="recipe in sortedRecipes" :key="recipe.id" @click="editRecipe(recipe)" class="recipe-item">
+                    <h3>
+                        {{ recipe.name }}
+                    </h3>
+                </button>
             </div>
-        </div>
-        <div v-if="editing" class="edit-form-container">
-            <h3>Edit Recipe</h3>
-            <form @submit.prevent="submitEditedRecipe" class="edit-form">
-                <div class="form-group">
-                    <div class="recipe">
-                        <div class="form-group">
-                            <label for="recipe-name">Recipe Name: </label>
-                            <input type="text" id="recipe-name" v-model="editedRecipe.name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipe-servings">Servings: </label>
-                            <input type="number" id="recipe-servings" v-model.number="editedRecipe.servings" min="1" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipe-duration">Duration (minutes): </label>
-                            <input type="number" id="recipe-duration" v-model.number="editedRecipe.duration" min="1" required>
-                        </div>
-                    </div>
+            <div v-if="editing" class="edit-form-container">
+                <form @submit.prevent="submitEditedRecipe" class="edit-form">
                     <div class="form-group">
-                        <h2>Ingredients:</h2>
-                        <div v-for="(ingredient, index) in editedRecipe.ingredients" :key="index" class="ingredient-input">
-                            <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
-                            <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
-                            <select v-model="ingredient.quantityType" required>
-                                <option disabled value="">Select unit</option>
-                                <option value="pieces">pieces</option>
-                                <option value="grams">grams</option>
-                                <option value="tablespoons">tablespoons</option>
-                                <option value="teaspoons">teaspoons</option>
-                                <option value="cups">cups</option>
-                            </select>
-                            <span class="space"></span>
-                            <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
-                            <button type="button" @click="removeIngredient(index)">Remove</button>
+                        <div class="recipe">
+                            <div class="form-group">
+                                <label for="recipe-name">Recipe Name: </label>
+                                <input type="text" id="recipe-name" v-model="editedRecipe.name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipe-servings">Servings: </label>
+                                <input type="number" id="recipe-servings" v-model.number="editedRecipe.servings" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipe-duration">Duration (minutes): </label>
+                                <input type="number" id="recipe-duration" v-model.number="editedRecipe.duration" min="1" required>
+                            </div>
                         </div>
-                        <button type="button" @click="addIngredient">Add Ingredient</button>
+                        <div class="form-group">
+                            <h2>Ingredients:</h2>
+                            <div v-for="(ingredient, index) in editedRecipe.ingredients" :key="index" class="ingredient-input">
+                                <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
+                                <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
+                                <select v-model="ingredient.quantityType" required>
+                                    <option disabled value="">Select unit</option>
+                                    <option value="pieces">pieces</option>
+                                    <option value="grams">grams</option>
+                                    <option value="tablespoons">tablespoons</option>
+                                    <option value="teaspoons">teaspoons</option>
+                                    <option value="cups">cups</option>
+                                </select>
+                                <span class="space"></span>
+                                <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
+                                <button type="button" @click="removeIngredient(index)">Remove</button>
+                            </div>
+                            <button type="button" @click="addIngredient">Add Ingredient</button>
+                        </div>
+                        <div class="form-group">
+                            <h3>Description:</h3>
+                            <textarea id="recipe-description" v-model="editedRecipe.description" required></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <h3>Description:</h3>
-                        <textarea id="recipe-description" v-model="editedRecipe.description" required></textarea>
-                    </div>
+                    <button type="submit" class="submit-button">Submit</button>
+                </form>
+                <div v-if="successMessage" class="success-message">
+                    {{ successMessage }}
+                    <button @click="editNextRecipe">Edit Next Recipe</button>
                 </div>
-                <button type="submit" class="submit-button">Submit</button>
-            </form>
-            <div v-if="successMessage" class="success-message">
-                {{ successMessage }}
-                <button @click="editNextRecipe">Edit Next Recipe</button>
             </div>
         </div>
     </div>
@@ -131,86 +131,121 @@
 </script>
 
 <style scoped>
-    .edit-recipe-container { /* Γενική, */
+    .edit-recipe-container {
         display: flex;
-        flex-direction: row;
-        font-family: 'Montserrat';
+        flex-direction: column;
+        align-items: center;
+        font-family: 'Montserrat', sans-serif;
         font-weight: 300;
-        background-color: rgb(255, 229, 213);
-        position:relative;
     }
 
-    h2,h3 {
+    .recipes-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 800px; /* Limit to half of the page width */
+        margin-top: 20px;
+    }
+
+    .recipe-list {
+        width: 48%; 
+        overflow-y: auto; 
+    }
+
+    .recipe-item h3 {
+        font-family: 'Montserrat';
+        font-weight: 300;
+        margin: 0;
+    }
+
+    h2, h3 {
         font-family: 'Montserrat';
         font-weight: 500;
-        margin-right:20px;
+        margin-right: 20px;
     }
 
     h4 {
         font-family: 'Montserrat';
-        font-size:26px;
-        margin-right:20px;
+        font-size: 26px;
+        margin-right: 20px;
         font-weight: 500;
     }
 
-    .recipes-container {
-        flex: 1;
-    }
-    input[type="text"], /* Περίγραμμα πεδίων */
-    input[type="number"], textarea {
+    .recipe-item {
+        background-color: white;
         border: 1px solid #ccc;
         border-radius: 3px;
+        color: #808080;
+        font-size: 12px;
+        margin: 6px;
+        height:25px;
+        line-height:0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        font-family: 'Segoe UI', sans-serif;
-    }
-    .edit-form-container { /* Recipe name,servings...*/
-        flex: 1;
-        margin-left: 20px; /* Επιθυμητό περιθώριο μεταξύ της λίστας των συνταγών και της φόρμας επεξεργασίας */
-
-        font-family: 'Montserrat';
-        font-weight: 300;
-        
+        padding: 12px;
+        margin-bottom: 8px;
+        cursor: pointer;
     }
 
-    .form-group textarea {
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-        .edit-form label {
-            position:absolute;
-            right:45%;
+        .recipe-item h3 {
+            margin: 0;
         }
 
-    .ingredient-input {
-        display: flex;
-        margin-bottom: 0.5rem;
-        justify-content: center;
-        align-items: center;
-        color: #9c9c9c
+    .edit-form-container {
+        width: 45%;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
     }
 
+    .form-group {
+        margin-bottom: 16px;
+    }
 
-        .ingredient-input input {
-            margin-right: 0.5rem;
-            color: #808080;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    label {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: #808080;
+    }
+
+    textarea {
+        width: 100%;
+        height: 80px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #808080;
+    }
+
+    .submit-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button {
+        background: white;
+        border: 1px solid #ccc;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
     .success-message {
-        /* Επιθυμητά στυλ για το μήνυμα επιτυχίας */
-    }
-
-    button { /* Add ingredient, submit */
-        display: inline_block;
-        background: white;
-        transition: all 200ms ease-in;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        cursor: pointer;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        margin-top: 20px;
+        font-weight: bold;
     }
 </style>

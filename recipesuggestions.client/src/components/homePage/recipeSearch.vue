@@ -107,15 +107,6 @@
 
 
 
-    .roboto-light {
-        font-family: "Roboto", sans-serif;
-    }
-
-    .montserrat{
-        font-family: "Montserrat", sans-serif;
-        font-style: normal;
-    }
-
     .ingredients {
         display: flex;
         justify-content: space-between;
@@ -142,6 +133,8 @@
 
     .ingredient-categories {
         width: 50%;
+        margin-left:100px;
+        margin-right:20px;
     }
 
 
@@ -182,7 +175,7 @@
         font-weight: 300;
     }
 
-    span {
+    span {  /* × */
         cursor: pointer;
         margin-left: 4px;
     }

@@ -11,7 +11,7 @@
             </nav>
         </div>
 
-        <main style="margin: 150px;">
+        <main style="margin-top: 150px;">
             <router-view></router-view>
         </main>
     </div>
@@ -28,12 +28,6 @@
 </script>
 
 <style scoped>
-
-    .roboto-thin {
-        font-family: "Roboto", sans-serif;
-        font-weight: 100;
-        font-style: normal;
-    }
 
     body {
         padding:0;

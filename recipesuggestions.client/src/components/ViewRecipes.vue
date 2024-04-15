@@ -61,8 +61,8 @@
         router.push('recipes/edit/' + id);
     }
 
-    function deleteRecipe(id) {
-        fetch('/api/recipes/' + id, {
+    async function deleteRecipe(id) {
+        await fetch('/api/recipes/' + id, {
             method: "DELETE"
         });
         window.location.reload();

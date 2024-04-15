@@ -31,7 +31,7 @@
                     </select>
                     <span class="space"></span>
                     <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
-                    <button type="button" @click="removeIngredient(index)" class="remove">Remove</button>
+                    <button type="button" @click="removeIngredient(index)" class="remove" :disabled="recipe.ingredients.length <= 1">Remove</button>
                 </div>
                 <button type="button" @click="addIngredient">Add Ingredient</button>
             </div>
@@ -68,7 +68,9 @@
                 this.recipe.ingredients.push({ name: '', quantity: '', unit: '', category: '' });
             },
             removeIngredient(index) {
-                this.recipe.ingredients.splice(index, 1);
+                if (this.recipe.ingredients.length > 1) {
+                    this.recipe.ingredients.splice(index, 1);
+                }
             },
             async submitRecipe() {
                 try {
@@ -98,7 +100,7 @@
                 };
                 this.showSuccessMessage = false; // Αποκρύπτουμε το μήνυμα επιτυχίας
             }
-            
+
         }
     };
 </script>
@@ -106,19 +108,19 @@
 <style scoped>
     .form-group {
         margin-bottom: 1rem;
-        position:relative;
+        position: relative;
     }
 
-        .form-group label {
-            font-family: 'Montserrat';
-            font-weight: 300;
-            position: absolute;
-            right: 64%;
-        }
+    .form-group label {
+        font-family: 'Montserrat';
+        font-weight: 300;
+        position: absolute;
+        right: 64%;
+    }
 
     h2, h3 {
-        font-family:'Montserrat';
-        font-weight:500;
+        font-family: 'Montserrat';
+        font-weight: 500;
     }
 
     .recipe-form {
@@ -136,7 +138,8 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         font-family: 'Segoe UI', sans-serif;
     }
-        .ingredient-input {
+
+    .ingredient-input {
         display: flex;
         margin-bottom: 0.5rem;
         justify-content: center;
@@ -144,12 +147,11 @@
         color: #9c9c9c
     }
 
-
-        .ingredient-input input {
-            margin-right: 0.5rem;
-            color: #808080;
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    .ingredient-input input {
+        margin-right: 0.5rem;
+        color: #808080;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
     button { /* Add ingredient, remove */
         display: inline_block;
@@ -172,7 +174,7 @@
         margin: 0 5px;
     }
 
-    .submit-button { 
+    .submit-button {
         background-color: #4caf50;
         color: white;
         border: none;
@@ -182,11 +184,11 @@
         transition: background-color 0.3s;
     }
 
-        .submit-button:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            background-color: #3e8e41;
-        }
+    .submit-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        background-color: #3e8e41;
+    }
 
     .success-message {
         position: fixed;
@@ -199,25 +201,25 @@
         border-radius: 5px;
         font-family: 'Montserrat';
         font-weight: 300;
-        align-items:center;
+        align-items: center;
     }
 
-        .success-message button {
-            margin-top: 1rem;
-            background-color: #3e8e41;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            font-family: 'Montserrat';
-            font-weight: 500;
-        }
+    .success-message button {
+        margin-top: 1rem;
+        background-color: #3e8e41;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-family: 'Montserrat';
+        font-weight: 500;
+    }
 
-        .success-message button:hover {
-            background-color: #367533;
-            font-family: 'Montserrat';
-            font-weight: 500;
-        }
+    .success-message button:hover {
+        background-color: #367533;
+        font-family: 'Montserrat';
+        font-weight: 500;
+    }
 </style>

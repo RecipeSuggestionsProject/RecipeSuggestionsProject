@@ -1,51 +1,53 @@
 <template>
-    <div v-if="recipes.length === 0">Loading...</div>
-    <ul v-else>
-        <li v-for="(recipe, rIndex) in recipes">
-            <h2>{{ recipe.name }}</h2>
-            <div class="form">
-              <div class="recipe">
-                <div class="recipe-group">
-                    <label for="recipe-description-{{rIndex}}">Description: </label>
-                    <span id="recipe-description-{{rIndex}}">{{ recipe.description }}</span>
+    <div class="recipe">
+        <div v-if="recipes.length === 0">Loading...</div>
+        <ul v-else>
+            <li v-for="(recipe, rIndex) in recipes" :key="recipe.id">
+                <h2>{{ recipe.name }}</h2>
+                <div class="recipe-details">
+                    <div class="recipe-group">
+                        <label>Description: </label>
+                        <span>{{ recipe.description }}</span>
+                    </div>
+                    <div class="recipe-group">
+                        <label>Portions: </label>
+                        <span>{{ recipe.portions }}</span>
+                    </div>
+                    <div class="recipe-group">
+                        <label>Duration: </label>
+                        <span>{{ recipe.durationInMinutes }} minutes</span>
+                    </div>
+                    <div class="recipe-group">
+                        <label>Ingredients: </label>
+                        <ul>
+                            <li v-for="(ingredientWithQuantity, iIndex) in recipe.ingredients" :key="iIndex">
+                                <template v-if="ingredientWithQuantity && ingredientWithQuantity.ingredient">
+                                    <h4>{{ ingredientWithQuantity.ingredient.name }}</h4>
+                                    <div class="ingredient-group">
+                                        <label>Category: </label>
+                                        <span>{{ ingredientWithQuantity.ingredient.type }}</span>
+                                    </div>
+                                    <div class="ingredient-group">
+                                        <label>Amount: </label>
+                                        <span>
+                                            {{ ingredientWithQuantity.quantity }} {{ ingredientWithQuantity.qauntityType }}
+                                        </span>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <span>Invalid Ingredient</span>
+                                </template>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="recipe-group">
-                    <label for="recipe-portions-{{rIndex}}">Portions: </label>
-                    <span id="recipe-portions-{{rIndex}}">{{ recipe.portions }}</span>
+                <div class="buttons">
+                    <button @click="navigateToRecipeEdit(recipe.id)" class="edit">Edit</button>
+                    <button @click="confirmDelete(recipe.id)" class="delete">Delete</button>
                 </div>
-                <div class="recipe-group">
-                    <label for="recipe-duration-{{rIndex}}">Duration: </label>
-                    <span id="recipe-duration-{{rIndex}}">{{ recipe.durationInMinutes }} minutes</span>
-                </div>
-              </div>
-            <div class="edit-ingredient-group">
-                <label for="recipe-ingredients-{{rIndex}}">Ingredients: </label>
-                <ul id="recipe-ingredients-{{rIndex}}">
-                    <li v-for="(ingredientWithQuantity, iIndex) in recipe.ingredients">
-                        <template v-if="ingredientWithQuantity && ingredientWithQuantity.ingredient">
-                            <h4>{{ ingredientWithQuantity.ingredient.name }}</h4>
-                            <div class="ingredient-group">
-                                <label for="ingredient-type-{{iIndex}}">Category: </label>
-                                <span id="ingredient-type-{{iIndex}}">{{ ingredientWithQuantity.ingredient.type }}</span>
-                            </div>
-                            <div class="ingredient-group">
-                                <label for="ingredient-quantity-{{iIndex}}">Amount: </label>
-                                <span id="ingredient-quantity{{iIndex}}">
-                                    {{ ingredientWithQuantity.quantity }} {{ ingredientWithQuantity.qauntityType }}
-                                </span>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <span>Invalid Ingredient</span>
-                        </template>
-                    </li>
-                </ul>
-            </div>
-          </div>
-            <button @click="navigateToRecipeEdit(recipe.id)" class="edit">Edit</button>
-            <button @click="deleteRecipe(recipe.id)" class="delete">Delete</button>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script setup>
@@ -60,7 +62,7 @@
 
     async function fetchRecipes() {
         const response = await fetch("/api/recipes");
-    
+
         if (response.ok) {
             recipes.value = await response.json();
         }
@@ -77,22 +79,36 @@
         window.location.reload();
     }
 
+    function confirmDelete(id) {
+        if (confirm("Are you sure you want to delete this recipe?")) {
+            deleteRecipe(id);
+        }
+    }
 </script>
 
 <style scoped>
-
-    .recipe-group,.edit-ingredient-group,h2 {
-        font-family: 'Montserrat';
-        font-weight: 500;
+    .recipe {
+        background-color: rgb(255, 229, 213);
     }
 
-    span {
-        font-family: 'Montserrat';
-        font-weight: 300;
+    .recipe-details {
+        padding: 10px;
     }
 
-    button { 
-        display: inline_block;
+    .recipe-group {
+        margin-bottom: 10px;
+    }
+
+    .recipe-group label {
+        font-weight: bold;
+    }
+
+    .buttons {
+        margin-top: 20px;
+    }
+
+    button {
+        display: inline-block;
         background: white;
         transition: all 200ms ease-in;
         border: 1px solid #ccc;
@@ -100,7 +116,7 @@
         cursor: pointer;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin:4px;
+        margin-right: 10px;
     }
 
     .delete {
@@ -112,5 +128,4 @@
     form {
         background-color: rgb(255, 229, 213);
     }
-
- </style>
+</style>

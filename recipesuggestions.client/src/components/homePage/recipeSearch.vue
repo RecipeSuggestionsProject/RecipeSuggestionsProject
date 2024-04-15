@@ -108,8 +108,6 @@
 </script>
 
 <style scoped>
-
-
     .ingredients {
         display: flex;
         justify-content: space-between;
@@ -127,17 +125,16 @@
         text-align: center;
     }
 
-        .selected-ingredients ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    .selected-ingredients ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
     .ingredient-categories {
         width: 50%;
         margin-left: 100px;
         margin-right: 20px;
     }
-
 
     button {
         color: #808080;
@@ -147,8 +144,6 @@
         font-family: 'Montserrat';
         color: #808080;
     }
-
-
 
     h3, h2 {
         color: rgb(15,15,15);

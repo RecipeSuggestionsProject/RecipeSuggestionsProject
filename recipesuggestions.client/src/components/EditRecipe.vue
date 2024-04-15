@@ -42,7 +42,7 @@
                                 </select>
                                 <span class="space"></span>
                                 <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
-                                <button type="button" @click="removeIngredient(index)"  class="remove">Remove</button>
+                                <button type="button" @click="removeIngredient(index)" class="remove" :disabled="editedRecipe.ingredients.length <= 1">Remove</button>
                             </div>
                             <button type="button" @click="addIngredient">Add Ingredient</button>
                         </div>
@@ -95,6 +95,7 @@
             editRecipe(recipe) {
                 this.editing = true;
                 this.editedRecipe = { ...recipe };
+                this.$router.push('/recipes/edit/' + recipe.id);
             },
             async submitEditedRecipe() {
                 const response = await fetch(`/api/recipes/${this.editedRecipe.id}`, {
@@ -115,7 +116,7 @@
                 this.recipe.ingredients.push({ name: '', quantity: '', unit: '', category: '' });
             },
             removeIngredient(index) {
-                this.recipe.ingredients.splice(index, 1);
+                this.editedRecipe.ingredients.splice(index, 1);
             },
             editNextRecipe() {
                 this.editing = false;
@@ -142,13 +143,13 @@
         display: flex;
         justify-content: space-between;
         width: 100%;
-        max-width: 800px; 
+        max-width: 800px;
         margin-top: 20px;
     }
 
     .recipe-list {
-        width: 48%; 
-        overflow-y: auto; 
+        width: 48%;
+        overflow-y: auto;
     }
 
     .recipe-item h3 {
@@ -174,12 +175,12 @@
         background-color: white;
         border: 1px solid #ccc;
         border-radius: 3px;
-        border:none;
+        border: none;
         color: #808080;
         font-size: 12px;
         margin: 6px;
-        height:25px;
-        line-height:0;
+        height: 25px;
+        line-height: 0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         padding: 12px;
         margin-bottom: 8px;
@@ -191,15 +192,15 @@
         }
 
     .remove {
-    color: rgb(255, 51, 51);
-    background-color: #fff;
-    border-color: rgb(255, 51, 51);
-}
+        color: rgb(255, 51, 51);
+        background-color: #fff;
+        border-color: rgb(255, 51, 51);
+    }
 
     .edit-form-container {
         width: 45%;
         padding: 20px;
-        border: 1px solid #ccc; 
+        border: 1px solid #ccc;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
     }
@@ -212,6 +213,7 @@
         display: block;
         margin-bottom: 6px;
     }
+
     input[type="text"], /* Περίγραμμα πεδίων */
     input[type="number"], textarea {
         border: 1px solid #ccc;
@@ -223,13 +225,12 @@
 
     .input-field {
         box-sizing: border-box;
-       
     }
 
     textarea {
         width: 100%;
         height: 80px;
-        padding: 8px;   
+        padding: 8px;
         box-sizing: border-box;
     }
 
@@ -251,15 +252,15 @@
     }
 
     .success-message {
-         position: fixed;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-         background-color: #4caf50;
-         color: white;
-         padding: 1rem;
-         border-radius: 5px;
-         font-family: 'Montserrat';
-         font-weight: 300;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #4caf50;
+        color: white;
+        padding: 1rem;
+        border-radius: 5px;
+        font-family: 'Montserrat';
+        font-weight: 300;
     }
 </style>

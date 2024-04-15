@@ -29,12 +29,10 @@
 </script>
 
 <style scoped>
-
     body {
         padding:0;
         margin:0;
     }
-
 
     #app {
         height: 100vh;
@@ -62,36 +60,36 @@
      margin-right:3px;
     }
         
-         h1 { /*RecipeSuggestions */
-            color: black;
-            font-family: 'Montserrat', serif;
-            font-size:34px;
-            font-weight: 600;
-        }
+    h1 { /*RecipeSuggestions */
+        color: black;
+        font-family: 'Montserrat', serif;
+        font-size:34px;
+        font-weight: 600;
+    }
 
-        .webHeader nav ul {
-            line-height: 50px;
-            align-items:center;
-            display: flex; /* Home add recipe γραμμη*/
-            list-style-type: none;
-            padding-left:1em; 
-        }
+    .webHeader nav ul {
+        line-height: 50px;
+        align-items:center;
+        display: flex; /* Home add recipe γραμμη*/
+        list-style-type: none;
+        padding-left:1em; 
+    }
 
-            .webHeader nav ul li {
-                margin-right: 20px;
-            }
+    .webHeader nav ul li {
+        margin-right: 20px;
+    }
 
-        .webHeader .link { /*Home Add Recipe... */
-            color: black;
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-        }
+    .webHeader .link { /*Home Add Recipe... */
+        color: black;
+        text-decoration: none;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+    }
 
 
-            .webHeader .link:hover {
-                text-decoration: underline;
-                text-decoration-color: #808080;
-                text-decoration-thickness: 1%;
-            }
+    .webHeader .link:hover {
+        text-decoration: underline;
+        text-decoration-color: #808080;
+        text-decoration-thickness: 1%;
+    }
 </style>

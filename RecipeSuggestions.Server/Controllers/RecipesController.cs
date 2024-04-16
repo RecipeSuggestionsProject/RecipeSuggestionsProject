@@ -99,6 +99,11 @@ namespace RecipeSuggestions.Server.Controllers
             var recipeWithIngredients = _mapper.Map<RecipeWithIngredients>(recipe);
             if (recipeWithIngredients.Recipe == null) { return BadRequest(); }
 
+            if (recipeWithIngredients.Ingredients_Recipes == null)
+            {
+                recipeWithIngredients.Ingredients_Recipes = new List<Ingredient_Recipe>();
+            }
+
             // Add Recipe
             recipe = _mapper.Map<RecipeDTO>(await _recipesService.AddRecipeAsync(recipeWithIngredients.Recipe));
             foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes) {

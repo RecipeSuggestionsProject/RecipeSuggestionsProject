@@ -73,7 +73,7 @@
     }
 
     async function deleteRecipe(id) {
-        await fetch('/api/recipes/edit/' + id, {
+        await fetch('/api/recipes/' + id, {
             method: "DELETE"
         });
         window.location.reload();

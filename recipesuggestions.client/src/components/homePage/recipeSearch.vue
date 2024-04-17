@@ -2,17 +2,32 @@
     <div class="ingredients">
         <div class="ingredient-categories">
             <h2>Ingredient Categories</h2>
-            <div v-for="(ingredients, type) in ingredientsByType" :key="type">
-                <h3>{{ type }}</h3>
+            <select v-model="selectedCategory" class="category-select">
+                <option disabled value="">Select a category</option>
+                <option>All Categories</option>
+                <option v-for="(ingredients, type) in ingredientsByType" :key="type">{{ type }}</option>
+            </select>
+            <div v-if="!selectedCategory || selectedCategory === 'All Categories'">
+                <div v-for="(ingredients, type) in ingredientsByType" :key="type">
+                    <h3>{{ type }}</h3>
+                    <div>
+                        <button v-for="ingredient in ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
+                            {{ ingredient.name }} <span v-if="isSelected(ingredient)">X</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <h3>{{ selectedCategory }}</h3>
                 <div>
-                    <button v-for="ingredient in ingredients" :key="ingredient.id" @click="toggleIngredient(ingredient)">
+                    <button v-for="ingredient in ingredientsByType[selectedCategory]" :key="ingredient.id" @click="toggleIngredient(ingredient)">
                         {{ ingredient.name }} <span v-if="isSelected(ingredient)">X</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="selected-ingredients">
+        <div class="selected-ingredients" style="overflow-y: auto; max-height: 500px;">
             <h3>Selected Ingredients</h3>
             <ul>
                 <li v-for="(ingredient, index) in selectedIngredients" :key="index">
@@ -38,8 +53,14 @@
             return {
                 ingredientsByType: {},
                 selectedIngredients: [],
-                suggestedRecipes: [] 
+                suggestedRecipes: [],
+                selectedCategory: ''
             };
+        },
+        computed: {
+            allIngredients() {
+                return Object.values(this.ingredientsByType).flat();
+            }
         },
         methods: {
             toggleIngredient(ingredient) {
@@ -102,12 +123,17 @@
             }
         },
         mounted() {
-            this.fetchIngredients(); 
+            this.fetchIngredients();
         }
     };
 </script>
 
 <style scoped>
+    .category-select {
+        margin: 0 auto;
+        display: block;
+    }
+
     .ingredients {
         display: flex;
         justify-content: space-between;
@@ -123,17 +149,21 @@
     .selected-ingredients {
         width: 50%;
         text-align: center;
+        overflow-y: auto; /* Προσθήκη κύλισης */
+        max-height: 500px; /* Μέγιστο ύψος */
     }
 
-    .selected-ingredients ul {
-        list-style-type: none;
-        padding: 0;
-    }
+        .selected-ingredients ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
     .ingredient-categories {
         width: 50%;
         margin-left: 100px;
         margin-right: 20px;
+        overflow-y: auto; /* Προσθήκη κύλισης */
+        max-height: 500px; /* Μέγιστο ύψος */
     }
 
     button {
@@ -161,7 +191,7 @@
         border: 1px solid #ccc;
         border-radius: 3px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border:none;
+        border: none;
         padding: 5px 10px;
         margin: 4px;
         cursor: pointer;

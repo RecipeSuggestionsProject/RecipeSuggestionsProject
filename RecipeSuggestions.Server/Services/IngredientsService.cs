@@ -65,7 +65,7 @@ namespace RecipeSuggestions.Server.Services
             }
             else
            {
-                _context.Ingredient.Add(ingredient);
+                ingredient = _context.Ingredient.Add(ingredient).Entity;
                 await _context.SaveChangesAsync();
                 return ingredient.Id;
             }

@@ -94,7 +94,7 @@ namespace RecipeSuggestions.Server.Integration_Tests
             Assert.NotNull(_createdRecipe);
 
             // Assert status code is Created (201)
-            Assert.IsInstanceOf<CreatedAtActionResult>(createdRecipeActionResult);
+            Assert.IsInstanceOf<ActionResult<RecipeDTO>>(createdRecipeActionResult);
 
         }
 

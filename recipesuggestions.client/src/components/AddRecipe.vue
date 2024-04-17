@@ -20,7 +20,11 @@
                 <h2>Ingredients:</h2>
                 <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="ingredient-input">
                     <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
+<<<<<<< Updated upstream
                     <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
+=======
+                    <input type="number" v-model="ingredient.quantity" min="0" placeholder="Quantity" required>
+>>>>>>> Stashed changes
                     <select v-model="ingredient.quantityType" required>
                         <option disabled value="">Select unit</option>
                         <option value="pieces">pieces</option>
@@ -196,8 +200,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #4caf50;
-        color: white;
+        background-color: rgb(144, 238, 144);
+        color: black;
         padding: 1rem;
         border-radius: 5px;
         font-family: 'Montserrat';

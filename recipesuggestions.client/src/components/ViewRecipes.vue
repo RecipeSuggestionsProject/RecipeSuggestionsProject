@@ -1,52 +1,40 @@
 <template>
     <div class="recipe">
         <div v-if="recipes.length === 0">Loading...</div>
-        <ul v-else>
-            <li v-for="(recipe, rIndex) in recipes" :key="recipe.id">
-                <h2>{{ recipe.name }}</h2>
-                <div class="recipe-details">
-                    <div class="recipe-group">
-                        <label>Description: </label>
-                        <span>{{ recipe.description }}</span>
+        <div v-else>
+            <div class="recipe-container">
+                <div v-for="(recipe, rIndex) in recipes" :key="recipe.id" class="recipe-details">
+                    <h2>{{ recipe.name }}</h2>
+                    <p><strong>Portions:</strong> {{ recipe.portions }}</p>
+                    <p><strong>Duration:</strong> {{ recipe.durationInMinutes }} minutes</p>
+                    <p><strong>Ingredients:</strong></p>
+                    <ul class="ingredients-list">
+                        <li v-for="(ingredientWithQuantity, iIndex) in recipe.ingredients" :key="iIndex">
+                            <template v-if="ingredientWithQuantity && ingredientWithQuantity.ingredient">
+                                <div>
+                                    <p><strong>Name:</strong> {{ ingredientWithQuantity.ingredient.name }}</p>
+                                    <p><strong>Category:</strong> {{ ingredientWithQuantity.ingredient.type }}</p>
+                                    <p><strong>Amount:</strong> {{ ingredientWithQuantity.quantity }} {{ ingredientWithQuantity.qauntityType }}</p>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <span>Invalid Ingredient</span>
+                            </template>
+                        </li>
+                    </ul>
+                    <div class="description-container">
+                        <p class="description" :class="{ 'expanded': recipe.expanded }">{{ recipe.description }}</p>
+                        <button @click="toggleDescription(recipe)" v-if="recipe.description.length > 100">
+                            <span :style="{ color: 'blue' }">{{ recipe.expanded ? 'Read less' : 'Read more' }}</span>
+                        </button>
                     </div>
-                    <div class="recipe-group">
-                        <label>Portions: </label>
-                        <span>{{ recipe.portions }}</span>
-                    </div>
-                    <div class="recipe-group">
-                        <label>Duration: </label>
-                        <span>{{ recipe.durationInMinutes }} minutes</span>
-                    </div>
-                    <div class="recipe-group">
-                        <label>Ingredients: </label>
-                        <ul>
-                            <li v-for="(ingredientWithQuantity, iIndex) in recipe.ingredients" :key="iIndex">
-                                <template v-if="ingredientWithQuantity && ingredientWithQuantity.ingredient">
-                                    <h4>{{ ingredientWithQuantity.ingredient.name }}</h4>
-                                    <div class="ingredient-group">
-                                        <label>Category: </label>
-                                        <span>{{ ingredientWithQuantity.ingredient.type }}</span>
-                                    </div>
-                                    <div class="ingredient-group">
-                                        <label>Amount: </label>
-                                        <span>
-                                            {{ ingredientWithQuantity.quantity }} {{ ingredientWithQuantity.qauntityType }}
-                                        </span>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <span>Invalid Ingredient</span>
-                                </template>
-                            </li>
-                        </ul>
+                    <div class="buttons">
+                        <!--<button @click="navigateToRecipeEdit(recipe.id)" class="edit">Edit</button>-->
+                        <button @click="confirmDelete(recipe.id)" class="delete">Delete</button>
                     </div>
                 </div>
-                <div class="buttons">
-                    <button @click="navigateToRecipeEdit(recipe.id)" class="edit">Edit</button>
-                    <button @click="confirmDelete(recipe.id)" class="delete">Delete</button>
-                </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -65,12 +53,19 @@
 
         if (response.ok) {
             recipes.value = await response.json();
+            sortRecipes();
         }
     }
 
+    function sortRecipes() {
+        recipes.value.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    /*
     function navigateToRecipeEdit(id) {
         router.push('recipes/edit/' + id);
     }
+    */
 
     async function deleteRecipe(id) {
         await fetch('/api/recipes/' + id, {
@@ -84,6 +79,10 @@
             deleteRecipe(id);
         }
     }
+
+    function toggleDescription(recipe) {
+        recipe.expanded = !recipe.expanded;
+    }
 </script>
 
 <style scoped>
@@ -91,29 +90,53 @@
         background-color: rgb(255, 229, 213);
     }
 
+    .recipe-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px;
+    }
+
     .recipe-details {
+        width: 30%;
+        margin-bottom: 20px;
         padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: rgb(255, 240, 230);
+        font-family: 'Montserrat';
+        font-weight: 500;
     }
-
-    .recipe-group {
-        margin-bottom: 10px;
-    }
-
-        .recipe-group label,h2 {
-            font-family: 'Montserrat';
-            font-weight: 500;
-        }
 
     span {
         font-family: 'Montserrat';
         font-weight: 300;
     }
 
-    .buttons {
-        margin-top: 20px;
+    .ingredients-list {
+        list-style-type: none;
+        padding-left: 0;
     }
 
-    button {
+    .ingredients-list li {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+    }
+
+    .buttons {
+        margin-top: 15px;
+    }
+
+    .delete {
+        color: rgb(255, 51, 51);
+        border-color: rgb(255, 51, 51);
+        font-size: 15px; /* Προσαρμογή του μεγέθους του κουμπιού */
+        padding: 3px 5px; /* Προσαρμογή του padding για να είναι πιο μικρό */
+    }
+
+    .buttons button {
+        margin-bottom: 5px;
         display: inline-block;
         background: white;
         transition: all 200ms ease-in;
@@ -125,10 +148,23 @@
         margin-right: 10px;
     }
 
-    .delete {
-        color: rgb(255, 51, 51);
-        background-color: #fff;
-        border-color: rgb(255, 51, 51);
+    .description-container {
+        position: relative;
     }
 
+    .description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Περιορισμός σε 3 γραμμές */
+        -webkit-box-orient: vertical;
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .description.expanded {
+        -webkit-line-clamp: unset; /* Κατάργηση του περιορισμού */
+    }
+
+    
 </style>

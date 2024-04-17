@@ -50,6 +50,7 @@ namespace RecipeSuggestions.Server.Integration_Tests
             };
 
             var createdIngredientActionResult = await _ingredientsController.CreateIngredient(ingredientDTO);
+            _createdIngredient = createdIngredientActionResult.Value;
 
             Assert.NotNull(createdIngredientActionResult);
             Assert.IsInstanceOf<ActionResult<IngredientDTO>>(createdIngredientActionResult);

@@ -140,7 +140,12 @@
         background-color: rgb(255, 229, 213);
     }
 
-    .recipes-container {
+    .recipe label {
+        font-family: 'Montserrat';
+        font-weight: 400;
+    }
+
+        .recipes-container {
         display: flex;
         justify-content: space-between;
         width: 100%;

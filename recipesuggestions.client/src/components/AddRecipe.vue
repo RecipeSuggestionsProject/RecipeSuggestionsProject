@@ -118,9 +118,9 @@
 
     .form-group label {
         font-family: 'Montserrat';
-        font-weight: 300;
+        font-weight: 400;
         position: absolute;
-        right: 64%;
+        right: 66%;
     }
 
     .unit-select {
@@ -147,7 +147,9 @@
         border: 1px solid #ccc;
         border-radius: 3px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Montserrat';
+        font-weight: 300;
+
     }
 
     .ingredient-input {

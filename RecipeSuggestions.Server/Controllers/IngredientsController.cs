@@ -85,7 +85,7 @@ namespace RecipeSuggestions.Server.Controllers
 
         
         [HttpPost]
-        public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)
+        public async Task<ActionResult<IngredientDTO>> CreateIngredient(IngredientDTO ingredientDTO)
         {
 
             var ingredient = _mapper.Map<Ingredient>(ingredientDTO);

@@ -32,7 +32,7 @@
                             <div v-for="(ingredient, index) in editedRecipe.ingredients" :key="index" class="ingredient-input">
                                 <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
                                 <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
-                                <select v-model="ingredient.quantityType" required>
+                                <select v-model="ingredient.quantityType" required  class="unit-select">
                                     <option disabled value="">Select unit</option>
                                     <option value="pieces">pieces</option>
                                     <option value="grams">grams</option>
@@ -148,6 +148,11 @@
         margin-top: 20px;
     }
 
+    .unit-select {
+        font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
+    }
+
     .recipe-list {
         width: 48%;
         overflow-y: auto;
@@ -207,7 +212,9 @@
         padding: 20px;
         border: 1px solid #ccc;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
+        /* background-color: #f9f9f9; /* Υπόβαθρο στο edt recipe */
+        background-color: rgb(255, 240, 230);
+        border-radius: 5px;
     }
 
     .form-group {

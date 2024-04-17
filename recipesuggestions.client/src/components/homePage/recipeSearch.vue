@@ -132,6 +132,8 @@
     .category-select {
         margin: 0 auto;
         display: block;
+        font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
     }
 
     .ingredients {

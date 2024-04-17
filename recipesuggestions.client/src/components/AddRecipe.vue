@@ -21,7 +21,7 @@
                 <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="ingredient-input">
                     <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
                     <input type="number" v-model="ingredient.quantity" min="0" placeholder="Quantity" required>
-                    <select v-model="ingredient.quantityType" required>
+                    <select v-model="ingredient.quantityType" required class="unit-select">
                         <option disabled value="">Select unit</option>
                         <option value="pieces">pieces</option>
                         <option value="grams">grams</option>
@@ -111,11 +111,21 @@
         position: relative;
     }
 
+    .category-select {
+        font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
+    }
+
     .form-group label {
         font-family: 'Montserrat';
         font-weight: 300;
         position: absolute;
         right: 64%;
+    }
+
+    .unit-select {
+        font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 400;
     }
 
     h2, h3 {
@@ -146,6 +156,7 @@
         justify-content: center;
         align-items: center;
         color: #9c9c9c
+
     }
 
     .ingredient-input input {

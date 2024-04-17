@@ -25,7 +25,7 @@
                     <div class="description-container">
                         <p class="description" :class="{ 'expanded': recipe.expanded }">{{ recipe.description }}</p>
                         <button @click="toggleDescription(recipe)" v-if="recipe.description.length > 100">
-                            <span :style="{ color: 'blue' }">{{ recipe.expanded ? 'Read less' : 'Read more' }}</span>
+                            <span :style="{ color: 'black' }">{{ recipe.expanded ? 'Read less' : 'Read more' }}</span>
                         </button>
                     </div>
                     <div class="buttons">

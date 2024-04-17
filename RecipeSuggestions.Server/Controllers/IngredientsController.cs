@@ -29,7 +29,6 @@ namespace RecipeSuggestions.Server.Controllers
         }
 
         // GET: api/Ingredients
-        //To Ingredient na ginei IngredientDTO
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IngredientDTO>>> GetIngredient()
         {
@@ -83,14 +82,35 @@ namespace RecipeSuggestions.Server.Controllers
         }
 
         // POST: api/Ingredients
+
+        
         [HttpPost]
         public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)
         {
-            var ingredient = _mapper.Map<Ingredient>(ingredientDTO);
-            var NewIngrId = await _ingredientsService.AddIngredientAsync(ingredient);
 
-            return CreatedAtAction(nameof(GetIngredient), new { id = NewIngrId }, ingredientDTO);
+            var ingredient = _mapper.Map<Ingredient>(ingredientDTO);
+            var newIngrId = await _ingredientsService.AddIngredientAsync(ingredient);
+
+            if (!newIngrId.HasValue)
+            {
+                return BadRequest("Δεν δημιουργήθηκε κανένα υλικό"); 
+            }
+
+            int ingredientId = newIngrId.Value;
+
+            var createdIngredient = await _ingredientsService.GetIngredientIDAsync(ingredientId);
+
+            if (createdIngredient == null)
+            {
+                return NotFound(); 
+            }
+
+            var createdIngredientDTO = _mapper.Map<IngredientDTO>(createdIngredient);
+
+            return CreatedAtAction(nameof(GetIngredient), new { id = ingredientId }, createdIngredientDTO);
         }
+
+        
 
         // DELETE: api/Ingredients/5
         [HttpDelete("{id}")]

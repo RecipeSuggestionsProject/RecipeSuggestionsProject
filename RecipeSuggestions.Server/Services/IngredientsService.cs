@@ -28,7 +28,12 @@ namespace RecipeSuggestions.Server.Services
         }
         public async Task<Ingredient> GetIngredientIDAsync(int id)
         {
-            return await _context.Ingredient.FindAsync(id);
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid ID", nameof(id));
+            }
+            
+                return await _context.Ingredient.FindAsync(id);
             
         }
 

@@ -9,10 +9,12 @@ namespace RecipeSuggestions.Server.Mappings
         private readonly IMapper _mapper;
         private readonly IIngredients_RecipesService _ingredients_recipesService;
 
+        
         public SetRecipeDTOIngredientsAction()
         {
 
         }
+        
         public SetRecipeDTOIngredientsAction(IMapper mapper, IIngredients_RecipesService ingredients_recipesService) {
             _mapper = mapper;
             _ingredients_recipesService = ingredients_recipesService;

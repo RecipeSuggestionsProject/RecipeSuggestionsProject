@@ -20,7 +20,7 @@
                 <h2>Ingredients:</h2>
                 <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="ingredient-input">
                     <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
-                    <input type="number" v-model="ingredient.quantity" min="0.25" placeholder="Quantity" required>
+                    <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
                     <select v-model="ingredient.quantityType" required>
                         <option disabled value="">Select unit</option>
                         <option value="pieces">pieces</option>

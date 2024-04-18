@@ -59,7 +59,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         margin-right: 3px;
-        animation: rotation 12s infinite linear;
+        animation: rotation 55s infinite linear;
     }
 
     h1 { /*RecipeSuggestions */

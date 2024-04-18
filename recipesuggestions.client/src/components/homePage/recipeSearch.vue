@@ -162,6 +162,7 @@
 
     .ingredient-categories {
         width: 50%;
+        margin-top:10px;
         margin-left: 100px;
         margin-right: 20px;
         overflow-y: auto; /* Προσθήκη κύλισης */

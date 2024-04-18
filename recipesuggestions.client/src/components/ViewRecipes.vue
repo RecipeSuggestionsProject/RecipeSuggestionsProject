@@ -95,9 +95,11 @@
         flex-wrap: wrap;
         justify-content: space-between;
         margin: 20px;
+       
     }
 
     .recipe-details {
+        margin-top: 20px;
         width: 30%;
         margin-bottom: 20px;
         padding: 10px;

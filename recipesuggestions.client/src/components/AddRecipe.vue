@@ -111,6 +111,14 @@
         position: relative;
     }
 
+    .recipe {
+        margin-top: 10px;
+    }
+
+    h2 {
+        margin-top: 30px;
+    }
+
     .category-select {
         font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
         font-weight: 400;

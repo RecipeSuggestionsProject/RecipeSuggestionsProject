@@ -36,8 +36,9 @@ namespace RecipeSuggestions.Server.Integration_Tests
             var mapperConfigurationExpression = new MapperConfigurationExpression();
             mapperConfigurationExpression.AddProfile(new AutoMapperProfile());
             var mapper = new Mapper(new MapperConfiguration(mapperConfigurationExpression));
+            var recipeMapper = new RecipeMapper(ingredients_RecipesService, mapper);
 
-            _suggestionsController = new SuggestionsController(recipesService,ingredients_RecipesService,ingredientsService,mapper);
+            _suggestionsController = new SuggestionsController(recipesService,ingredients_RecipesService,ingredientsService,mapper, recipeMapper);
         }
 
         [OneTimeTearDown]

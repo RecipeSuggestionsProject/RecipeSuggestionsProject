@@ -20,15 +20,17 @@ namespace RecipeSuggestions.Server.Controllers
         private readonly IIngredients_RecipesService _ingredients_RecipesService;
         private readonly IIngredientsService _ingredientsService;
         private readonly IMapper _mapper;
+        private readonly IRecipeMapper _recipeMapper;
 
         public SuggestionsController(IRecipesService recipesService, IIngredients_RecipesService ingredients_RecipesService,
-         IIngredientsService ingredientsService, IMapper mapper)
+         IIngredientsService ingredientsService, IMapper mapper, IRecipeMapper recipeMapper)
         {
             _recipesService = recipesService;
             _ingredients_RecipesService = ingredients_RecipesService;
             _ingredientsService = ingredientsService;
             _mapper = mapper;
-        }
+            _recipeMapper = recipeMapper;
+    }
 
 
         //Θέλουμε να επιστρέφει όλες τις συνταγές που δεν περιέχουν υλικά που δεν έχει ο χρήστης
@@ -54,7 +56,7 @@ namespace RecipeSuggestions.Server.Controllers
                         var recipe = await _recipesService.GetRecipeAsync(recipeId);
                         if (recipe!= null)
                         {
-                            suggestions.Add(_mapper.Map<RecipeDTO>(recipe));
+                            suggestions.Add(_recipeMapper.Map(recipe));
                         }
 
                     }

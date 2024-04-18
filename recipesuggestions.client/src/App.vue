@@ -49,7 +49,7 @@
         display: flex;
         align-items: center;
         background-color: rgb(255, 229, 213);
-        /*border-bottom:1px solid #ccc;  Μπάρα !! */
+        border-bottom:1px solid #ccc;  
     }
 
     .HeaderImage {

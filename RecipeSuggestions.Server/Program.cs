@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IRecipesService), typeof(RecipesService));
 builder.Services.AddScoped(typeof(IIngredients_RecipesService), typeof(Ingredients_RecipesService));
 builder.Services.AddScoped<IIngredientsService, IngredientsService>();
+builder.Services.AddScoped<IRecipeMapper, RecipeMapper>();
 
 var app = builder.Build();
 

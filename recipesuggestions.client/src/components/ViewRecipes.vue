@@ -167,6 +167,4 @@
     .description.expanded {
         -webkit-line-clamp: unset; /* Κατάργηση του περιορισμού */
     }
-
-    
 </style>

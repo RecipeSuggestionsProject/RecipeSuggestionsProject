@@ -208,4 +208,20 @@
         margin-left: 4px;
         color: rgb(255, 51, 51);
     }
+
+    @media screen and (max-width: 768px) {
+        .selected-ingredients,
+        .ingredient-categories {
+            margin: 10px;
+        }
+
+        .ingredient-categories {
+            margin-left: 5px;
+        }
+
+        h3, h2 {
+            margin-top: 5px;
+        }
+    }
+
 </style>

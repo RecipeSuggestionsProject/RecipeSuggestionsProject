@@ -145,7 +145,7 @@
         font-weight: 400;
     }
 
-        .recipes-container {
+    .recipes-container {
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -281,5 +281,12 @@
         border-radius: 5px;
         font-family: 'Montserrat';
         font-weight: 300;
+    }
+
+    @media screen and (max-width: 768px) {
+        .recipes-container {
+            padding-right: 5px;
+        }
+
     }
 </style>

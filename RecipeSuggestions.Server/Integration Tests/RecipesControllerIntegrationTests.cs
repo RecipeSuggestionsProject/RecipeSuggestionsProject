@@ -86,28 +86,28 @@ namespace RecipeSuggestions.Server.Integration_Tests
                 ]
             };
 
-            var createdRecipeActionResult = await _recipesController.PostRecipe(recipeDTO);
-            _createdRecipe = createdRecipeActionResult.Value;
+            var createdRecipeActionResult = (await _recipesController.PostRecipe(recipeDTO));
 
             Assert.NotNull(createdRecipeActionResult);
-            Assert.NotNull(_createdRecipe);
-
-            // Assert status code is Created (201)
             Assert.IsInstanceOf<ActionResult<RecipeDTO>>(createdRecipeActionResult);
 
+            _createdRecipe = (RecipeDTO)((CreatedAtActionResult)createdRecipeActionResult!.Result).Value;
+
+            Assert.NotNull(_createdRecipe);
+
+            
+
         }
 
         [Test, Order(2)]
-        [Ignore("Recipe id is not available until PostRecipe correctly returns the created recipe")]
-        public void RecipeExistsAfterPostRecipe()
+        public async Task RecipeExistsAfterPostRecipe()
         {
             Assert.NotNull(_createdRecipe);
-            Assert.NotNull(_recipeContext.Recipe.Find(_createdRecipe!.Id));
+            Assert.NotNull(await _recipeContext.Recipe.FindAsync(_createdRecipe!.Id));
         }
 
         [Test, Order(2)]
-        [Ignore("Ingredient ids are not available until PostRecipe correctly returns the created recipe")]
-        public void IngredientsExistAfterPostRecipe()
+        public async Task IngredientsExistAfterPostRecipe()
         {
             Assert.NotNull(_createdRecipe);
             foreach (IngredientWithQuantity ingredientWithQuantity in _createdRecipe!.Ingredients)
@@ -115,14 +115,13 @@ namespace RecipeSuggestions.Server.Integration_Tests
                 Assert.NotNull(ingredientWithQuantity);
                 Assert.NotNull(ingredientWithQuantity.Ingredient);
                 Assert.NotNull(
-                    _recipeContext.Ingredient.Find(ingredientWithQuantity!.Ingredient?.Id)
+                    await _recipeContext.Ingredient.FindAsync(ingredientWithQuantity!.Ingredient?.Id)
                 );
             }
         }
 
         [Test, Order(2)]
-        [Ignore("Recipe and Ingredient ids are not available until PostRecipe correctly returns the created recipe")]
-        public void Ingredients_RecipesExistAfterPostRecipe()
+        public async Task Ingredients_RecipesExistAfterPostRecipe()
         {
             Assert.NotNull(_createdRecipe);
             foreach (IngredientWithQuantity ingredientWithQuantity in _createdRecipe!.Ingredients)
@@ -130,7 +129,7 @@ namespace RecipeSuggestions.Server.Integration_Tests
                 Assert.NotNull(ingredientWithQuantity);
                 Assert.NotNull(ingredientWithQuantity.Ingredient);
                 Assert.NotNull(
-                    _recipeContext.Ingredient_Recipe.Find((_createdRecipe!.Id, ingredientWithQuantity!.Ingredient?.Id))
+                    await _recipeContext.Ingredient_Recipe.FindAsync((_createdRecipe!.Id, ingredientWithQuantity!.Ingredient?.Id))
                 );
             }
         }

@@ -80,7 +80,7 @@ namespace RecipeSuggestions.Server.Services
         {
             // Ignore ingredient recipe relations with wrong recipe id.
             ingredients_recipes = ingredients_recipes.Where(
-                ingredient_recipe => ingredient_recipe.RecipeId != recipeId
+                ingredient_recipe => ingredient_recipe.RecipeId == recipeId
             ).ToArray();
 
 

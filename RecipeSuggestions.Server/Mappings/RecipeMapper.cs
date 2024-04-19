@@ -2,6 +2,7 @@
 using RecipeSuggestions.Server.DTOs;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
+using System.Diagnostics;
 
 namespace RecipeSuggestions.Server.Mappings
 {
@@ -43,7 +44,9 @@ namespace RecipeSuggestions.Server.Mappings
             var ingredients_recipes = new List<Ingredient_Recipe>();
             foreach (var ingredientWithQuantity in recipeDTO.Ingredients)
             {
-                ingredients_recipes.Add(
+                if (ingredientWithQuantity.Ingredient != null)
+                {
+                    ingredients_recipes.Add(
                     new Ingredient_Recipe
                     {
                         RecipeId = recipeDTO.Id,
@@ -52,8 +55,8 @@ namespace RecipeSuggestions.Server.Mappings
                         Ingredient = _mapper.Map<Ingredient>(ingredientWithQuantity.Ingredient),
                         Quantity = ingredientWithQuantity.Quantity,
                         QuantityType = ingredientWithQuantity.QuantityType
-                    }
-                );
+                    });
+                }
             }
 
             return new RecipeWithIngredients

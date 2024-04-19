@@ -41,6 +41,8 @@
 <style scoped>
     #app {
         background-color: rgb(255, 229, 213);
+        width:100%;
+        height:100vh;
     }
 
     .webHeader {
@@ -159,7 +161,7 @@
     }
 
     .footer {
-        background-color: rgb(255, 240, 225);
+        background-color: rgb(255, 229, 213);
         padding: 30px 0;
         text-align: center;
         font-family: 'Montserrat', sans-serif;

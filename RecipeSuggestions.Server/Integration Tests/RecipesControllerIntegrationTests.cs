@@ -133,5 +133,13 @@ namespace RecipeSuggestions.Server.Integration_Tests
                 );
             }
         }
+
+        [Test, Order(3)]
+        public async Task DeleteRecipeTest()
+        {
+            Assert.NotNull(_createdRecipe);
+            await _recipesController.DeleteRecipe(_createdRecipe!.Id);
+            Assert.Null(await _recipeContext.Recipe.FindAsync(_createdRecipe!.Id));
+        }
     }
 }

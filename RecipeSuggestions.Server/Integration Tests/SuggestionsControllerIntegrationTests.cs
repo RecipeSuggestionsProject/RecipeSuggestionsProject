@@ -36,7 +36,7 @@ namespace RecipeSuggestions.Server.Integration_Tests
             var relationMapper = new RelationMapper(ingredientsService, ingredientMapper);
             var recipeMapper = new RecipeMapper(ingredients_RecipesService, ingredientMapper, relationMapper);
 
-            _suggestionsController = new SuggestionsController(recipesService,ingredients_RecipesService,ingredientsService, recipeMapper);
+            _suggestionsController = new SuggestionsController(recipesService, ingredients_RecipesService, ingredientsService, recipeMapper);
         }
 
         [OneTimeTearDown]
@@ -45,11 +45,11 @@ namespace RecipeSuggestions.Server.Integration_Tests
             _suggestionsContext.Dispose();
         }
 
-        /*
-        [Test]
+
+        [Test,]
         public async Task CreateSuggestionsTest()
         {
-            var ingredients = new  List<IngredientDTO>
+            var ingredients = new List<IngredientDTO>
             {
                new IngredientDTO { Name = "Ingredient1"},
                new IngredientDTO { Name = "Ingredient2"}
@@ -63,26 +63,7 @@ namespace RecipeSuggestions.Server.Integration_Tests
 
             var result = await _suggestionsController.CreateSuggestions(ingredients);
 
-            Assert.IsInstanceOf<OkObjectResult>(result.Result);
-            var okResult = result.Result as OkObjectResult;
-            Assert.IsInstanceOf<List<RecipeDTO>>(okResult.Value);
-            Assert.AreEqual(recipes.Count, (okResult.Value as List<RecipeDTO>).Count);
 
-        }
-        */
-
-        [Test]
-        public async Task CreateSuggestionsTest()
-        {
-            var ingredients = new List<IngredientDTO>
-           {
-       new IngredientDTO { Name = "Ingredient1" },
-       new IngredientDTO { Name = "Ingredient2" }
-    };
-
-            var result = await _suggestionsController.CreateSuggestions(ingredients);
-
-            
             if (result.Result is OkObjectResult okResult)
             {
                 Assert.IsInstanceOf<List<RecipeDTO>>(okResult.Value);
@@ -97,5 +78,7 @@ namespace RecipeSuggestions.Server.Integration_Tests
                 Assert.Fail("Unexpected result type");
             }
         }
+
     }
+
 }

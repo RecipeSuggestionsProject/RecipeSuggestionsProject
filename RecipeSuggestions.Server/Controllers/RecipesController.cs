@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,20 +19,17 @@ namespace RecipeSuggestions.Server.Controllers
         private readonly IRecipesService _recipesService;
         private readonly IIngredients_RecipesService _ingredients_RecipesService;
         private readonly IIngredientsService _ingredientsService;
-        private readonly IMapper _mapper;
         private readonly IRecipeMapper _recipeMapper;
 
         public RecipesController(
             IRecipesService recipesService, 
             IIngredients_RecipesService ingredients_RecipesService,
             IIngredientsService ingredientsService,
-            IMapper mapper,
             IRecipeMapper recipeMapper
         ) {
             _recipesService = recipesService;
             _ingredients_RecipesService = ingredients_RecipesService;
             _ingredientsService = ingredientsService;
-            _mapper = mapper;
             _recipeMapper = recipeMapper;
         }
 

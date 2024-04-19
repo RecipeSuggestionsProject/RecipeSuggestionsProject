@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using RecipeSuggestions.Server.Controllers;
@@ -33,12 +32,11 @@ namespace RecipeSuggestions.Server.Integration_Tests
             var recipesService = new RecipesService(_suggestionsContext);
             var ingredients_RecipesService = new Ingredients_RecipesService(_suggestionsContext);
             var ingredientsService = new IngredientsService(_suggestionsContext);
-            var mapperConfigurationExpression = new MapperConfigurationExpression();
-            mapperConfigurationExpression.AddProfile(new AutoMapperProfile());
-            var mapper = new Mapper(new MapperConfiguration(mapperConfigurationExpression));
-            var recipeMapper = new RecipeMapper(ingredients_RecipesService, mapper);
+            var ingredientMapper = new IngredientMapper();
+            var relationMapper = new RelationMapper(ingredientsService, ingredientMapper);
+            var recipeMapper = new RecipeMapper(ingredients_RecipesService, ingredientMapper, relationMapper);
 
-            _suggestionsController = new SuggestionsController(recipesService,ingredients_RecipesService,ingredientsService,mapper, recipeMapper);
+            _suggestionsController = new SuggestionsController(recipesService,ingredients_RecipesService,ingredientsService, recipeMapper);
         }
 
         [OneTimeTearDown]

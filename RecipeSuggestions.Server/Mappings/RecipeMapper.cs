@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using RecipeSuggestions.Server.DTOs;
+﻿using RecipeSuggestions.Server.DTOs;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
 using System.Diagnostics;
@@ -9,11 +8,17 @@ namespace RecipeSuggestions.Server.Mappings
     public class RecipeMapper : IRecipeMapper
     {
         private readonly IIngredients_RecipesService _ingredients_recipesService;
-        private readonly IMapper _mapper;
-        public RecipeMapper(IIngredients_RecipesService ingredients_recipesService, IMapper mapper)
+        private readonly IIngredientMapper _ingredientMapper;
+        private readonly IRelationMapper _relationMapper;
+        public RecipeMapper(
+            IIngredients_RecipesService ingredients_recipesService, 
+            IIngredientMapper ingredientMapper, 
+            IRelationMapper relationMapper
+        )
         {
             _ingredients_recipesService = ingredients_recipesService;
-            _mapper = mapper;
+            _ingredientMapper = ingredientMapper;
+            _relationMapper = relationMapper;
         }
         public RecipeDTO Map(Recipe recipe)
         {
@@ -24,7 +29,7 @@ namespace RecipeSuggestions.Server.Mappings
                 Description = recipe.Description,
                 Portions = recipe.Portions,
                 DurationInMinutes = recipe.DurationInMinutes,
-                Ingredients = _mapper.Map<IEnumerable<IngredientWithQuantity>>(
+                Ingredients = _relationMapper.Map(
                    _ingredients_recipesService.GetIngredients_RecipesOfRecipeAsync(recipe.Id)
                 )
             };
@@ -47,15 +52,16 @@ namespace RecipeSuggestions.Server.Mappings
                 if (ingredientWithQuantity.Ingredient != null)
                 {
                     ingredients_recipes.Add(
-                    new Ingredient_Recipe
-                    {
-                        RecipeId = recipeDTO.Id,
-                        Recipe = recipe,
-                        IngredientId = ingredientWithQuantity.Ingredient.Id,
-                        Ingredient = _mapper.Map<Ingredient>(ingredientWithQuantity.Ingredient),
-                        Quantity = ingredientWithQuantity.Quantity,
-                        QuantityType = ingredientWithQuantity.QuantityType
-                    });
+                        new Ingredient_Recipe
+                        {
+                            RecipeId = recipeDTO.Id,
+                            Recipe = recipe,
+                            IngredientId = ingredientWithQuantity.Ingredient.Id,
+                            Ingredient = _ingredientMapper.Map(ingredientWithQuantity.Ingredient),
+                            Quantity = ingredientWithQuantity.Quantity,
+                            QuantityType = ingredientWithQuantity.QuantityType
+                        }
+                    );
                 }
             }
 

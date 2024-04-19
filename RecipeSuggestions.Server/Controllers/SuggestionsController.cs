@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -19,16 +18,14 @@ namespace RecipeSuggestions.Server.Controllers
         private readonly IRecipesService _recipesService;
         private readonly IIngredients_RecipesService _ingredients_RecipesService;
         private readonly IIngredientsService _ingredientsService;
-        private readonly IMapper _mapper;
         private readonly IRecipeMapper _recipeMapper;
 
         public SuggestionsController(IRecipesService recipesService, IIngredients_RecipesService ingredients_RecipesService,
-         IIngredientsService ingredientsService, IMapper mapper, IRecipeMapper recipeMapper)
+         IIngredientsService ingredientsService, IRecipeMapper recipeMapper)
         {
             _recipesService = recipesService;
             _ingredients_RecipesService = ingredients_RecipesService;
             _ingredientsService = ingredientsService;
-            _mapper = mapper;
             _recipeMapper = recipeMapper;
     }
 

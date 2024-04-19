@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,18 +19,18 @@ namespace RecipeSuggestions.Server.Controllers
         private readonly IRecipesService _recipesService;
         private readonly IIngredients_RecipesService _ingredients_RecipesService;
         private readonly IIngredientsService _ingredientsService;
-        private readonly IMapper _mapper;
+        private readonly IRecipeMapper _recipeMapper;
 
         public RecipesController(
             IRecipesService recipesService, 
             IIngredients_RecipesService ingredients_RecipesService,
             IIngredientsService ingredientsService,
-        IMapper mapper
+            IRecipeMapper recipeMapper
         ) {
             _recipesService = recipesService;
             _ingredients_RecipesService = ingredients_RecipesService;
             _ingredientsService = ingredientsService;
-            _mapper = mapper;
+            _recipeMapper = recipeMapper;
         }
 
         // GET: api/Recipes
@@ -39,7 +38,7 @@ namespace RecipeSuggestions.Server.Controllers
         public async Task<ActionResult<IEnumerable<RecipeDTO>>> GetRecipe()
         {
             return Ok(
-                _mapper.Map<IEnumerable<RecipeDTO>>(await _recipesService.GetAllRecipesAsync())
+                _recipeMapper.Map(await _recipesService.GetAllRecipesAsync())
             );
         }
 
@@ -50,7 +49,7 @@ namespace RecipeSuggestions.Server.Controllers
             RecipeDTO? recipe;
             try
             {
-                recipe = _mapper.Map<RecipeDTO>(await _recipesService.GetRecipeAsync(id));
+                recipe = _recipeMapper.Map(await _recipesService.GetRecipeAsync(id));
             } catch (InvalidOperationException)
             {
                 return NotFound();
@@ -69,7 +68,7 @@ namespace RecipeSuggestions.Server.Controllers
                 return BadRequest();
             }
 
-            var recipeWithIngredients = _mapper.Map<RecipeWithIngredients>(recipe);
+            var recipeWithIngredients = _recipeMapper.Map(recipe);
             if (recipeWithIngredients.Recipe == null) { return BadRequest(); }
 
             try
@@ -96,11 +95,16 @@ namespace RecipeSuggestions.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<RecipeDTO>> PostRecipe(RecipeDTO recipe)
         {
-            var recipeWithIngredients = _mapper.Map<RecipeWithIngredients>(recipe);
+            var recipeWithIngredients = _recipeMapper.Map(recipe);
             if (recipeWithIngredients.Recipe == null) { return BadRequest(); }
 
+            if (recipeWithIngredients.Ingredients_Recipes == null)
+            {
+                recipeWithIngredients.Ingredients_Recipes = new List<Ingredient_Recipe>();
+            }
+
             // Add Recipe
-            recipe = _mapper.Map<RecipeDTO>(await _recipesService.AddRecipeAsync(recipeWithIngredients.Recipe));
+            recipe = _recipeMapper.Map(await _recipesService.AddRecipeAsync(recipeWithIngredients.Recipe));
             foreach (var ingredient_recipe in recipeWithIngredients.Ingredients_Recipes) {
                 ingredient_recipe.RecipeId = recipe.Id;
             }

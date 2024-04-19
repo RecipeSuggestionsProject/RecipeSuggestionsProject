@@ -9,13 +9,16 @@ namespace RecipeSuggestions.Server.Data
 {
     public class RecipeSuggestionsServerContext : DbContext
     {
+        public RecipeSuggestionsServerContext() 
+        {
+        }
         public RecipeSuggestionsServerContext (DbContextOptions<RecipeSuggestionsServerContext> options)
             : base(options)
         {
         }
 
-        public DbSet<RecipeSuggestions.Server.Models.Recipe> Recipe { get; set; } = default!;
-        public DbSet<RecipeSuggestions.Server.Models.Ingredient> Ingredient { get; set; } = default!;
-        public DbSet<RecipeSuggestions.Server.Models.Ingredient_Recipe> Ingredient_Recipe { get; set; } = default!;
+        public virtual DbSet<RecipeSuggestions.Server.Models.Recipe> Recipe { get; set; } = default!;
+        public virtual DbSet<RecipeSuggestions.Server.Models.Ingredient> Ingredient { get; set; } = default!;
+        public virtual DbSet<RecipeSuggestions.Server.Models.Ingredient_Recipe> Ingredient_Recipe { get; set; } = default!;
     }
 }

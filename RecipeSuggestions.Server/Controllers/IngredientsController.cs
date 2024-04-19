@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,22 +18,21 @@ namespace RecipeSuggestions.Server.Controllers
     [ApiController]
     public class IngredientsController : ControllerBase
     {
-        private readonly IIngredientsService _ingredientsService;
-        private readonly IMapper _mapper;
+        private readonly IIngredientsService _ingredientsService;        
+        private readonly IIngredientMapper _ingredientMapper;
 
-        public IngredientsController(IIngredientsService ingredientsService,IMapper mapper)
+        public IngredientsController(IIngredientsService ingredientsService, IIngredientMapper ingredientMapper)
         {
-            _ingredientsService=ingredientsService;
-            _mapper=mapper;
+            _ingredientsService = ingredientsService;
+            _ingredientMapper = ingredientMapper;
         }
 
         // GET: api/Ingredients
-        //To Ingredient na ginei IngredientDTO
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IngredientDTO>>> GetIngredient()
         {
             var ingredient = await _ingredientsService.GetIngredientsAsync();
-            var ingrDTO= _mapper.Map<IEnumerable<IngredientDTO>>(ingredient);
+            var ingrDTO= _ingredientMapper.Map(ingredient);
             return Ok(ingrDTO);
         }
 
@@ -43,7 +41,7 @@ namespace RecipeSuggestions.Server.Controllers
         public async Task<ActionResult<IngredientDTO>> GetIngredient(int id)
         {
             var ingredient = await _ingredientsService.GetIngredientIDAsync(id);
-            var ingredientDTO = _mapper.Map<IEnumerable<IngredientDTO>>(ingredient);
+            var ingredientDTO = _ingredientMapper.Map(ingredient);
 
             if (ingredientDTO == null)
             {
@@ -66,7 +64,7 @@ namespace RecipeSuggestions.Server.Controllers
             try
             {
                 var ingredient = await _ingredientsService.GetIngredientIDAsync(id);
-                ingredient = _mapper.Map<Ingredient>(ingredientDTO);
+                ingredient = _ingredientMapper.Map(ingredientDTO);
 
                 var success=await _ingredientsService.UpdateIngredientAsync(id,ingredient);
             }
@@ -83,14 +81,35 @@ namespace RecipeSuggestions.Server.Controllers
         }
 
         // POST: api/Ingredients
-        [HttpPost]
-        public async Task<ActionResult<int>> CreateIngredient(IngredientDTO ingredientDTO)
-        {
-            var ingredient = _mapper.Map<Ingredient>(ingredientDTO);
-            var NewIngrId = await _ingredientsService.AddIngredientAsync(ingredient);
 
-            return CreatedAtAction(nameof(GetIngredient), new { id = NewIngrId }, ingredientDTO);
+        
+        [HttpPost]
+        public async Task<ActionResult<IngredientDTO>> CreateIngredient(IngredientDTO ingredientDTO)
+        {
+
+            var ingredient = _ingredientMapper.Map(ingredientDTO);
+            var newIngrId = await _ingredientsService.AddIngredientAsync(ingredient);
+
+            if (!newIngrId.HasValue)
+            {
+                return BadRequest("Δεν δημιουργήθηκε κανένα υλικό"); 
+            }
+
+            int ingredientId = newIngrId.Value;
+
+            var createdIngredient = await _ingredientsService.GetIngredientIDAsync(ingredientId);
+
+            if (createdIngredient == null)
+            {
+                return NotFound(); 
+            }
+
+            var createdIngredientDTO = _ingredientMapper.Map(createdIngredient);
+
+            return CreatedAtAction(nameof(GetIngredient), new { id = ingredientId }, createdIngredientDTO);
         }
+
+        
 
         // DELETE: api/Ingredients/5
         [HttpDelete("{id}")]

@@ -1,13 +1,10 @@
 ﻿using System;
-using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-//using RecipeSuggestions.Server.Interfaces;
-//using RecipeSuggestions.Server.DTOs;
 using RecipeSuggestions.Server.Data;
 using RecipeSuggestions.Server.Interfaces;
 using RecipeSuggestions.Server.Models;
@@ -30,15 +27,30 @@ namespace RecipeSuggestions.Server.Services
         }
         public async Task<Ingredient> GetIngredientIDAsync(int id)
         {
-            return await _context.Ingredient.FindAsync(id);
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid ID", nameof(id));
+            }
+            
+                return await _context.Ingredient.FindAsync(id);
             
         }
 
         public async Task<int?> GetIngredientIdByNameAsync(string IngredientName)
         {
+            if(string.IsNullOrEmpty(IngredientName))
+            {
+                return null;
+            }
             var ingredient = await _context.Ingredient.FirstOrDefaultAsync(i => i.Name!= null && i.Name.Equals(IngredientName));
-
-            return ingredient?.Id;
+            if(ingredient!= null)
+            {
+                return ingredient?.Id;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         

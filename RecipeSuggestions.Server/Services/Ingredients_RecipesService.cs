@@ -18,7 +18,11 @@ namespace RecipeSuggestions.Server.Services
 
         public async Task<IEnumerable<Ingredient_Recipe>> GetAllIngredients_RecipesAsync()
         {
-            return await _context.Ingredient_Recipe.ToListAsync();
+            return await _context.Ingredient_Recipe
+                .Include(ingredient_recipe => ingredient_recipe.Recipe)
+                .Include(ingredient_recipe => ingredient_recipe.Ingredient)
+                .ToListAsync()
+            ;
         }
 
         public async Task<Ingredient_Recipe?> GetIngredient_RecipeAsync((int recipeId, int ingredientId) id)
@@ -26,7 +30,15 @@ namespace RecipeSuggestions.Server.Services
             Ingredient_Recipe? ingredient_recipe;
             try
             {
-                ingredient_recipe = await _context.Ingredient_Recipe.FindAsync(id);
+                ingredient_recipe = await _context.Ingredient_Recipe
+                    .Include(ingredient_recipe => ingredient_recipe.Recipe)
+                    .Include(ingredient_recipe => ingredient_recipe.Ingredient)
+                    .FirstOrDefaultAsync(
+                        ingredient_recipe => 
+                            ingredient_recipe.RecipeId == id.recipeId 
+                            && ingredient_recipe.IngredientId == id.ingredientId
+                    )
+                ;
             }
             catch (InvalidOperationException)
             {
@@ -37,9 +49,13 @@ namespace RecipeSuggestions.Server.Services
         }
 
         public IEnumerable<Ingredient_Recipe> GetIngredients_RecipesOfRecipeAsync(int recipeId) {
-            return _context.Ingredient_Recipe.Where(
-                ingredient_recipe => ingredient_recipe.RecipeId == recipeId
-            );
+            return _context.Ingredient_Recipe
+                .Where(
+                    ingredient_recipe => ingredient_recipe.RecipeId == recipeId
+                )
+                .Include(ingredient_recipe => ingredient_recipe.Recipe)
+                .Include(ingredient_recipe => ingredient_recipe.Ingredient)
+           ;
         }
 
         public async Task<Ingredient_Recipe> AddIngredient_RecipeAsync(Ingredient_Recipe ingredient_recipe)
@@ -146,14 +162,18 @@ namespace RecipeSuggestions.Server.Services
 
         public IEnumerable<Ingredient> GetIngredientsByRecipeId(int recipeId)
         {
-            var ingredients_recipesOfRecipe = _context.Ingredient_Recipe.Where(
-                ingredient_recipe => ingredient_recipe.RecipeId == recipeId
-            );
+            var ingredients_recipesOfRecipe = _context.Ingredient_Recipe
+                .Where(
+                    ingredient_recipe => ingredient_recipe.RecipeId == recipeId
+                )
+                .Include(ingredient_recipe => ingredient_recipe.Recipe)
+                .Include(ingredient_recipe => ingredient_recipe.Ingredient)
+            ;
 
-            IEnumerable<Ingredient> ingredients = new Ingredient[ingredients_recipesOfRecipe.Count()];
+            IEnumerable<Ingredient> ingredients = new List<Ingredient>();
             foreach (Ingredient_Recipe ingredient_recipe in ingredients_recipesOfRecipe)
             {
-                ingredients.Append(ingredient_recipe.Ingredient);
+                ingredients.Append(_context.Ingredient.Find(ingredient_recipe.IngredientId));
             }
 
             return ingredients;

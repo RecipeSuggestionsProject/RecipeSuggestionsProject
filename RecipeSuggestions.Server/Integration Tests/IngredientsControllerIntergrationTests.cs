@@ -47,18 +47,22 @@ namespace RecipeSuggestions.Server.Integration_Tests
             };
 
             var createdIngredientActionResult = await _ingredientsController.CreateIngredient(ingredientDTO);
-            _createdIngredient = createdIngredientActionResult.Value;
+            
 
             Assert.NotNull(createdIngredientActionResult);
             Assert.IsInstanceOf<ActionResult<IngredientDTO>>(createdIngredientActionResult);
+
+            _createdIngredient = (IngredientDTO)((CreatedAtActionResult)createdIngredientActionResult!.Result).Value;
+
+            Assert.NotNull(_createdIngredient);
         }
 
         
         [Test, Order(2)]
-        public void IngredientExistsAfterCreateIngredient()
+        public async Task IngredientExistsAfterCreateIngredient()
         {
-            Assert.NotNull(_createdIngredient);
-            Assert.NotNull(_ingredientContext.Ingredient.Find(_createdIngredient!.Id));
+           Assert.NotNull(_createdIngredient);
+           Assert.NotNull(await _ingredientContext.Ingredient.FindAsync(_createdIngredient!.Id));
         }
     }
 }

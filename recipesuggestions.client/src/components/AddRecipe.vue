@@ -19,7 +19,7 @@
             <div class="form-group">
                 <h2>Ingredients:</h2>
                 <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="ingredient-input">
-                    <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
+                    <input type="text" v-model="ingredient.ingredient.name" placeholder="Ingredient Name" required>
                     <input type="number" v-model="ingredient.quantity" min="0" placeholder="Quantity" required>
                     <select v-model="ingredient.quantityType" required class="unit-select">
                         <option disabled value="">Select unit</option>
@@ -30,7 +30,7 @@
                         <option value="cups">cups</option>
                     </select>
                     <span class="space"></span>
-                    <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
+                    <input type="text" v-model="ingredient.ingredient.type" placeholder="Ingredient Category" required>
                     <button type="button" @click="removeIngredient(index)" class="remove" :disabled="recipe.ingredients.length <= 1">Remove</button>
                 </div>
                 <button type="button" @click="addIngredient">Add Ingredient</button>
@@ -55,9 +55,18 @@
             return {
                 recipe: {
                     name: '',
-                    servings: 1,
-                    duration: '',
-                    ingredients: [{ name: '', quantity: '', quantityType: '', category: '' }],
+                    portions: 1,
+                    durationInMinutes: 0,
+                    ingredients: [{
+                        ingredient: {
+                            id: 0,
+                            name: '',
+                            type: '',
+                            description: ''
+                        },
+                        quantity: 0,
+                        quantityType: ''
+                    }],
                     description: '',
                 },
                 showSuccessMessage: false
@@ -65,7 +74,16 @@
         },
         methods: {
             addIngredient() {
-                this.recipe.ingredients.push({ name: '', quantity: '', unit: '', category: '' });
+                this.recipe.ingredients.push({
+                    ingredient: {
+                        id: 0,
+                        name: '',
+                        type: '',
+                        description: ''
+                    },
+                    quantity: 0,
+                    quantityType: ''
+                });
             },
             removeIngredient(index) {
                 if (this.recipe.ingredients.length > 1) {
@@ -82,7 +100,7 @@
                         body: JSON.stringify(this.recipe)
                     });
                     if (response.ok) {
-                        this.showSuccessMessage = true; // Εμφανίζουμε το μήνυμα επιτυχίας
+                        this.showSuccessMessage = true;
                     } else {
                         console.error('Failed to create recipe:', response.statusText);
                     }
@@ -93,12 +111,21 @@
             resetForm() {
                 this.recipe = {
                     name: '',
-                    servings: 1,
-                    duration: '',
-                    ingredients: [{ name: '', quantity: '', unit: '', category: '' }],
+                    portions: 1,
+                    durationInMinutes: 0,
+                    ingredients: [{
+                        ingredient: {
+                            id: 0,
+                            name: '',
+                            type: '',
+                            description: ''
+                        },
+                        quantity: 0,
+                        quantityType: ''
+                    }],
                     description: '',
                 };
-                this.showSuccessMessage = false; // Αποκρύπτουμε το μήνυμα επιτυχίας
+                this.showSuccessMessage = false;
             }
 
         }

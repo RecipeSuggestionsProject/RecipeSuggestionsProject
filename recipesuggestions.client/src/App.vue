@@ -106,7 +106,7 @@
     .webHeader nav ul {
         line-height: 50px;
         align-items: center;
-        display: flex; /* Home add recipe γραμμη*/
+        display: flex; /* Home add recipe οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½*/
         list-style-type: none;
         padding-left: 1em;
     }
@@ -184,7 +184,7 @@
     }
 
     main {
-        margin-bottom: 100px; /* Προσθήκη κάθετου περιγράμματος κάτω από το κυρίως περιεχόμενο */
+        margin-bottom: 100px; /* οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½ οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ */
         padding-top: 100px;
     }
 

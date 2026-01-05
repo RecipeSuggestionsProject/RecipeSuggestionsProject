@@ -30,9 +30,9 @@
                         <div class="form-group">
                             <h2>Ingredients:</h2>
                             <div v-for="(ingredient, index) in editedRecipe.ingredients" :key="index" class="ingredient-input">
-                                <input type="text" v-model="ingredient.name" placeholder="Ingredient Name" required>
-                                <input type="number" v-model="ingredient.quantity" min="1" placeholder="Quantity" required>
-                                <select v-model="ingredient.quantityType" required  class="unit-select">
+                                <input type="text" v-model="ingredientWithQty.ingredient.name" placeholder="Ingredient Name" required>
+                                <input type="number" v-model="ingredientWithQty.quantity" min="1" placeholder="Quantity" required>
+                                <select v-model="ingredientWithQty.quantityType" required  class="unit-select">
                                     <option disabled value="">Select unit</option>
                                     <option value="pieces">pieces</option>
                                     <option value="grams">grams</option>
@@ -41,7 +41,7 @@
                                     <option value="cups">cups</option>
                                 </select>
                                 <span class="space"></span>
-                                <input type="text" v-model="ingredient.category" placeholder="Ingredient Category" required>
+                                <input type="text" v-model="ingredientWithQty.ingredient.type" placeholder="Ingredient Category" required>
                                 <button type="button" @click="removeIngredient(index)" class="remove" :disabled="editedRecipe.ingredients.length <= 1">Remove</button>
                             </div>
                             <button type="button" @click="addIngredient">Add Ingredient</button>
@@ -112,11 +112,21 @@
                 }
             },
             addIngredient() {
-                this.editedRecipe.ingredients.push({ name: '', quantity: '', quantityType: '', category: '' });
-                this.recipe.ingredients.push({ name: '', quantity: '', unit: '', category: '' });
+                this.editedRecipe.ingredients.push({
+                    ingredient: {
+                        id: 0,
+                        name: '',
+                        type: '',
+                        description: ''
+                    },
+                    quantity: 0,
+                    quantityType: ''
+                });
             },
             removeIngredient(index) {
-                this.editedRecipe.ingredients.splice(index, 1);
+                if (this.editedRecipe.ingredients.length > 1) {
+                    this.editedRecipe.ingredients.splice(index, 1);
+                }
             },
             editNextRecipe() {
                 this.editing = false;
